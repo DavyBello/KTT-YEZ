@@ -1,0 +1,28 @@
+{
+  "name": "ktt-yez",
+  "version": "1.0.0",
+  "description": "ktt youth empowerment zone",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "KTT-YEZ"
+  },
+  "author": "altitudetechnologynig",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^4.0.0-alpha.6",
+    "express": "^4.16.2",
+    "next": "^5.0.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-sticky": "^6.0.1",
+    "react-transition-group": "^2.2.1",
+    "reactstrap": "^5.0.0-beta"
+  },
+  "devDependencies": {
+    "nodemon": "^1.15.1"
+  }
+}
