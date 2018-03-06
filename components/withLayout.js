@@ -2,10 +2,12 @@ import {Component} from 'react'
 import Head from 'next/head'
 
 import Header from './common/Header/Header'
+import Footer from './common/Footer/Footer'
 import Scripts from './common/Scripts/Scripts'
 
 
 let withLayout = (Child) => class extends Component {
+      
     render() {
         return (
           <div>
@@ -23,25 +25,23 @@ let withLayout = (Child) => class extends Component {
               
               <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
               {/* font-awesome css  */}
-              {/* <link rel="stylesheet" href="/static/css/font-awesome.min.css"/> */}
+              <link rel="stylesheet" href="/static/css/font-awesome.min.css"/>
               {/* animate css */}
               <link rel="stylesheet" href="/static/css/animate.css"/>
               {/* owl carousel css */}
-              <link rel="stylesheet" href="/static/css/owl.carousel.min.css"/>
-              {/* hover css */}
-              {/* <link rel="stylesheet" href="/static/css/hover.css"/> */}
-              {/* hover css */}
-              {/* <link rel="stylesheet" href="/static/css/lightbox.min.css"/> */}
+              {/* <link rel="stylesheet" href="/static/css/owl.carousel.min.css"/> */}
                
               {/* slicknav css */}
-              {/* <link rel="stylesheet" href="/static/css/slicknav.min.css"/> */}
+              <link rel="stylesheet" href="/static/css/slicknav.min.css"/>
               {/* main css */}
               <link rel="stylesheet" href="/static/css/main.css"/>
               {/* responsive css */}
-              {/* <link rel="stylesheet" href="/static/css/responsive.css"/> */}
+              <link rel="stylesheet" href="/static/css/responsive.css"/>
             </Head>
             <Header/>
+
             <Child {...this.props}/>
+            <Footer />
             <Scripts />
           </div>
         )

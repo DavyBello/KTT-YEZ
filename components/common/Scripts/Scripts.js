@@ -1,7 +1,7 @@
 const Scripts = () => {
     return (
         <div>
-            <script src="/static/js/vendor/modernizr-3.5.0.min.js"></script>
+            {/* <script src="/static/js/vendor/modernizr-3.5.0.min.js"></script>
             <script src="/static/js/vendor/jquery-3.2.1.min.js"></script>
             <script src="/static/js/bootstrap.min.js"></script>
             <script src="/static/js/jquery.sticky.js"></script>
@@ -14,7 +14,7 @@ const Scripts = () => {
             <script src="/static/js/lightbox.min.js"></script>
             <script src="/static/js/jquery.scrollUp.min.js"></script>
             <script src="/static/js/slicknav.min.js"></script>
-            <script src="/static/js/plugins.js"></script>
+            <script src="/static/js/plugins.js"></script> */}
             <script src="/static/js/main.js"></script>
         </div>
     )
