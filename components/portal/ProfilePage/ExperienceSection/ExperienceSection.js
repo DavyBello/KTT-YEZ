@@ -18,15 +18,22 @@ import {
   ModalFooter
 } from 'reactstrap'
 
+import JobList from './JobList'
+
 const experiences = [
   {
-    title: '',
-    company: '',
-    duration: '',
-    location: ''
+    title: 'Software Developer',
+    company: 'Altitude Technology',
+    duration: 'Jan, 2018 - Present  |  3 months.',
+    location: 'Kubwa, Abuja.'
+  },{
+    title: 'CEO',
+    company: 'The411ng',
+    duration: 'Jan, 2016 - Present  |  2 Years.',
+    location: 'Garki, Abuja.'
   }
 ]
-const isEmpty = true;
+const isEmpty = false;
 
 const EmptySpace = props => (
   <p className="display-4" style={{padding: '10px 0px 10px'}}>
@@ -54,7 +61,8 @@ export default class extends Component {
         <CardBody >
           <CardTitle className="mb-0">
             Work Experience {
-              (!isEmpty) && (<Button className="float-right" size="sm" color="primary">
+              (!isEmpty) && (
+              <Button className="float-right" size="sm" color="primary" onClick={this.toggle}>
                 <i className="icon-plus"></i> Add
               </Button>)
             }
@@ -68,7 +76,7 @@ export default class extends Component {
               </Button>
             </div>)
             : (<div>
-              Job List
+              <JobList jobs={experiences}/>
             </div>)
           }
         </CardBody>

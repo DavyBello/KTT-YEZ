@@ -13,25 +13,25 @@ export default props => (
       <Form action="" method="post" encType="multipart/form-data" className="form-horizontal">
         <FormGroup row="row">
           <Col md="6">
-            <Label htmlFor="name">FIRST NAME</Label>
+            <Label htmlFor="name">First Name</Label>
             <Input type="text" id="name" placeholder="First name" required/>
           </Col>
           <Col md="6">
-            <Label htmlFor="name">LAST NAME</Label>
+            <Label htmlFor="name">Last Name</Label>
             <Input type="text" id="name" placeholder="Last name" required/>
           </Col>
         </FormGroup>
         <FormGroup>
-          <Label htmlFor="name">EMAIL</Label>
+          <Label htmlFor="name">Email</Label>
           <Input type="text" id="name" placeholder="Email address" required/>
         </FormGroup>
         <FormGroup row="row">
           <Col md="6">
-            <Label htmlFor="name">PHONE</Label>
+            <Label htmlFor="name">Phone</Label>
             <Input type="text" id="name" placeholder="Phone number" required/>
           </Col>
           <Col md="6">
-            <Label htmlFor="name">USERNAME</Label>
+            <Label htmlFor="name">Username</Label>
             <Input type="text" id="name" placeholder="Username" required/>
           </Col>
         </FormGroup>
