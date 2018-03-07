@@ -4,12 +4,17 @@ const Steps = (props) => {
     return (
 
     <section className="about-area section-padding" style={{
-        paddingBottom : '0px'
+        paddingBottom : '0px',
+        paddingTop : '0px'
     }}>
         <div className="container-fluid" style={{
                     backgroundColor : '#E7EFF1'
                 }}>
-                <h2>Our Steps</h2>
+                <h2 style={{
+                    paddingTop : '50px',
+                    textAlign : 'left',
+                    fontSize : '50px'
+                }} >Our Steps</h2>
             <div className="row">
                 <div className="col-md-4 col-sm-6">
                     <div className="service-content">
@@ -18,7 +23,7 @@ const Steps = (props) => {
                         </div>
                         <i className="fa fa-child" aria-hidden="true"></i>
                         <p>This is Photoshop's version of Lorem Ipsum. Proin gravida nibh vel velit auctor.</p>
-                        <a href="#" className="donate-btn more-btn hvr-shutter-out-horizontal">contact us</a>
+                        <a href="#" className="donate-btn more-btn hvr-shutter-out-horizontal">join us</a>
                     </div>
                 </div>
                 <div className="col-md-4 col-sm-6">
@@ -28,7 +33,7 @@ const Steps = (props) => {
                         </div>
                         <i className="fa fa-globe" aria-hidden="true"></i>
                         <p>This is Photoshop's version of Lorem Ipsum. Proin gravida nibh vel velit auctor.</p>
-                        <a href="#" className="donate-btn more-btn hvr-shutter-out-horizontal">donate now</a>
+                        <a href="#" className="donate-btn more-btn hvr-shutter-out-horizontal">JOIN US</a>
                     </div>
                 </div>
                 <div className="col-md-4 col-sm-12">

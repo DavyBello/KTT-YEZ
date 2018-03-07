@@ -6,7 +6,9 @@ import YouthOpinion from '../components/HomePage/YouthOpinion'
 import Slider from '../components/common/Header/Slider'
 import ParallaxContent from '../components/HomePage/ParallaxContent' 
 import ChoiceContent from '../components/ChoiceContent/ChoiceContent'
-import Sector from '../components/HomePage/Sector';
+import Sector from '../components/HomePage/Sector'
+import Services from '../components/common/Widgets/Services'
+import ChoiceContentImageLeft from '../components/ChoiceContent/ChoiceContentImageLeft';
 
 
 class HomePage extends Component{
@@ -14,7 +16,19 @@ class HomePage extends Component{
     return(
       <div>
         <Slider />
-        <Whatwedo />
+        <div className="row" style={{marginBottom : '0px', paddingBottom : '0px'}}>
+          <div className="col-md-8">
+            <Whatwedo />
+            <ChoiceContent />
+            <ChoiceContent />
+            <ChoiceContent />
+            <ChoiceContent />
+          </div>
+          <div className="col-md-4">
+            <Services />
+          </div>
+        </div>
+        
         <Steps />
         <YouthOpinion />
         <Sector />
@@ -25,4 +39,4 @@ class HomePage extends Component{
   }
 }
   
-export default withLayout(HomePage)
+export default withLayout(HomePage, {activePage: 'home'})
