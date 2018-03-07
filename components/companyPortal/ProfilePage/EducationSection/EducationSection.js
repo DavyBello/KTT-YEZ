@@ -18,26 +18,22 @@ import {
   ModalFooter
 } from 'reactstrap'
 
-import JobList from './JobList'
+import EducationList from './EducationList'
 
-const experiences = [
+const education = [
   {
-    title: 'Software Developer',
-    company: 'Altitude Technology',
-    duration: 'Jan, 2018 - Present  |  3 months.',
-    location: 'Kubwa, Abuja.'
-  },{
-    title: 'CEO',
-    company: 'The411ng',
-    duration: 'Jan, 2016 - Present  |  2 Years.',
-    location: 'Garki, Abuja.'
+    school: "Redeemer's University",
+    degree: 'Bachelor of Science - BSc(Hons)',
+    field: 'Computer Science',
+    duration: '2012 - 2016'
   }
 ]
-const isEmpty = true;
+
+const isEmpty = false;
 
 const EmptySpace = props => (
   <p className="display-4" style={{padding: '10px 0px 10px'}}>
-    <i className="icon-ghost"></i> This space is lonely
+    <i className="icon-ghost"></i> This Space is empty
   </p>
 )
 
@@ -60,7 +56,7 @@ export default class extends Component {
       <Card>
         <CardBody >
           <CardTitle className="mb-0">
-            Work Experience {
+            Education {
               (!isEmpty) && (
               <Button className="float-right" size="sm" color="primary" onClick={this.toggle}>
                 <i className="icon-plus"></i> Add
@@ -72,45 +68,43 @@ export default class extends Component {
             ? (<div className="text-center">
               <EmptySpace/>
               <Button size="lg" color="primary" onClick={this.toggle}>
-                <i className="icon-plus"></i> Add Work Experience
+                <i className="icon-plus"></i> Add Education
               </Button>
             </div>)
             : (<div>
-              <JobList jobs={experiences}/>
+              <EducationList education={education}/>
             </div>)
           }
         </CardBody>
         <Modal isOpen={this.state.modalOpen} toggle={this.toggle} className='modal-lg modal-info'>
-          <ModalHeader toggle={this.toggle}>Add Experience</ModalHeader>
+          <ModalHeader toggle={this.toggle}>Add Education</ModalHeader>
           <ModalBody>
             <Form action="" method="post" encType="multipart/form-data" className="form-horizontal">
               <FormGroup>
-                <Label htmlFor="name">Title</Label>
-                <Input type="text" id="name" placeholder="Eg: Manager" required/>
+                <Label htmlFor="name">School</Label>
+                <Input type="text" id="name" required/>
               </FormGroup>
               <FormGroup>
-                <Label htmlFor="name">Company</Label>
-                <Input type="text" id="name" placeholder="Eg: Google" required/>
+                <Label htmlFor="name">Degree</Label>
+                <Input type="text" id="name" required/>
               </FormGroup>
               <FormGroup>
-                <Label htmlFor="name">Location</Label>
-                <Input type="text" id="name" placeholder="Eg: Kubwa, Abuja" required/>
+                <Label htmlFor="name">Field of study</Label>
+                <Input type="text" id="name" required/>
+              </FormGroup>
+              <FormGroup>
+                <Label htmlFor="name">Grade</Label>
+                <Input type="text" id="name" required/>
               </FormGroup>
               <FormGroup row="row">
                 <Col md="6">
-                  <Label htmlFor="name">From</Label>
-                  <Input style={{marginBottom: '10px'}} type="text" id="name" placeholder="Month" required/>
-                  <Input type="text" id="name" placeholder="Year" required/>
+                  <Label htmlFor="name">From Year</Label>
+                  <Input type="text" id="name" required/>
                 </Col>
                 <Col md="6">
-                  <Label htmlFor="name">TO</Label>
-                  <Input style={{marginBottom: '10px'}} type="text" id="name" placeholder="Month" required/>
-                  <Input type="text" id="name" placeholder="Year" required/>
+                  <Label htmlFor="name">To Year (or expected)</Label>
+                  <Input type="text" id="name" required/>
                 </Col>
-              </FormGroup>
-              <FormGroup>
-                <Label htmlFor="name">Salary (optional)</Label>
-                <Input type="text" id="name" placeholder="Eg: $30 billion for the account" required/>
               </FormGroup>
             </Form>
           </ModalBody>

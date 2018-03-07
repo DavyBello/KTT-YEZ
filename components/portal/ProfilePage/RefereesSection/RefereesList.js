@@ -6,14 +6,14 @@ import {
   CardBody,
   CardFooter,
   ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText,
-  Button
+  Badge
 } from 'reactstrap';
 
  export default props => (
   <ListGroup>
     {props.education.map((education)=>(
       <ListGroupItem>
-        <ListGroupItemHeading>{education.school} <Button className="btn-sm" outline color="primary float-right"><i className="icon-pencil"></i>&nbsp; Edit</Button></ListGroupItemHeading>
+        <ListGroupItemHeading>{education.school} <Badge className="float-right text-success" pill><i className="icon-check"></i></Badge></ListGroupItemHeading>
         <ListGroupItemText>
           <div><i className="icon-graduation"></i> {education.degree}, {education.field} </div>
           <div>{education.duration}</div>

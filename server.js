@@ -1,7 +1,6 @@
 const express = require('express')
 const next = require('next')
-//const app = next({dev: process.env.NODE_ENV !== 'production'})
-const app = next({dev: false})
+const app = next({dev: process.env.NODE_ENV !== 'production'})
 const handle = app.getRequestHandler()
 const port = process.env.PORT || 9000
 const the411 = require('./lib/the411ng/apiPlugin')
@@ -9,7 +8,7 @@ const the411 = require('./lib/the411ng/apiPlugin')
 app.prepare().then(() => {
   const server = express();
 
-  
+
 
   server.get('/', (req, res) => {
     return app.render(req, res, '/')

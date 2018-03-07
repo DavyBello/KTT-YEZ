@@ -39,7 +39,7 @@ export default function withLayout(Child, opts) {
             <meta charSet="utf-8"/>
             {/*<link rel="icon" href="wt_62309/images/favicon.ico" type="image/x-icon"/>*/}
             {/*<!-- Stylesheets-->*/}
-            <link rel="stylesheet" href="/static/css/media-portal/style.css"/>
+            <link rel="stylesheet" href="/static/css/portal/style.css"/>
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css"/>
           </Head>
           <div>
