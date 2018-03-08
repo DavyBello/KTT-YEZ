@@ -81,30 +81,32 @@ export default class extends Component {
           <ModalBody>
             <Form action="" method="post" encType="multipart/form-data" className="form-horizontal">
               <FormGroup>
-                <Label htmlFor="name">School</Label>
+                <Label htmlFor="name">Certification Name</Label>
                 <Input type="text" id="name" required/>
               </FormGroup>
               <FormGroup>
-                <Label htmlFor="name">Degree</Label>
+                <Label htmlFor="name">Certification Authority</Label>
                 <Input type="text" id="name" required/>
               </FormGroup>
               <FormGroup>
-                <Label htmlFor="name">Field of study</Label>
-                <Input type="text" id="name" required/>
-              </FormGroup>
-              <FormGroup>
-                <Label htmlFor="name">Grade</Label>
+                <Label htmlFor="name">License Number</Label>
                 <Input type="text" id="name" required/>
               </FormGroup>
               <FormGroup row="row">
                 <Col md="6">
-                  <Label htmlFor="name">From Year</Label>
-                  <Input type="text" id="name" required/>
+                  <Label htmlFor="name">From</Label>
+                  <Input style={{marginBottom: '10px'}} type="text" id="name" placeholder="Month" required/>
+                  <Input type="text" id="name" placeholder="Year" required/>
                 </Col>
                 <Col md="6">
-                  <Label htmlFor="name">To Year (or expected)</Label>
-                  <Input type="text" id="name" required/>
+                  <Label htmlFor="name">To</Label>
+                  <Input style={{marginBottom: '10px'}} type="text" id="name" placeholder="Month" required/>
+                  <Input type="text" id="name" placeholder="Year" required/>
                 </Col>
+              </FormGroup>
+              <FormGroup>
+                <Label htmlFor="name">Certification URL</Label>
+                <Input type="text" id="name" required/>
               </FormGroup>
             </Form>
           </ModalBody>
