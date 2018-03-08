@@ -2,10 +2,10 @@ import {Component} from 'react'
 //import Router from 'next/router'
 import Head from 'next/head'
 
-import withCandidatePortal from '../../components/withCandidatePortal'
-import DetailsSection from '../../components/portal/HomePage/DetailsSection/DetailsSection'
-import ProfileSection from '../../components/portal/HomePage/ProfileSection/ProfileSection'
-import TestSection from '../../components/portal/HomePage/TestSection/TestSection'
+import withCompanyPortal from '../../components/withCompanyPortal'
+import DetailsSection from '../../components/companyPortal/HomePage/DetailsSection/DetailsSection'
+import MessageSection from '../../components/companyPortal/HomePage/MessageSection/MessageSection'
+import JobsSection from '../../components/companyPortal/HomePage/JobsSection/JobsSection'
 
 class Page extends Component {
   render(){
@@ -17,12 +17,12 @@ class Page extends Component {
         </Head>
         {/* <Login title={'login'} {...this.props}/> */}
         <DetailsSection />
-        <ProfileSection />
-        <TestSection />
+        <MessageSection />
+        <JobsSection />
       </div>
     )
   }
 }
 
 // export default Page
-export default withCandidatePortal(Page)
+export default withCompanyPortal(Page)
