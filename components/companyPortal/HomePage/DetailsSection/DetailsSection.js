@@ -2,7 +2,7 @@ import {Card, CardBody, CardTitle, CardGroup, Row, Col} from 'reactstrap'
 
 const styles = {
   image: {
-    maxWidth: '60px',
+    maxHeight: '80px',
     marginBottom: '10px'
   },
   details: {
@@ -27,22 +27,23 @@ export default props => (
       <CardBody>
         <Row>
           <Col sm="12">
-            <img style={styles.image} src={'/static/images/5.jpg'} className="img-avatar" alt="bellooladipupo41@gmail.com"/>
-            <CardTitle className="mb-0">Lastname Firstname</CardTitle>
-            <div className="small text-muted">@username </div>
+            <img style={styles.image} className="img-logo" alt="bellooladipupo41@gmail.com" src={'https://media.licdn.com/mpr/mpr/shrink_200_200/AAMAAgQIAAkAAQAAAAAAAA8iAAAAJDRiNTM1YzIwLWU0YjQtNDE2MC1iYWRkLWYzOWQwMjRiODdiZQ.bin'}/>
+            <CardTitle className="mb-0">Altitude Technology</CardTitle>
+            <div className="small text-muted">Software • Wuse, Abuja </div>
           </Col>
         </Row>
         <hr/>
         <div className="text-muted"><i className="icon-phone"></i> 08188555611 </div>
         <div className="text-muted"><i className="icon-envelope"></i> bellooladipupo41@gmail.com </div>
+        <div className="text-muted"><i className="icon-globe"></i> <a href="http://www.altitude-tech.com">altitude-tech.com</a> </div>
       </CardBody>
     </Card>
     <Card className="text-white bg-dark text-center">
       <CardBody style={styles.steps}>
         <div style={{textAlign: 'left'}}>
-          <p><i className="icon-check text-success text-large"></i> Fill in your Details</p>
-          <p><i className="icon-check text-success"></i> Take the test</p>
-          <p><i className="icon-close text-danger"></i> Get Verified at any Job center nation wide</p>
+          <p><i className="icon-check text-success text-large"></i> Complete Your Company Profile</p>
+          <p><i className="icon-check text-success"></i> Get Verified</p>
+          <p><i className="icon-close text-danger"></i> Post Jobs</p>
           <p><i className="icon-close text-danger"></i> Profit $$</p>
         </div>
       </CardBody>
