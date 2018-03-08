@@ -688,7 +688,11 @@ ul li a.menu-active {
     ================================ */
 
 .about-details {
-    margin: 10px 0 0;
+    margin: 30px 0 0;
+}
+
+.about-details h2 a {
+    font-size : 26px ;
 }
 
 .more-btn {
@@ -1076,14 +1080,8 @@ textarea.form-control {
     font-size: 26px;
 }
 
-.related-causus-img {
-    width: 30%;
-    float: left;
-}
 
 .related-causus-details {
-    width: 70%;
-    float: right;
     padding: 0 30px;
 }
 

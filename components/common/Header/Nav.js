@@ -39,11 +39,12 @@ export default class Home extends Component{
                                             <li><a href="#">Job Center Option</a></li>
                                         </ul>
                                     </li>
+                                    <li><a href="#">YEZ TV</a></li>
                                     <li><a href="/contact">contact us</a></li>
                                 </ul>
                             </nav>
                             <div className="donate-box">
-                                <a href="#" className="donate-btn hvr-shutter-out-horizontal">donate</a>
+                                <a href="#" className="donate-btn hvr-shutter-out-horizontal">Login</a>
                             </div>
                         </div>
                     </div>

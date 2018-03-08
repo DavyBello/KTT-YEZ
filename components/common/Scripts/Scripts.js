@@ -16,6 +16,7 @@ const Scripts = () => {
             <script src="/static/js/slicknav.min.js"></script>
             <script src="/static/js/plugins.js"></script> */}
             <script src="/static/js/main.js"></script>
+            <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5a9fff839c9147a8"></script>
         </div>
     )
 }
