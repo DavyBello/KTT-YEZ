@@ -13,7 +13,7 @@ import {
   <ListGroup>
     {props.education.map((education)=>(
       <ListGroupItem>
-        <ListGroupItemHeading>{education.school} <Badge className="float-right text-success" pill><i className="icon-check"></i></Badge></ListGroupItemHeading>
+        <ListGroupItemHeading>{education.school} <i className="float-right text-success icon-check"></i></ListGroupItemHeading>
         <ListGroupItemText>
           <div><i className="icon-graduation"></i> {education.degree}, {education.field} </div>
           <div>{education.duration}</div>

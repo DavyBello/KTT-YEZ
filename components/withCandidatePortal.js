@@ -11,8 +11,8 @@ import checkLoggedIn from '../lib/auth/checkLoggedIn'
 
 import { Container } from 'reactstrap'
 import Breadcrumb from './portal/Breadcrumb/Breadcrumb'
-import Sidebar from './adminUI/Sidebar/Sidebar'
-import Header from './adminUI/Header/Header'
+import Sidebar from './portal/adminUI/Sidebar/Sidebar'
+import Header from './portal/adminUI/Header/Header'
 
 export default function withLayout(Child, opts) {
   class WrappedComponent extends React.Component {
@@ -24,12 +24,14 @@ export default function withLayout(Child, opts) {
       }
 
       const { loggedInUser } = await checkLoggedIn(context, apolloClient)
-      //console.log('loggedInUser---');
       //console.log(loggedInUser);
       if (!loggedInUser.candidate) {
         // If not signed in, send them somewhere more useful
         console.log('You must be signed in');
-        //redirect(context, '/candidate-portal-login')
+        let target = `/user/login`
+        if (context.pathname!=='/user')
+          target = `${target}?from=${context.pathname}`
+        redirect(context, target)
       }
 
       /*const baseUrl = context.req ? `${context.req.protocol}://${context.req.get('Host')}` : '';
@@ -39,7 +41,7 @@ export default function withLayout(Child, opts) {
 
       return {
         ...ChildProps,
-        //loggedInUser
+        loggedInUser
       }
     }
 
@@ -58,8 +60,6 @@ export default function withLayout(Child, opts) {
     }
 
     render() {
-      //console.log('rendering');
-      //console.log(this.props);
       const opts = opts || {};
 
       return (

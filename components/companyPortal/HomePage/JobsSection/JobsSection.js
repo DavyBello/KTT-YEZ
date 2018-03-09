@@ -92,7 +92,7 @@ export default class extends Component {
                 <Label htmlFor="name">License Number</Label>
                 <Input type="text" id="name" required/>
               </FormGroup>
-              <FormGroup row="row">
+              <FormGroup row>
                 <Col md="6">
                   <Label htmlFor="name">From</Label>
                   <Input style={{marginBottom: '10px'}} type="text" id="name" placeholder="Month" required/>

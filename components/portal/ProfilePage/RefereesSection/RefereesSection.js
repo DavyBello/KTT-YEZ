@@ -96,7 +96,7 @@ export default class extends Component {
                 <Label htmlFor="name">Grade</Label>
                 <Input type="text" id="name" required/>
               </FormGroup>
-              <FormGroup row="row">
+              <FormGroup row>
                 <Col md="6">
                   <Label htmlFor="name">From Year</Label>
                   <Input type="text" id="name" required/>

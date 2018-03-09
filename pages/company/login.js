@@ -8,14 +8,15 @@ import Login from '../../components/portal/LoginPage/LoginPage'
 
 class LoginPage extends Component {
   render(){
-    //console.log(this.props);
+    console.log('loginpage');
+    console.log(this.props);
     return (
       <div className="animated fadeIn">
         <Head>
           <title>KTT Youth Empowerment Zone | Login</title>
         </Head>
         <Login />
-        {/* <Login title={'login'} {...this.props}/> */}
+        <Login title={'login'} {...this.props}/>
       </div>
     )
   }
