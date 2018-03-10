@@ -72,14 +72,135 @@ const ContactPage  = (props) => {
 
         <section className="contact-area section-padding">
             <div className="container">
-                <div className="row">
-                    <div className="col-md-3">
+                <div className="row" style={{borderBottom : '1px solid #b2b2b2'}}>
+                    <div className="col-md-4" style={{marginRight : '0', borderRight : '1px solid #b2b2b2'}}>
                         <Address /> 
                     </div>
-                    <div className="col-md-3">
+                    <div className="col-md-4" style={{marginRight : '0', borderRight : '1px solid #b2b2b2'}}>
                         <Address /> 
                     </div>
-                    <div className="col-md-3">
+                    <div className="col-md-4">
+                        <Address /> 
+                    </div>
+                </div>
+                <div className="row" style={{borderBottom : '1px solid #b2b2b2'}}>
+                    <div className="col-md-4" style={{paddingTop : '20px', marginRight : '0', borderRight : '1px solid #b2b2b2'}}>
+                        <Address /> 
+                    </div>
+                    <div className="col-md-4" style={{paddingTop : '20px', marginRight : '0', borderRight : '1px solid #b2b2b2'}}>
+                        <Address /> 
+                    </div>
+                    <div className="col-md-4" style={{paddingTop : '20px'}}>
+                        <Address /> 
+                    </div>
+                </div>
+                <div className="row" style={{borderBottom : '1px solid #b2b2b2'}}>
+                    <div className="col-md-4" style={{paddingTop : '20px', marginRight : '0', borderRight : '1px solid #b2b2b2'}}>
+                        <Address /> 
+                    </div>
+                    <div className="col-md-4" style={{paddingTop : '20px', marginRight : '0', borderRight : '1px solid #b2b2b2'}}>
+                        <Address /> 
+                    </div>
+                    <div className="col-md-4" style={{paddingTop : '20px'}}>
+                        <Address /> 
+                    </div>
+                </div>
+                <div className="row" style={{borderBottom : '1px solid #b2b2b2'}}>
+                    <div className="col-md-4" style={{paddingTop : '20px', marginRight : '0', borderRight : '1px solid #b2b2b2'}}>
+                        <Address /> 
+                    </div>
+                    <div className="col-md-4" style={{paddingTop : '20px', marginRight : '0', borderRight : '1px solid #b2b2b2'}}>
+                        <Address /> 
+                    </div>
+                    <div className="col-md-4" style={{paddingTop : '20px'}}>
+                        <Address /> 
+                    </div>
+                </div>
+                <div className="row" style={{borderBottom : '1px solid #b2b2b2'}}>
+                    <div className="col-md-4" style={{paddingTop : '20px', marginRight : '0', borderRight : '1px solid #b2b2b2'}}>
+                        <Address /> 
+                    </div>
+                    <div className="col-md-4" style={{paddingTop : '20px', marginRight : '0', borderRight : '1px solid #b2b2b2'}}>
+                        <Address /> 
+                    </div>
+                    <div className="col-md-4" style={{paddingTop : '20px'}}>
+                        <Address /> 
+                    </div>
+                </div>
+                <div className="row" style={{borderBottom : '1px solid #b2b2b2'}}>
+                    <div className="col-md-4" style={{paddingTop : '20px', marginRight : '0', borderRight : '1px solid #b2b2b2'}}>
+                        <Address /> 
+                    </div>
+                    <div className="col-md-4" style={{paddingTop : '20px', marginRight : '0', borderRight : '1px solid #b2b2b2'}}>
+                        <Address /> 
+                    </div>
+                    <div className="col-md-4" style={{paddingTop : '20px'}}>
+                        <Address /> 
+                    </div>
+                </div>
+                <div className="row" style={{borderBottom : '1px solid #b2b2b2'}}>
+                    <div className="col-md-4" style={{paddingTop : '20px', marginRight : '0', borderRight : '1px solid #b2b2b2'}}>
+                        <Address /> 
+                    </div>
+                    <div className="col-md-4" style={{paddingTop : '20px', marginRight : '0', borderRight : '1px solid #b2b2b2'}}>
+                        <Address /> 
+                    </div>
+                    <div className="col-md-4" style={{paddingTop : '20px'}}>
+                        <Address /> 
+                    </div>
+                </div>
+                <div className="row" style={{borderBottom : '1px solid #b2b2b2'}}>
+                    <div className="col-md-4" style={{paddingTop : '20px', marginRight : '0', borderRight : '1px solid #b2b2b2'}}>
+                        <Address /> 
+                    </div>
+                    <div className="col-md-4" style={{paddingTop : '20px', marginRight : '0', borderRight : '1px solid #b2b2b2'}}>
+                        <Address /> 
+                    </div>
+                    <div className="col-md-4" style={{paddingTop : '20px'}}>
+                        <Address /> 
+                    </div>
+                </div>
+                <div className="row" style={{borderBottom : '1px solid #b2b2b2'}}>
+                    <div className="col-md-4" style={{paddingTop : '20px', marginRight : '0', borderRight : '1px solid #b2b2b2'}}>
+                        <Address /> 
+                    </div>
+                    <div className="col-md-4" style={{paddingTop : '20px', marginRight : '0', borderRight : '1px solid #b2b2b2'}}>
+                        <Address /> 
+                    </div>
+                    <div className="col-md-4" style={{paddingTop : '20px'}}>
+                        <Address /> 
+                    </div>
+                </div>
+                <div className="row" style={{borderBottom : '1px solid #b2b2b2'}}>
+                    <div className="col-md-4" style={{paddingTop : '20px', marginRight : '0', borderRight : '1px solid #b2b2b2'}}>
+                        <Address /> 
+                    </div>
+                    <div className="col-md-4" style={{paddingTop : '20px', marginRight : '0', borderRight : '1px solid #b2b2b2'}}>
+                        <Address /> 
+                    </div>
+                    <div className="col-md-4" style={{paddingTop : '20px'}}>
+                        <Address /> 
+                    </div>
+                </div>
+                <div className="row" style={{borderBottom : '1px solid #b2b2b2'}}>
+                    <div className="col-md-4" style={{paddingTop : '20px', marginRight : '0', borderRight : '1px solid #b2b2b2'}}>
+                        <Address /> 
+                    </div>
+                    <div className="col-md-4" style={{paddingTop : '20px', marginRight : '0', borderRight : '1px solid #b2b2b2'}}>
+                        <Address /> 
+                    </div>
+                    <div className="col-md-4" style={{paddingTop : '20px'}}>
+                        <Address /> 
+                    </div>
+                </div>
+                <div className="row" style={{borderBottom : '1px solid #b2b2b2'}}>
+                    <div className="col-md-4" style={{paddingTop : '20px', marginRight : '0', borderRight : '1px solid #b2b2b2'}}>
+                        <Address /> 
+                    </div>
+                    <div className="col-md-4" style={{paddingTop : '20px', marginRight : '0', borderRight : '1px solid #b2b2b2'}}>
+                        <Address /> 
+                    </div>
+                    <div className="col-md-4" style={{paddingTop : '20px'}}>
                         <Address /> 
                     </div>
                 </div>
