@@ -1,13 +1,11 @@
- {
-    "ignore": [
-     ".git",
-     ".next",
-     "components",
-     "containers",
-     "pages",
-     "believed",
-     "node_modules/**/node_modules"
-   ]
-  }
-  
-  
+{
+  "ignore": [
+   ".git",
+   ".next",
+   "components",
+   "containers",
+   "pages",
+   "node_modules/**/node_modules",
+   "lib/auth"
+ ]
+}

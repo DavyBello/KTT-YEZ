@@ -4,7 +4,7 @@ import { graphql} from 'react-apollo'
 import gql from 'graphql-tag'
 import 'isomorphic-fetch'
 
-import withData from '../lib/withData'
+import withData from '../lib/backendApi/withData'
 
 import TopHeader from './common/Header/TopHeader'
 import Nav from './common/Header/Nav'
@@ -50,7 +50,7 @@ export default function withLayout(Child, opts) {
         articles,
       }
     }
-    
+
     render() {
       const opts = opts || {},
       breakingNewsArticles = this.props.articles.gistMany;
@@ -63,10 +63,10 @@ export default function withLayout(Child, opts) {
               <meta charSet="utf-8"/>
               <meta name="description" content=""/>
               <meta name="keywords" content=""/>
-  
+
               <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"/>
               <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900|Raleway:300,400,500,600,700,800,900" rel="stylesheet"/>
-              
+
               <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
               {/* font-awesome css  */}
               <link rel="stylesheet" href="/static/css/font-awesome.min.css"/>
@@ -74,7 +74,7 @@ export default function withLayout(Child, opts) {
               <link rel="stylesheet" href="/static/css/animate.css"/>
               {/* owl carousel css */}
               {/* <link rel="stylesheet" href="/static/css/owl.carousel.min.css"/> */}
-               
+
               {/* slicknav css */}
               <link rel="stylesheet" href="/static/css/slicknav.min.css"/>
               {/* main css */}
@@ -99,12 +99,3 @@ export default function withLayout(Child, opts) {
   // return withData(WrappedComponent)
   return (WrappedComponent)
 }
-
-
-
-
-
-
-
-
-

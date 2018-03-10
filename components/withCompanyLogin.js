@@ -4,30 +4,23 @@ import { graphql, withApollo, compose } from 'react-apollo'
 import cookie from 'cookie'
 import Link from 'next/link'
 import gql from 'graphql-tag'
-//import 'isomorphic-fetch'
+//import { withApollo, graphql, compose } from 'react-apollo'
+/*import { graphql} from 'react-apollo'
+import gql from 'graphql-tag'
+import 'isomorphic-fetch'*/
 
-import withData from '../lib/backendApi/withData'
+import withData from '../lib/withData'
 import redirect from '../lib/auth/redirect'
-import checkLoggedIn from '../lib/auth/checkLoggedIn'
+
 
 export default function withLayout(Child, opts) {
   class WrappedComponent extends React.Component {
     static async getInitialProps(context, apolloClient) {
+      //console.log(context);
       let ChildProps = {};
 
       if (Child.getInitialProps) {
         ChildProps = await Child.getInitialProps(context, apolloClient)
-      }
-
-      const { loggedInUser } = await checkLoggedIn(context, apolloClient)
-      //console.log('loggedInUser---');
-      //console.log(loggedInUser);
-      if (loggedInUser.candidate) {
-        // If signed in, send them somewhere more useful
-        console.log('You are signed in');
-        //console.log(context);
-        const target = await context.query.from || `/user`;
-        redirect(context, target)
       }
 
       return {
@@ -58,8 +51,8 @@ export default function withLayout(Child, opts) {
   }
 
   const gqlWrapper = gql `
-  mutation Login($phone: String, $password: String) {
-    loginCandidate ( phone: $phone, password: $password ) {
+  mutation Login($email: String, $password: String) {
+    login ( email: $email, password: $password ) {
       jwt
     }
   }
@@ -80,21 +73,20 @@ export default function withLayout(Child, opts) {
         props: ({
           loginWithEmail,
           // `client` is provided by the `withApollo` HOC
-          ownProps: { client, url }
+          ownProps: { client }
         }) => ({
           // `login` is the name of the prop passed to the component
-          login: ({phone, password}) => {
+          login: ({email, password}) => {
 
             loginWithEmail({
               variables: {
-                phone: phone,
+                email: email,
                 password: password
               }
             }).then(({ data }) => {
-              /*console.log('data');
-              console.log(data);*/
+              console.log('data');
               // Store the token in cookie
-              const {jwt} = data.loginCandidate
+              const {jwt} = data.login
               document.cookie = cookie.serialize('token', jwt, {
                 maxAge: 3 * 24 * 60 * 60 // 3 days
               })
@@ -103,9 +95,8 @@ export default function withLayout(Child, opts) {
               // Force a reload of all the current queries now that the user is
               // logged in
               client.resetStore().then(() => {
-                // Now redirect to the homepage / from page
-                const target = url.query.from || `/user`;
-                redirect({}, target)
+                // Now redirect to the homepage
+                redirect({}, '/media-portal')
               })
             }).catch((error) => {
               // Something went wrong, such as incorrect password, or no network

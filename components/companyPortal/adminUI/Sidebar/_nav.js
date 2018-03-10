@@ -4,22 +4,22 @@ export default {
       name: 'Dashboard',
       url: '/dashboard',
       icon: 'icon-speedometer',
-      badge: {
+      /*badge: {
         variant: 'info',
         text: 'NEW'
-      }
+      }*/
     },
     {
       name: 'Profile',
       url: '/profile',
-      icon: 'icon-user',
+      icon: 'icon-briefcase',
     },
     {
       name: 'Verification',
       url: '/verified',
       icon: 'icon-docs',
     },
-    {
+    /*{
       name: 'Messages',
       url: '/dashboard',
       icon: 'icon-envelope',
@@ -27,7 +27,7 @@ export default {
         variant: 'success',
         text: '5 NEW'
       }
-    },
+    },*/
     {
       name: 'Jobs',
       url: '/dashboard',
@@ -36,7 +36,7 @@ export default {
         variant: 'info',
         text: '4 NEW'
       }
-    // },
+    },
     // {
     //   title: true,
     //   name: 'Outlets',

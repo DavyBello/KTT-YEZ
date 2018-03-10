@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Link from 'next/link'
 //import {NavLink} from 'react-router-dom';
 import {Badge, Nav, NavItem, NavLink as RsNavLink} from 'reactstrap';
 import classNames from 'classnames';
@@ -107,9 +108,11 @@ class Sidebar extends Component {
               <i className={classes.icon}></i>{item.name}{badge(item.badge)}
             </RsNavLink>
             :
-            <RsNavLink href={url} className={classes.link} activeClassName="active" onClick={this.hideMobile}>
-              <i className={classes.icon}></i>{item.name}{badge(item.badge)}
-            </RsNavLink>
+            <Link href={url} prefetch>
+              <RsNavLink href={url} className={classes.link} activeClassName="active" onClick={this.hideMobile}>
+                <i className={classes.icon}></i>{item.name}{badge(item.badge)}
+              </RsNavLink>
+            </Link>
           }
         </NavItem>
       )

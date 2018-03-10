@@ -11,8 +11,8 @@ import checkLoggedIn from '../lib/auth/checkLoggedIn'
 
 import { Container } from 'reactstrap'
 import Breadcrumb from './portal/Breadcrumb/Breadcrumb'
-import Sidebar from './portal/adminUI/Sidebar/Sidebar'
-import Header from './portal/adminUI/Header/Header'
+import Sidebar from './companyPortal/adminUI/Sidebar/Sidebar'
+import Header from './companyPortal/adminUI/Header/Header'
 
 export default function withLayout(Child, opts) {
   class WrappedComponent extends React.Component {
@@ -24,14 +24,12 @@ export default function withLayout(Child, opts) {
       }
 
       const { loggedInUser } = await checkLoggedIn(context, apolloClient)
+      //console.log('loggedInUser---');
       //console.log(loggedInUser);
       if (!loggedInUser.candidate) {
         // If not signed in, send them somewhere more useful
         console.log('You must be signed in');
-        let target = `/user/login`
-        if (context.pathname!=='/user')
-          target = `${target}?from=${context.pathname}`
-        redirect(context, target)
+        //redirect(context, '/candidate-portal-login')
       }
 
       /*const baseUrl = context.req ? `${context.req.protocol}://${context.req.get('Host')}` : '';
@@ -41,7 +39,7 @@ export default function withLayout(Child, opts) {
 
       return {
         ...ChildProps,
-        loggedInUser
+        //loggedInUser
       }
     }
 
@@ -60,6 +58,8 @@ export default function withLayout(Child, opts) {
     }
 
     render() {
+      //console.log('rendering');
+      //console.log(this.props);
       const opts = opts || {};
 
       return (
@@ -70,7 +70,7 @@ export default function withLayout(Child, opts) {
             <meta charSet="utf-8"/>
             {/*<link rel="icon" href="wt_62309/images/favicon.ico" type="image/x-icon"/>*/}
             {/*<!-- Stylesheets-->*/}
-            <link rel="stylesheet" href="/static/css/portal/style.css"/>
+            <link rel="stylesheet" href="/static/css/companyPortal/style.css"/>
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css"/>
             {/* <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/> */}
           </Head>

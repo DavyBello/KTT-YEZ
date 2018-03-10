@@ -29,7 +29,7 @@ const education = [
   }
 ]
 
-const isEmpty = false;
+const isEmpty = true;
 
 const EmptySpace = props => (
   <p className="display-4" style={{padding: '10px 0px 10px'}}>
@@ -56,7 +56,7 @@ export default class extends Component {
       <Card>
         <CardBody >
           <CardTitle className="mb-0">
-            Certifications {
+            Jobs Posted {
               (!isEmpty) && (
               <Button className="float-right" size="sm" color="primary" onClick={this.toggle}>
                 <i className="icon-plus"></i> Add
@@ -68,7 +68,7 @@ export default class extends Component {
             ? (<div className="text-center">
               <EmptySpace/>
               <Button size="lg" color="primary" onClick={this.toggle}>
-                <i className="icon-plus"></i> Add Certification
+                <i className="icon-plus"></i> Add Job
               </Button>
             </div>)
             : (<div>
@@ -76,12 +76,12 @@ export default class extends Component {
             </div>)
           }
         </CardBody>
-        <Modal isOpen={this.state.modalOpen} toggle={this.toggle} className='modal-lg modal-info'>
-          <ModalHeader toggle={this.toggle}>Add Certification</ModalHeader>
+        <Modal isOpen={this.state.modalOpen} toggle={this.toggle} className='modal-lg modal-dark'>
+          <ModalHeader toggle={this.toggle}>Add Job</ModalHeader>
           <ModalBody>
             <Form action="" method="post" encType="multipart/form-data" className="form-horizontal">
               <FormGroup>
-                <Label htmlFor="name">Certification Name</Label>
+                <Label htmlFor="name">Job Title</Label>
                 <Input type="text" id="name" required/>
               </FormGroup>
               <FormGroup>

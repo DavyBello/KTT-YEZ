@@ -11,7 +11,7 @@ export default props => (
   <Row>
     <Col sm="12">
       <Form action="" method="post" encType="multipart/form-data" className="form-horizontal">
-        <FormGroup row="row">
+        <FormGroup row>
           <Col md="6">
             <Label htmlFor="name">First Name</Label>
             <Input type="text" id="name" placeholder="First name" required/>
@@ -25,7 +25,7 @@ export default props => (
           <Label htmlFor="name">Email</Label>
           <Input type="text" id="name" placeholder="Email address" required/>
         </FormGroup>
-        <FormGroup row="row">
+        <FormGroup row>
           <Col md="6">
             <Label htmlFor="name">Phone</Label>
             <Input type="text" id="name" placeholder="Phone number" required/>

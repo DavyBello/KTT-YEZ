@@ -16,7 +16,7 @@ class Page extends Component {
           <title>KTT Youth Empowerment Zone | Home</title>
         </Head>
         {/* <Login title={'login'} {...this.props}/> */}
-        <DetailsSection />
+        <DetailsSection user={this.props.loggedInUser.candidate}/>
         <ProfileSection />
         <TestSection />
       </div>

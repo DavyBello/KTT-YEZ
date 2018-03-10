@@ -14,8 +14,8 @@ class LoginPage extends Component {
         <Head>
           <title>KTT Youth Empowerment Zone | Login</title>
         </Head>
-        <Login />
-        {/* <Login title={'login'} {...this.props}/> */}
+        {/* <Login /> */}
+        <Login title={'login'} {...this.props}/>
       </div>
     )
   }

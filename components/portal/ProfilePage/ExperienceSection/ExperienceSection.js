@@ -96,14 +96,14 @@ export default class extends Component {
                 <Label htmlFor="name">Location</Label>
                 <Input type="text" id="name" placeholder="Eg: Kubwa, Abuja" required/>
               </FormGroup>
-              <FormGroup row="row">
+              <FormGroup row>
                 <Col md="6">
                   <Label htmlFor="name">From</Label>
                   <Input style={{marginBottom: '10px'}} type="text" id="name" placeholder="Month" required/>
                   <Input type="text" id="name" placeholder="Year" required/>
                 </Col>
                 <Col md="6">
-                  <Label htmlFor="name">TO</Label>
+                  <Label htmlFor="name">To</Label>
                   <Input style={{marginBottom: '10px'}} type="text" id="name" placeholder="Month" required/>
                   <Input type="text" id="name" placeholder="Year" required/>
                 </Col>

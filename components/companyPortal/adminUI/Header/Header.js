@@ -53,11 +53,11 @@ class Header extends Component {
 
   render() {
     return (
-      <header className="app-header navbar">
+      <header className="app-header navbar bg-dark">
         <NavbarToggler className="d-lg-none" onClick={this.mobileSidebarToggle}>
           <span className="navbar-toggler-icon"></span>
         </NavbarToggler>
-        <NavbarBrand href="#"></NavbarBrand>
+        <NavbarBrand className="bg-dark" href="#"></NavbarBrand>
         <NavbarToggler className="d-md-down-none" onClick={this.sidebarToggle}>
           <span className="navbar-toggler-icon"></span>
         </NavbarToggler>

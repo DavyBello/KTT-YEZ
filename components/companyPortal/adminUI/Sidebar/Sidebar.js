@@ -146,7 +146,7 @@ class Sidebar extends Component {
 
     // sidebar-nav root
     return (
-      <div className="sidebar">
+      <div className="sidebar bg-white border-dark" style={{borderRightStyle: 'inset', borderRightWidth: '1px'}}>
         <SidebarHeader/>
         <SidebarForm/>
         <nav className="sidebar-nav">

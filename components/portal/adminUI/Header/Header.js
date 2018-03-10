@@ -38,16 +38,18 @@ class Header extends Component {
   }
 
   signout = () => {
-    console.log('signing out');
+    console.log('...signing out---');
     document.cookie = cookie.serialize('token', '', {
       maxAge: -1 // Expire the cookie immediately
     })
 
     // Force a reload of all the current queries now that the user is
     // logged in, so we don't accidentally leave any state around.
+    //console.log();
+    console.log(this.props.client);
     this.props.client.cache.reset().then(() => {
       // Redirect to a more useful page when signed out
-      Router.replace('/media-portal-login')
+      Router.replace('/user/login')
     })
   }
 

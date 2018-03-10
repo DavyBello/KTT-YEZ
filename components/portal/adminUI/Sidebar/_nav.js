@@ -2,7 +2,7 @@ export default {
   items: [
     {
       name: 'Dashboard',
-      url: '/dashboard',
+      url: '/user',
       icon: 'icon-speedometer',
       badge: {
         variant: 'info',
@@ -11,7 +11,7 @@ export default {
     },
     {
       name: 'Profile',
-      url: '/profile',
+      url: '/user/profile',
       icon: 'icon-user',
     },
     {
@@ -19,7 +19,7 @@ export default {
       url: '/verified',
       icon: 'icon-docs',
     },
-    {
+    /*{
       name: 'Messages',
       url: '/dashboard',
       icon: 'icon-envelope',
@@ -27,16 +27,16 @@ export default {
         variant: 'success',
         text: '5 NEW'
       }
-    },
+    },*/
     {
       name: 'Jobs',
       url: '/dashboard',
       icon: 'icon-feed',
       badge: {
-        variant: 'info',
+        variant: 'success',
         text: '4 NEW'
       }
-    // },
+    },
     // {
     //   title: true,
     //   name: 'Outlets',
