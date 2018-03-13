@@ -4,10 +4,11 @@ import { Grid, Row, Col} from 'react-bootstrap'
 //import Marquee from 'react-text-marquee'
 
 const BreakingNewsBar = (props) => {
-  const newsMany = props.data.newsMany || [],
-  articles = props.articles || [];
+  //const newsMany = props.data.newsMany || [],
+  const articles = props.articles || [];
   //combining articles from the411ng and ktt backend
-  let allItems = [...newsMany,...articles];
+  let allItems = [...articles];
+  //let allItems = [...newsMany,...articles];
   allItems.sort(function(a, b) {
     a = new Date(a.publishedDate || a.createdAt);
     b = new Date(b.publishedDate || b.createdAt);
@@ -15,7 +16,7 @@ const BreakingNewsBar = (props) => {
   });
   //select the first 10 items most recent items only
   //console.log(allItems);
-  allItems = allItems.slice(0, 9);
+  allItems = allItems.slice(0, 10);
 
   return (
     <Grid style={{
@@ -75,8 +76,10 @@ query rootQuery{
   }
 }
 `
-export default graphql(gqlWrapper, {
-  props: ({ data }) => ({
-    data
-  })
-})(BreakingNewsBar)
+// export default graphql(gqlWrapper, {
+//   props: ({ data }) => ({
+//     data
+//   })
+// })(BreakingNewsBar)
+
+export default BreakingNewsBar

@@ -1,5 +1,6 @@
 import {Component} from 'react'
 import {Grid, Container, Row, Col } from 'reactstrap';
+import Link from 'next/link'
 
 export default class Home extends Component{
     render(){
@@ -16,9 +17,9 @@ export default class Home extends Component{
                         <div className="col-md-10">
                             <nav className="main-menu">
                                 <ul className="navigation">
-                                    <li><a href="/">home</a></li>
-                                    <li><a href="/about">about us</a></li>
-                                    <li><a href="#">Job Seeker<i className="fa fa-caret-down" aria-hidden="true"></i></a>
+                                    <li><Link href="/"><a>home</a></Link></li>
+                                    <li><Link href="/about"><a>about us</a></Link></li>
+                                    <li><Link href="#"><a>Job Seeker<i className="fa fa-caret-down" aria-hidden="true"></i></a></Link>
                                         <ul className="drop-menu">
                                             <li><a href="/job-seeker">Job Seeker Option</a></li>
                                             <li><a href="/job-seeker">Job Seeker Option</a></li>
@@ -39,11 +40,12 @@ export default class Home extends Component{
                                             <li><a href="#">Job Center Option</a></li>
                                         </ul>
                                     </li>
-                                    <li><a href="/contact">contact us</a></li>
+                                    <li><Link href="#"><a>YEZ TV</a></Link></li>
+                                    <li><Link href="/contact"><a >contact us</a></Link></li>
                                 </ul>
                             </nav>
                             <div className="donate-box">
-                                <a href="#" className="donate-btn hvr-shutter-out-horizontal">donate</a>
+                                <a href="/user/login" className="donate-btn hvr-shutter-out-horizontal">Login</a>
                             </div>
                         </div>
                     </div>

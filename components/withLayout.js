@@ -14,6 +14,23 @@ import BreakingNewsBar from './common/BreakingNewsBar/BreakingNewsBar'
 
 
 
+
+import NProgress from 'nprogress'
+import Router from 'next/router'
+
+Router.onRouteChangeStart = (url) => {
+  console.log(`Loading: ${url}`)
+  NProgress.start()
+}
+Router.onRouteChangeComplete = () => NProgress.done()
+Router.onRouteChangeError = () => NProgress.done()
+
+const linkStyle = {
+  margin: '0 10px 0 0'
+}
+  
+
+
 export default function withLayout(Child, opts) {
   class WrappedComponent extends React.Component {
     static async getInitialProps(context) {
@@ -38,7 +55,7 @@ export default function withLayout(Child, opts) {
       const opts = opts || {},
       breakingNewsArticles = this.props.articles.gistMany;
       return (
-        <div>
+        <div style={{ marginBottom: 20 }}>
           <Head>
               <meta name="format-detection" content="telephone=no"/>
               <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
@@ -64,6 +81,7 @@ export default function withLayout(Child, opts) {
               <link rel="stylesheet" href="/static/css/main.css"/>
               {/* responsive css */}
               <link rel="stylesheet" href="/static/css/responsive.css"/>
+              <link rel='stylesheet' type='text/css' href='/static/css/nprogress.css' />
             </Head>
               <header className="header-area">
                   {/* <!-- top header area --> */}
@@ -78,5 +96,6 @@ export default function withLayout(Child, opts) {
       )
     }
   }
-  return withData(WrappedComponent)
+  // return withData(WrappedComponent)
+  return (WrappedComponent)
 }

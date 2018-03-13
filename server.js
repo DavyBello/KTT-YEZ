@@ -5,6 +5,7 @@ const app = next({dev: process.env.NODE_ENV !== 'production'})
 const handle = app.getRequestHandler()
 const port = process.env.PORT || 9000
 const the411 = require('./lib/the411ng/apiPlugin')
+const serviceRouter = require('./routes/services')
 
 app.prepare().then(() => {
   const server = express();
@@ -24,6 +25,8 @@ app.prepare().then(() => {
       res.json(e);
     }
   })
+
+  server.use('/services', serviceRouter)
 
   server.get('/fetch-articles', async (req, res) => {
     console.log('fetching articles list');
