@@ -7,7 +7,7 @@ import withCandidatePortal from '../../components/withCandidatePortal'
 import DetailsSection from '../../components/portal/ProfilePage/DetailsSection/DetailsSection'
 import ExperienceSection from '../../components/portal/ProfilePage/ExperienceSection/ExperienceSection'
 import EducationSection from '../../components/portal/ProfilePage/EducationSection/EducationSection'
-import ProfileSection from '../../components/portal/ProfilePage/ProfileSection-/ProfileSection-'
+import ProfileSection from '../../components/portal/ProfilePage/ProfileSection/ProfileSection'
 
 class Page extends Component {
   render(){

@@ -15,9 +15,9 @@ import {
       <ListGroupItem>
         <ListGroupItemHeading>{job.title} <Button className="btn-sm" outline color="primary float-right"><i className="icon-pencil"></i>&nbsp; Edit</Button></ListGroupItemHeading>
         <ListGroupItemText>
-          <div><i className="icon-briefcase"></i> {job.company}</div>
-          <div>{job.duration}</div>
-          <div>{job.location}</div>
+          <p style={{marginBottom: '0px'}}><i className="icon-briefcase"></i> {job.company}</p>
+          <p style={{marginBottom: '0px'}}>{job.duration}</p>
+          <p>{job.location}</p>
         </ListGroupItemText>
       </ListGroupItem>
     ))}

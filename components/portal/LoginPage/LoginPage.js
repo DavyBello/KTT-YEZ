@@ -33,10 +33,8 @@ class Page extends Component {
   render(){
     //console.log('this.props');
     const doLogin = (e) => {
-      console.log('this.props');
-      console.log(this.props);
       console.log('logging in');
-      console.log(this.state);
+      //console.log(this.state);
       e.preventDefault()
       e.stopPropagation()
 
