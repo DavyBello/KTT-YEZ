@@ -41,6 +41,7 @@ export default function withLayout(Child, opts) {
 
       return {
         ...ChildProps,
+        loggedInUser
       }
     }
 
@@ -96,6 +97,7 @@ export default function withLayout(Child, opts) {
       // console.log(viewerCandidate);
       //if (this.state.loading)
       if (loading)
+      if (loading || !loggedInUser.candidate)
        return (<div>Loading Page</div>)
       return (
         <div>
