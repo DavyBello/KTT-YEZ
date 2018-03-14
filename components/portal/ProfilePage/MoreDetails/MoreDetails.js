@@ -95,7 +95,7 @@ class MoreDetails extends Component {
               <FormGroup row>
                 <Col md="6">
                   <Label htmlFor="name">Gender</Label>
-                  <Input onChange={(e)=>this.handleFieldChange('gender', e.target.value)} type="select" id="name" placeholder="Gender" required="required" defaultValue={this.state.gender}>
+                  <Input onChange={(e)=>this.handleFieldChange('gender', e.target.value)} type="select" id="name" placeholder="Select Gender" required="required" defaultValue={this.state.gender}>
                     <option>Male</option>
                     <option>Female</option>
                     <option>Other</option>

@@ -1,7 +1,7 @@
 import {Component} from 'react'
 //import Router from 'next/router'
 
-import {Container, Row, Col, CardGroup, Card, CardBody, Button, Input, InputGroup, InputGroupAddon, InputGroupText} from 'reactstrap';
+import {Container, Row, Col, CardGroup, Card, CardBody, Button, Input, InputGroup, InputGroupAddon, InputGroupText, Form } from 'reactstrap';
 
 class Page extends Component {
   constructor(props){
@@ -53,30 +53,32 @@ class Page extends Component {
                   <CardBody>
                     <h1>Login</h1>
                     <p className="text-muted">Sign In to your account</p>
-                    <InputGroup className="mb-3">
-                      <InputGroupAddon addonType="prepend">
-                        <InputGroupText>
-                          <i className="icon-user"></i>
-                        </InputGroupText>
-                      </InputGroupAddon>
-                      <Input onChange={this.handlePhoneChange} type="text" placeholder="Phone Number"/>
-                    </InputGroup>
-                    <InputGroup className="mb-4">
-                      <InputGroupAddon addonType="prepend">
-                        <InputGroupText>
-                          <i className="icon-lock"></i>
-                        </InputGroupText>
-                      </InputGroupAddon>
-                      <Input onChange={this.handlePasswordChange} type="password" placeholder="Password"/>
-                    </InputGroup>
-                    <Row>
-                      <Col xs="6">
-                        <Button onClick={doLogin} color="primary" className="px-4">Login</Button>
-                      </Col>
-                      <Col xs="6" className="text-right">
-                        <Button color="link" className="px-0">Forgot password?</Button>
-                      </Col>
-                    </Row>
+                    <Form>
+                      <InputGroup className="mb-3">
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <i className="icon-user"></i>
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Input onChange={this.handlePhoneChange} type="text" placeholder="Phone Number"/>
+                      </InputGroup>
+                      <InputGroup className="mb-4">
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <i className="icon-lock"></i>
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Input onChange={this.handlePasswordChange} type="password" placeholder="Password"/>
+                      </InputGroup>
+                      <Row>
+                        <Col xs="6">
+                          <Button type="submit" onClick={doLogin} color="primary" className="px-4">Login</Button>
+                        </Col>
+                        <Col xs="6" className="text-right">
+                          <Button color="link" className="px-0">Forgot password?</Button>
+                        </Col>
+                      </Row>
+                    </Form>
                   </CardBody>
                 </Card>
                 <Card className="text-white bg-primary py-5 d-md-down-none" style={{ width: 44 + '%' }}>

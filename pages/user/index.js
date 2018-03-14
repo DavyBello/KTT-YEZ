@@ -10,13 +10,14 @@ import TestSection from '../../components/portal/HomePage/TestSection/TestSectio
 class Page extends Component {
   render(){
     //console.log(this.props);
+    const { candidate } = this.props.data.viewerCandidate    
     return (
       <div className="animated fadeIn">
         <Head>
           <title>KTT Youth Empowerment Zone | Home</title>
         </Head>
         {/* <Login title={'login'} {...this.props}/> */}
-        <DetailsSection user={this.props.loggedInUser.candidate}/>
+        <DetailsSection user={candidate}/>
         <ProfileSection />
         <TestSection />
       </div>

@@ -15,9 +15,11 @@ import RefereesSection from '../../components/portal/ProfilePage/RefereesSection
 
 class Page extends Component {
   render(){
-    console.log('warstedyruftiygoulgkyfjhd');
-    console.log(this.props.candidateUpdateById);
-    const candidate = this.props.loggedInUser.candidate
+  //  console.log('uaisodhpijspjdpithis.props');
+//    console.log(this.props);
+    //console.log('warstedyruftiygoulgkyfjhd');
+//    console.log(this.props.candidateUpdateById);
+    const { candidate } = this.props.data.viewerCandidate
     return (
       <div className="animated fadeIn">
         <Head>
@@ -25,19 +27,19 @@ class Page extends Component {
         </Head>
         <Row>
           <Col md="8" xs="12">
-            <ProfileSection user={this.props.loggedInUser.candidate} update={this.props.update}/>
+            <ProfileSection user={candidate} update={this.props.update}/>
           </Col>
           <Col md="4" xs="12">
-            <DetailsSection user={this.props.loggedInUser.candidate}/>
+            <DetailsSection user={candidate}/>
           </Col>
         </Row>
         <Row>
           <Col md="8">
-            <MoreDetails user={this.props.loggedInUser.candidate} update={this.props.update}/>
+            <MoreDetails user={candidate} update={this.props.update}/>
             <ExperienceSection />
-            <EducationSection />
+            {/* <EducationSection />
             <CertificationsSection />
-            <RefereesSection />
+            <RefereesSection /> */}
           </Col>
         </Row>
       </div>
@@ -62,10 +64,12 @@ mutation UpdateCandidate(
     recordId
     record{
       _id
-      name{
+      id
+      name {
         first
         last
       }
+      phone
       email
       username
       address
@@ -98,6 +102,20 @@ export default withCandidatePortal(graphql(gqlWrapper, {
         variables: {
           ...data
         },
+        /*update: (proxy, { data: { candidateUpdateById } }) => {
+          // Read the data from our cache for this query.
+          console.log(ownProps);
+          const data = proxy.readQuery({ query: ownProps.ViewerCandidateQuery });
+
+          // Add our todo from the mutation to the end.
+          console.log(data.viewerCandidate.candidate);
+          console.log('candidateUpdateById');
+          console.log(candidateUpdateById);
+          data.viewerCandidate.candidate = candidateUpdateById.record;
+
+          // Write our data back to the cache.
+          proxy.writeQuery({ query: ViewerCandidateQuery, data });
+        }*/
         // optimisticResponse: {
         //   __typename: 'Mutation',
         //   candidateUpdateById: {

@@ -6,6 +6,6 @@
    "containers",
    "pages",
    "node_modules/**/node_modules",
-   "lib/auth"
+   "lib"   
  ]
 }

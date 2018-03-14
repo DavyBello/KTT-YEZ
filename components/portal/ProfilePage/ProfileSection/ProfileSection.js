@@ -72,7 +72,7 @@ class ProfileSection extends Component {
         <Row>
           <Col sm="12">
             <Form action="" method="post" encType="multipart/form-data" className="form-horizontal">
-              <FormGroup row="row">
+              <FormGroup row>
                 <Col md="6">
                   <Label htmlFor="name">First Name</Label>
                   <Input type="text" id="name" disabled="disabled" placeholder="First name" required="required" value={user.name.first}/>
@@ -86,7 +86,7 @@ class ProfileSection extends Component {
                 <Label htmlFor="name">Email</Label>
                 <Input type="text" id="name" placeholder="Email address" required="required" defaultValue={this.state.email} onChange={this.handleEmailChange}/>
               </FormGroup>
-              <FormGroup row="row">
+              <FormGroup row>
                 <Col md="6">
                   <Label htmlFor="name">Phone</Label>
                   <Input type="text" id="name" disabled="disabled" placeholder="Phone number" required="required" value={user.phone}/>

@@ -23,8 +23,8 @@ export default function withLayout(Child, opts) {
         ChildProps = await Child.getInitialProps(context, apolloClient)
       }
 
+      //Validate loggedin user
       const { loggedInUser } = await checkLoggedIn(context, apolloClient)
-      //console.log(loggedInUser);
       if (!loggedInUser.candidate) {
         // If not signed in, send them somewhere more useful
         console.log('You must be signed in');
@@ -41,7 +41,36 @@ export default function withLayout(Child, opts) {
 
       return {
         ...ChildProps,
-        loggedInUser
+      }
+    }
+
+    constructor(props){
+      super(props)
+      const { viewerCandidate, loading } = props.data
+      //this.state.loading = false;
+      //console.log('--------------------viewerCandidate');
+      // console.log(viewerCandidate);
+      const candidate = {
+        _id : "",
+        id : "",
+        name : {
+          first : "",
+          last : "",
+        },
+        phone : "",
+        email : "",
+        username : "",
+        address : "",
+        bvn : "",
+        nationality : "",
+        gender : "",
+        stateOfOrigin : "",
+        dateOfBirth : "",
+        placeOfBirth : ""
+      }
+      this.state = {
+        loading : loading || true,
+        candidate : viewerCandidate || {}
       }
     }
 
@@ -61,7 +90,13 @@ export default function withLayout(Child, opts) {
 
     render() {
       const opts = opts || {};
-
+      const { viewerCandidate, loading } = this.props.data
+      // const { viewerCandidate } = this.props.data
+      // console.log('--------------------viewerCandidate');
+      // console.log(viewerCandidate);
+      //if (this.state.loading)
+      if (loading)
+       return (<div>Loading Page</div>)
       return (
         <div>
           <Head>
@@ -91,11 +126,43 @@ export default function withLayout(Child, opts) {
     }
   }
 
+  const ViewerCandidateQuery = gql`
+    query ViewerCandidateQuery{
+      viewerCandidate {
+        candidate {
+          _id
+          id
+          name {
+            first
+            last
+          }
+          phone
+          email
+          username
+          address
+          bvn
+          nationality
+          gender
+          stateOfOrigin
+          dateOfBirth
+          placeOfBirth
+        }
+      }
+    }
+  `
+
   return compose(
     // withData gives us server-side graphql queries before rendering
     withData,
     // withApollo exposes `this.props.client` used when logging out
     withApollo
-  )(WrappedComponent)
+  )(graphql(ViewerCandidateQuery, {props: ({ data }) => ({data})})(WrappedComponent))
+
+  // return compose(
+  //   // withData gives us server-side graphql queries before rendering
+  //   withData,
+  //   // withApollo exposes `this.props.client` used when logging out
+  //   withApollo
+  // )(WrappedComponent)
   //return withData(WrappedComponent)
 }
