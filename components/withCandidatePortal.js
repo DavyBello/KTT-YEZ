@@ -96,10 +96,10 @@ export default function withLayout(Child, opts) {
       // console.log('--------------------viewerCandidate');
       // console.log(viewerCandidate);
       //if (this.state.loading)
-      if (loading)
-      if (loading || !loggedInUser.candidate)
-       return (<div>Loading Page</div>)
-      return (
+      if (loading || !this.props.loggedInUser.candidate){
+        return (<div>Loading Page</div>)
+      } else {
+        return (
         <div>
           <Head>
             <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
@@ -125,6 +125,7 @@ export default function withLayout(Child, opts) {
           </div>
         </div>
       )
+      }
     }
   }
 
