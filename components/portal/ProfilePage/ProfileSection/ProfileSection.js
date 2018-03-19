@@ -13,6 +13,7 @@ import {
   FormText,
   Input
 } from 'reactstrap'
+import { toast } from 'react-toastify';
 
 class ProfileSection extends Component {
   constructor(props) {
@@ -56,6 +57,20 @@ class ProfileSection extends Component {
         id: this.props.user._id,
         email: this.state.email,
         username: this.state.username
+      },()=>{
+        //function runs if update is sucessfull
+        const toastStyle = {
+          className: {
+            fontSize: '0.875rem',
+            fontWeight: '500',
+            lineHeight: '1.5',
+            background: "#4dbd74",
+            color: "white"
+          },progressClassName: {
+            background: "#3a9d5d"
+          }
+        }
+        toast("Your Profile Details have been updated", {...toastStyle});
       })
     }
 

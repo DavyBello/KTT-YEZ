@@ -39,6 +39,8 @@ class JobList extends Component {
  render(){
    const {viewerCandidate = {}} = this.props.data || {viewerCandidate: []};
    //console.log(viewerCandidate);
+   if (viewerCandidate.candidate.experience.length>0)
+    this.props.setIsEmpty(false)
    return(
     <ListGroup>
       {viewerCandidate.candidate.experience.map((job, index)=>(

@@ -22,10 +22,10 @@ import RefereesList from './RefereesList'
 
 const education = [
   {
-    school: "Redeemer's University",
-    degree: 'Bachelor of Science - BSc(Hons)',
-    field: 'Computer Science',
-    duration: '2012 - 2016'
+    school: "Mr. Sunday Adetona",
+    degree: 'sundayadetona@gmail.com',
+    field: '08188555611',
+    duration: ''
   }
 ]
 

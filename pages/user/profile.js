@@ -3,6 +3,8 @@ import {graphql, withApollo, compose} from 'react-apollo'
 import gql from 'graphql-tag'
 import Head from 'next/head'
 import { Row, Col } from 'reactstrap'
+import { ToastContainer, toast } from 'react-toastify';
+
 
 import withCandidatePortal from '../../components/withCandidatePortal'
 import DetailsSection from '../../components/portal/ProfilePage/DetailsSection/DetailsSection'
@@ -36,12 +38,13 @@ class Page extends Component {
         <Row>
           <Col md="8">
             <MoreDetails user={candidate} update={this.props.update}/>
-            <ExperienceSection />
+            <ExperienceSection user={candidate}/>
             {/* <EducationSection />
             <CertificationsSection />
             <RefereesSection /> */}
           </Col>
         </Row>
+        <ToastContainer />
       </div>
     )
   }
@@ -72,7 +75,20 @@ mutation UpdateCandidate(
       phone
       email
       username
-      address
+      address {
+        street1
+        suburb
+        state
+        postcode
+        country
+      }
+      experience{
+       _id
+       companyName
+       role
+       address
+       salary
+      }
       bvn
       nationality
       gender
@@ -90,7 +106,7 @@ export default withCandidatePortal(graphql(gqlWrapper, {
   // Apollo's way of injecting new props which are passed to the component
   props: ({ownProps, updateCandidateFields}) => ({
     // `update` is the name of the prop passed to the component
-    update: (data) => {
+    update: (data, onComplete) => {
       const removeEmpty = (obj) => {
         Object.keys(obj).forEach(key => {
           if (obj[key] && typeof obj[key] === 'object') removeEmpty(obj[key]);
@@ -102,20 +118,6 @@ export default withCandidatePortal(graphql(gqlWrapper, {
         variables: {
           ...data
         },
-        /*update: (proxy, { data: { candidateUpdateById } }) => {
-          // Read the data from our cache for this query.
-          console.log(ownProps);
-          const data = proxy.readQuery({ query: ownProps.ViewerCandidateQuery });
-
-          // Add our todo from the mutation to the end.
-          console.log(data.viewerCandidate.candidate);
-          console.log('candidateUpdateById');
-          console.log(candidateUpdateById);
-          data.viewerCandidate.candidate = candidateUpdateById.record;
-
-          // Write our data back to the cache.
-          proxy.writeQuery({ query: ViewerCandidateQuery, data });
-        }*/
         // optimisticResponse: {
         //   __typename: 'Mutation',
         //   candidateUpdateById: {
@@ -124,6 +126,22 @@ export default withCandidatePortal(graphql(gqlWrapper, {
         //     votes: ownProps.votes + 1
         //   }
         // }
+      }).then(({data}) => {
+        onComplete && onComplete();
+      }).catch((error)=>{
+        console.log(error.graphQLErrors);
+        const toastStyle = {
+          className: {
+            fontSize: '0.875rem',
+            fontWeight: '500',
+            lineHeight: '1.5',
+            background: '#f86c6b',
+            color: "white"
+          },progressClassName: {
+            background: '#f5302e'
+          }
+        }
+        toast("Something Went Wrong", {...toastStyle});
       })
     }
   })

@@ -41,16 +41,16 @@ export default class extends Component {
       isEmpty: true
     }
     this.toggle = this.toggle.bind(this);
+    this.setIsEmpty = this.setIsEmpty.bind(this);
     this.save = this.save.bind(this);
-  }
-
-  componentWillMount(){
-    if (this.props.user.experience.length>0)
-     this.state.isEmpty=false
   }
 
   toggle(){
     this.setState({modalOpen: !this.state.modalOpen})
+  }
+  setIsEmpty(value){
+    console.log('is not empty');
+    this.setState({isEmpty: value})
   }
   save(){
     console.log('saving');
@@ -58,20 +58,19 @@ export default class extends Component {
   }
 
   render(){
-    console.log(this.props.user.experience.length);
     return (
       <Card>
         <CardBody >
           <CardTitle className="mb-0">
             Work Experience {
-              (this.props.user.experience.length>0) && (
+              (!this.state.isEmpty) && (
               <Button className="float-right" size="sm" color="primary" onClick={this.toggle}>
                 <i className="icon-plus"></i> Add
               </Button>)
             }
           </CardTitle>
           <hr/> {
-            (!this.props.user.experience.length>0)
+            (this.state.isEmpty)
             ? (<div className="text-center">
               <EmptySpace/>
               <Button size="lg" color="primary" onClick={this.toggle}>
@@ -79,7 +78,7 @@ export default class extends Component {
               </Button>
             </div>)
             : (<div>
-              <JobList/>
+              <JobList setIsEmpty={this.setIsEmpty}/>
             </div>)
           }
         </CardBody>

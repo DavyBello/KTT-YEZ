@@ -13,6 +13,7 @@ import {
   FormText,
   Input
 } from 'reactstrap'
+import { toast } from 'react-toastify';
 
 class MoreDetails extends Component {
   constructor(props) {
@@ -31,7 +32,7 @@ class MoreDetails extends Component {
     }
     this.state = {
       address: props.user.address || '',
-      bvn: props.user.bvn || '',
+      //bvn: props.user.bvn || '',
       nationality: props.user.nationality || '',
       gender: props.user.gender || '',
       origin: props.user.stateOfOrigin || '',
@@ -55,13 +56,27 @@ class MoreDetails extends Component {
 
       this.props.update({
         id: this.props.user._id,
-        address: this.state.address,
-        bvn: this.state.bvn,
+        // address: this.state.address,
+        //bvn: this.state.bvn,
         nationality: this.state.nationality,
         gender: this.state.gender,
         stateOfOrigin: this.state.origin,
         dateOfBirth: this.state.dob,
         placeOfBirth: this.state.pob
+      },()=>{
+        //function runs if update is sucessfull
+        const toastStyle = {
+          className: {
+            fontSize: '0.875rem',
+            fontWeight: '500',
+            lineHeight: '1.5',
+            background: "#4dbd74",
+            color: "white"
+          },progressClassName: {
+            background: "#3a9d5d"
+          }
+        }
+        toast("Your Profile Details have been updated", {...toastStyle});
       })
     }
 
@@ -80,17 +95,7 @@ class MoreDetails extends Component {
               <Form action="" method="post" encType="multipart/form-data" className="form-horizontal">
               <FormGroup>
                 <Label htmlFor="name">Address</Label>
-                <Input onChange={(e)=>this.handleFieldChange('address', e.target.value)} type="text" id="name" placeholder="House address" required="required" defaultValue={this.state.address}/>
-              </FormGroup>
-              <FormGroup row>
-                <Col md="6">
-                  <Label htmlFor="name">BVN</Label>
-                  <Input onChange={(e)=>this.handleFieldChange('bvn', e.target.value)} type="text" id="name" placeholder="Bank Verification Number" required="required" defaultValue={this.state.bvn}/>
-                </Col>
-                <Col md="6">
-                  <Label htmlFor="name">Nationality</Label>
-                  <Input onChange={(e)=>this.handleFieldChange('nationality', e.target.value)} type="text" id="name" placeholder="Nationality" required="required" defaultValue={this.state.nationality}/>
-                </Col>
+                <Input onChange={(e)=>this.handleFieldChange('address', e.target.value)} type="text" id="name" placeholder="House address" required="required" defaultValue={this.state.address.state}/>
               </FormGroup>
               <FormGroup row>
                 <Col md="6">
@@ -102,8 +107,8 @@ class MoreDetails extends Component {
                   </Input>
                 </Col>
                 <Col md="6">
-                  <Label htmlFor="name">State of Origin</Label>
-                  <Input onChange={(e)=>this.handleFieldChange('origin', e.target.value)} type="text" id="name" placeholder="State of Origin" required="required" defaultValue={this.state.origin}/>
+                  <Label htmlFor="name">Nationality</Label>
+                  <Input onChange={(e)=>this.handleFieldChange('nationality', e.target.value)} type="text" id="name" placeholder="Nationality" required="required" defaultValue={this.state.nationality}/>
                 </Col>
               </FormGroup>
               <FormGroup row>

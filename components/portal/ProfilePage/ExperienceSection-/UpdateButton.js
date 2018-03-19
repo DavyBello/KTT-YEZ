@@ -38,7 +38,7 @@ class SaveButton extends Component {
   }
   render(){
     return(
-      <Button color="primary" onClick={this.save}>Save</Button>
+      <Button color="primary" onClick={this.save}>Update</Button>
     )
   }
 }
@@ -47,9 +47,9 @@ class SaveButton extends Component {
 const gqlWrapper = gql `
 mutation CreateExperience(
   $companyName: String, $role: String, $address: String,
-  $salary: String, $fromYear: String,
+  $salary: String, $fromYear: String, $id: MongoID!,
 ) {
-  addJobExperience(record: {companyName: $companyName, role: $role, address: $address, salary: $salary, from: {month: January, year: $fromYear}}) {
+  updateJobExperience(record: {_id: $id, companyName: $companyName, role: $role, address: $address, salary: $salary, from: {month: January, year: $fromYear}}) {
     recordId
     record{
       _id
@@ -63,9 +63,9 @@ mutation CreateExperience(
 `
 export default (graphql(gqlWrapper, {
   // Use an unambiguous name for use in the `props` section below
-  name: 'addJobExperience',
+  name: 'updateJobExperience',
   // Apollo's way of injecting new props which are passed to the component
-  props: ({ownProps, addJobExperience}) => ({
+  props: ({ownProps, updateJobExperience}) => ({
     // `update` is the name of the prop passed to the component
     update: (data, onComplete) => {
       const removeEmpty = (obj) => {
@@ -76,11 +76,11 @@ export default (graphql(gqlWrapper, {
       };
       removeEmpty(data);
       //console.log(data);
-      addJobExperience({
+      updateJobExperience({
         variables: {
           ...data
         },
-        update: (proxy, { data: { addJobExperience } }) => {
+        /*update: (proxy, { data: { addJobExperience } }) => {
           // Read the data from our cache for this query.
           console.log(addJobExperience);
           const data = proxy.readQuery({ query: ViewerCandidateExperienceQuery });
@@ -93,7 +93,7 @@ export default (graphql(gqlWrapper, {
 
           // Write our data back to the cache.
           proxy.writeQuery({ query: ViewerCandidateExperienceQuery, data });
-        }
+        }*/
         // optimisticResponse: {
         //   __typename: 'Mutation',
         //   addJobExperience: {

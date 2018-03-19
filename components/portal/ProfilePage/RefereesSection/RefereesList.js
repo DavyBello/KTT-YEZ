@@ -15,8 +15,8 @@ import {
       <ListGroupItem>
         <ListGroupItemHeading>{education.school} <i className="float-right text-success icon-check"></i></ListGroupItemHeading>
         <ListGroupItemText>
-          <p style={{marginBottom: '0px'}}><i className="icon-graduation"></i> {education.degree}, {education.field} </p>
-          <p>{education.duration}</p>
+          <p style={{marginBottom: '0px'}}><i className="icon-envelope"></i> {education.degree} </p>
+          <p><i className="icon-phone"></i> {education.field}</p>
         </ListGroupItemText>
       </ListGroupItem>
     ))}
