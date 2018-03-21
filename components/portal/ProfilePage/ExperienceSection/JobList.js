@@ -10,29 +10,41 @@ import {
   CardBody,
   CardFooter,
   ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText,
-  Button
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter
 } from 'reactstrap';
 
 import DetailsModal from './DetailsModal'
+import DeleteButton from './DeleteButton'
 
 class JobList extends Component {
   constructor(props){
     super(props)
     this.state = {
+      showConfirmModal: false,
       modalOpen: false,
       isEmpty: true,
-      selectedjob: {}
+      selectedjob: {},
+      deleteJobId: ''
     }
     this.toggle = this.toggle.bind(this);
+    this.toggleConfirm = this.toggleConfirm.bind(this);
     this.save = this.save.bind(this);
   }
   toggle(job){
-    console.log(job);
+    // console.log(job);
     this.setState({selectedjob: job})
     this.setState({modalOpen: !this.state.modalOpen})
   }
+  toggleConfirm(job){
+    this.setState({deleteJobId: job._id || ''})
+    this.setState({showConfirmModal: !this.state.showConfirmModal})
+  }
   save(){
-    console.log('saving');
+    //console.log('saving');
     setTimeout(()=>this.setState({modalOpen: !this.state.modalOpen}), 2000)
   }
 
@@ -46,7 +58,7 @@ class JobList extends Component {
           <ListGroupItemHeading>{job.role}
             <div className="float-right">
               <Button onClick={()=>this.toggle(job)} className="btn-sm" outline color="primary"><i className="icon-pencil"></i>&nbsp; Edit</Button>
-              {/* {' '}<Button className="btn-sm" outline color="danger"><i className="icon-trash"></i></Button> */}
+              {' '}<Button onClick={()=>this.toggleConfirm(job)} className="btn-sm" outline color="danger"><i className="icon-trash"></i></Button>
             </div>
           </ListGroupItemHeading>
           <div>
@@ -57,6 +69,15 @@ class JobList extends Component {
         </ListGroupItem>
       ))}
       <DetailsModal isOpen={this.state.modalOpen} toggle={this.toggle} save={this.save} experience={this.state.selectedjob}/>
+      <Modal isOpen={this.state.showConfirmModal} toggle={()=>this.toggleConfirm({})} className='modal-md modal-info' centered={true}>
+        <ModalBody className="text-center">
+          <p className={'h5'}>Are you sure you want to delete this experience?</p>
+        </ModalBody>
+        <ModalFooter>
+          <DeleteButton details={{id: this.state.deleteJobId}} toggleConfirm={()=>this.toggleConfirm({})}/>
+          <Button color="secondary" onClick={this.toggleConfirm}>No thanks</Button>
+        </ModalFooter>
+      </Modal>
     </ListGroup>
    )
   }
@@ -72,8 +93,14 @@ class JobList extends Component {
           _id
           companyName
           role
+          fromYear
+          fromMonth
+          toYear
+          toMonth
           address
           salary
+          duration
+          isWorkingHere
          }
        }
      }

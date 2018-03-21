@@ -20,6 +20,7 @@ import {
   ModalBody,
   ModalFooter
 } from 'reactstrap'
+import MaskedInput from 'react-text-mask'
 
 import SaveButton from './SaveButton'
 import UpdateButton from './UpdateButton'
@@ -27,36 +28,66 @@ import UpdateButton from './UpdateButton'
 export default class DetailsModal extends Component{
   constructor(props) {
     super(props)
+    let year = new Date().getFullYear();
+    var years = [];
+    for (var i = 0; i < 65; i++) {
+      years.push(year);
+      year = year - 1;
+    }
     this.state = {
       id: '',
       role: '',
       companyName: '',
       address: '',
-      fromMonth: '',
+      fromMonth: 'February',
       fromYear:  '',
       toMonth: '',
       toYear: '',
       salary: '',
-      isWorking: false,
-      details: {}
+      isWorkingHere: false,
+      details: {},
+      months: ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"],
+      years: years
     }
     this.handleFieldChange = this.handleFieldChange.bind(this);
+    this.toggleCheck = this.toggleCheck.bind(this);
+    this.updateDetails = this.updateDetails.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps){
+    const {experience = {}} = nextProps;
+    this.setState({
+      ...experience,
+      id: experience._id || null
+    })
+    this.setState({details : {...experience, id: experience._id || null}})
   }
 
   handleFieldChange(field, value){
     //console.log(this.state);
+    //console.log('this.state');
+    this.setState({[field]: value});
+    this.updateDetails(field, value);
+
+  }
+  toggleCheck(){
+    //console.log('toggling');
+    const _isWorkingHere = !this.state.isWorkingHere;
+    this.setState({isWorkingHere: _isWorkingHere})
+    this.updateDetails('isWorkingHere', _isWorkingHere);
+  }
+  updateDetails(field, value){
     const details = this.state;
     delete details.details;
     details[field] = value;
-    this.setState({[field]: value});
     this.setState({details: this.state});
   }
 
   render(){
-  const {experience = {}} = this.props
-  this.state.details = {...experience, id: experience._id || null}
   //this.state.details.id = experience._id || null;
-  console.log(this.state.details);
+  const {experience = {}} = this.props
+  //console.log(this.state.details);
     return(
       <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} className='modal-lg modal-info'>
         <ModalHeader toggle={this.props.toggle}>Add Experience</ModalHeader>
@@ -77,15 +108,30 @@ export default class DetailsModal extends Component{
             <FormGroup row>
               <Col md="6">
                 <Label htmlFor="name">From</Label>
-                <Input onChange={(e)=>this.handleFieldChange('fromMonth', e.target.value)} defaultValue={experience.fromMonth} style={{marginBottom: '10px'}} type="text" id="name" placeholder="Month" required/>
-                <Input onChange={(e)=>this.handleFieldChange('fromYear', e.target.value)} defaultValue={experience.fromYear} type="text" id="name" placeholder="Year" required/>
+                <Input onChange={(e)=>this.handleFieldChange('fromMonth', e.target.value)} type="select" id="name" style={{marginBottom: '10px'}} placeholder="Month"  required defaultValue={experience.fromMonth}>
+                  {this.state.months.map((month, i)=><option key={i}>{month}</option>)}
+                </Input>
+                <Input onChange={(e)=>this.handleFieldChange('fromYear', e.target.value)} type="select" id="name" style={{marginBottom: '10px'}} placeholder="Year"  required defaultValue={experience.fromYear}>
+                  {this.state.years.map((year, i)=><option key={i}>{year}</option>)}
+                </Input>
               </Col>
-              <Col md="6">
-                <Label htmlFor="name">To</Label>
-                <Input onChange={(e)=>this.handleFieldChange('toMonth', e.target.value)} defaultValue={experience.toMonth} style={{marginBottom: '10px'}} type="text" id="name" placeholder="Month" required/>
-                <Input onChange={(e)=>this.handleFieldChange('toYear', e.target.value)} defaultValue={experience.toYear} type="text" id="name" placeholder="Year" required/>
-              </Col>
+              {(!this.state.isWorkingHere) && (
+                <Col md="6">
+                  <Label htmlFor="name">To</Label>
+                  <Input onChange={(e)=>this.handleFieldChange('toMonth', e.target.value)} type="select" id="name" style={{marginBottom: '10px'}} placeholder="Month"  required defaultValue={experience.toMonth}>
+                    {this.state.months.map((month, i)=><option key={i}>{month}</option>)}
+                  </Input>
+                  <Input onChange={(e)=>this.handleFieldChange('toYear', e.target.value)} type="select" id="name" style={{marginBottom: '10px'}} placeholder="Year"  required defaultValue={experience.toYear}>
+                    {this.state.years.map((year, i)=><option key={i}>{year}</option>)}
+                  </Input>
+                </Col>
+              )}
             </FormGroup>
+            <FormGroup check className="checkbox">
+              <Input className="form-check-input" type="checkbox" id="checkbox1" name="checkbox1" checked={this.state.isWorkingHere} onClick={this.toggleCheck}/>
+              <Label check className="form-check-label" htmlFor="checkbox1">Currently working here</Label>
+            </FormGroup>
+            <br />
             <FormGroup>
               <Label htmlFor="name">Salary (optional)</Label>
               <InputGroup>

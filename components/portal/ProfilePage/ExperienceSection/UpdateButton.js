@@ -14,6 +14,7 @@ class SaveButton extends Component {
 
   save = () => {
     console.log(this.props.details)
+    console.log('this.props.details')
     this.props.update(this.props.details,()=>{
       //function runs if update is sucessfull
       const toastStyle = {
@@ -47,17 +48,31 @@ class SaveButton extends Component {
 
 const gqlWrapper = gql `
 mutation CreateExperience(
-  $companyName: String, $role: String, $address: String,
-  $salary: String, $fromYear: String, $id: MongoID!,
+  $id: MongoID!, $companyName: String, $role: String, $address: String,
+  $salary: String, $isWorkingHere: Boolean,
+  $fromYear: String, $fromMonth: EnumJobExperienceFromMonth,
+  $toYear: String, $toMonth: EnumJobExperienceToMonth,
 ) {
-  updateJobExperience(record: {_id: $id, companyName: $companyName, role: $role, address: $address, salary: $salary, from: {month: January, year: $fromYear}}) {
+  updateJobExperience(record: {
+    _id: $id, companyName: $companyName,
+    role: $role, address: $address,
+    salary: $salary, isWorkingHere: $isWorkingHere,
+    fromMonth: $fromMonth, fromYear: $fromYear
+    toMonth: $toMonth, toYear: $toYear
+    }) {
     recordId
     record{
       _id
       companyName
       role
+      fromYear
+      fromMonth
+      toYear
+      toMonth
       address
       salary
+      duration
+      isWorkingHere
     }
   }
 }
@@ -76,7 +91,8 @@ export default (graphql(gqlWrapper, {
         });
       };
       removeEmpty(data);
-      //console.log(data);
+      // console.log('data');
+      // console.log(data);
       updateJobExperience({
         variables: {
           ...data

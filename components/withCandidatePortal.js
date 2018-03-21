@@ -105,11 +105,17 @@ export default function withLayout(Child, opts) {
             country
           }
           experience{
-           _id
-           companyName
-           role
-           address
-           salary
+            _id
+            companyName
+            role
+            fromYear
+            fromMonth
+            toYear
+            toMonth
+            address
+            salary
+            duration
+            isWorkingHere
           }
           bvn
           nationality

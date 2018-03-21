@@ -7270,6 +7270,12 @@ react-text-marquee@^1.0.1:
   dependencies:
     prop-types "^15.5.8"
 
+react-text-mask@^5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/react-text-mask/-/react-text-mask-5.2.0.tgz#45afaaf4b69f227d94382d89ea0a87a673b997c3"
+  dependencies:
+    prop-types "^15.5.6"
+
 react-toastify@^3.1.0:
   version "3.3.5"
   resolved "https://registry.yarnpkg.com/react-toastify/-/react-toastify-3.3.5.tgz#ea851e688910431105d93444683f49d6b71749dc"

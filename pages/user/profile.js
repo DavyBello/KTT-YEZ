@@ -52,16 +52,16 @@ class Page extends Component {
 
 // export default Page
 // export default withCandidatePortal(Page)
-
+//Add $address: String,
 const gqlWrapper = gql `
 mutation UpdateCandidate(
   $id: MongoID!, $email: String, $username: String, $bvn: String,
-  $address: String, $nationality: String,
+  $nationality: String,
   $stateOfOrigin: String, $dateOfBirth: Date, $placeOfBirth: String
 ) {
   candidateUpdateById (record: {
     _id: $id, email: $email, username: $username, bvn: $bvn,
-    address :$address, nationality :$nationality,
+    nationality :$nationality,
     stateOfOrigin :$stateOfOrigin, dateOfBirth :$dateOfBirth, placeOfBirth :$placeOfBirth
   }){
     recordId
@@ -86,8 +86,14 @@ mutation UpdateCandidate(
        _id
        companyName
        role
+       fromYear
+       fromMonth
+       toYear
+       toMonth
        address
        salary
+       duration
+       isWorkingHere
       }
       bvn
       nationality

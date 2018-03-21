@@ -9,11 +9,11 @@ class Page extends Component {
       firstName: '',
       lastName: '',
       password: '',
-      confirmPassword: '',
+      confirmPassword: 'aa',
       displayError: '',
       errorMessage: '',
       messageType: '',
-      valid: null
+      proceed: false
     }
 
     this.handleFieldChange = this.handleFieldChange.bind(this)
@@ -24,59 +24,60 @@ class Page extends Component {
     this.setState({[field]: value});
   }
 
-  handleConfirmPasswordChange = (field, value) => {
-    //console.log(field + value);
+  doCheck(){
     let password = this.state.password;
     let confirmPassword = this.state.confirmPassword;
+    console.log(password);
+    console.log(confirmPassword);
+  }
+
+  handleConfirmPasswordChange = (field, value) => {
+    this.setState({[field]: value});
     if (field==='password') {
-      this.setState({password: value});
-      // if (confirmPassword.length < password.length)
-      //   this.setState({valid: false});
       password = value
     }
     if (field==='confirmPassword') {
-      this.setState({confirmPassword: value});
       confirmPassword = value
     }
-    if (confirmPassword.length >= password.length) {
+    if (confirmPassword.length === password.length) {
+      console.log('a');
       if (confirmPassword==password){
-        // console.log('match');
+        console.log('match');
         this.setState({
-          valid: true,
+          messageType: 'success',
           errorMessage: 'match',
         });
       } else {
-        // console.log('misMatch');
+        console.log('misMatch');
         this.setState({
-          valid: false,
+          messageType: 'error',
           errorMessage: 'not a match',
         });
       }
     } else {
+      console.log('b');
       this.setState({
-        valid: (field==='password'&&confirmPassword)? false : null,
         messageType: '',
         errorMessage: '',
       });
     }
   };
 
-  doRegister = (e) => {
-    console.log('registering candidate');
-    e.preventDefault()
-    e.stopPropagation()
-
-    if (this.state.proceed) {
-      this.props.register({
-        firstName: this.state.firstName,
-        lastName: this.state.lastName,
-        password: this.state.password
-      })
-    }
-  }
-
   render(){
     //console.log('this.props');
+    const doRegister = (e) => {
+      console.log('registering candidate');
+      e.preventDefault()
+      e.stopPropagation()
+
+      if (this.state.proceed) {
+        this.props.register({
+          firstName: this.state.firstName,
+          lastName: this.state.lastName,
+          password: this.state.password
+        })
+      }
+    }
     return (
       <div className="app flex-row align-items-center">
         <Container>
@@ -118,8 +119,9 @@ class Page extends Component {
                         </InputGroupText>
                       </InputGroupAddon>
                       <Input
-                        onChange={(e)=>this.handleConfirmPasswordChange('confirmPassword', e.target.value)}
-                        valid={this.state.valid}
+                        onChange={(e)=>this.handleConfirmPasswordChange('invalidPassword', e.target.value)}
+                        valid={(this.state.messageType==='success')?true:null}
+                        inValid={(this.state.messageType==='error')?true:null}
                         type="password" placeholder="Repeat password"/>
                     </InputGroup>
                     <Button color="success" block>Create Account</Button>
