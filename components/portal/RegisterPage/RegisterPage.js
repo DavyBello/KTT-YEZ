@@ -122,7 +122,7 @@ class Page extends Component {
                         valid={this.state.valid}
                         type="password" placeholder="Repeat password"/>
                     </InputGroup>
-                    <Button color="success" block>Create Account</Button>
+                    <Button type="submit" color="success" block>Create Account</Button>
                   </Form>
                 </CardBody>
                 {/* <CardFooter className="p-4">

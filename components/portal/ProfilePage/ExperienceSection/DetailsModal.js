@@ -91,7 +91,7 @@ export default class DetailsModal extends Component{
     return(
       <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} className='modal-lg modal-info'>
         <ModalHeader toggle={this.props.toggle}>Add Experience</ModalHeader>
-        <Form action="" method="post" encType="multipart/form-data" className="form-horizontal">
+        <Form encType="multipart/form-data" className="form-horizontal">
         <ModalBody>
             <FormGroup>
               <Label htmlFor="name">Role/Position</Label>
@@ -150,7 +150,7 @@ export default class DetailsModal extends Component{
           ) : (
             <UpdateButton details={this.state.details} close={this.props.toggle}/>
           )}{' '}
-          <Button color="secondary" onClick={this.props.toggle}>Cancel</Button>
+          <Button tyoe="reset" color="secondary" onClick={this.props.toggle}>Cancel</Button>
         </ModalFooter>
       </Form>
       </Modal>

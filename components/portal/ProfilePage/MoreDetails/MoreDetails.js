@@ -82,6 +82,7 @@ class MoreDetails extends Component {
 
     const user = this.props.user || {};
     return (
+      <Form action="" method="post" encType="multipart/form-data" className="form-horizontal">
       <Card>
         <CardBody >
           <Row>
@@ -92,7 +93,6 @@ class MoreDetails extends Component {
           <hr/>
           <Row>
             <Col sm="12">
-              <Form action="" method="post" encType="multipart/form-data" className="form-horizontal">
               <FormGroup>
                 <Label htmlFor="name">Address</Label>
                 <Input onChange={(e)=>this.handleFieldChange('address', e.target.value)} type="text" id="name" placeholder="House address" required="required" defaultValue={this.state.address.state}/>
@@ -121,7 +121,6 @@ class MoreDetails extends Component {
                   <Input onChange={(e)=>this.handleFieldChange('pob', e.target.value)} type="text" id="name" placeholder="Place of Birth"  required="required" defaultValue={this.state.pob}/>
                 </Col>
               </FormGroup>
-            </Form>
           </Col>
         </Row>
       </CardBody>
@@ -131,6 +130,7 @@ class MoreDetails extends Component {
           Update Details</Button>
         </CardFooter>
       </Card>
+    </Form>
     )
   }
 }

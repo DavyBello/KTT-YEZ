@@ -76,7 +76,9 @@ class ProfileSection extends Component {
 
     const user = this.props.user || {};
 
-    return (<Card>
+    return (
+      <Form action="" method="post" encType="multipart/form-data" className="form-horizontal">
+      <Card>
       <CardBody >
         <Row>
           <Col sm="5">
@@ -86,7 +88,6 @@ class ProfileSection extends Component {
         <hr/>
         <Row>
           <Col sm="12">
-            <Form action="" method="post" encType="multipart/form-data" className="form-horizontal">
               <FormGroup row>
                 <Col md="6">
                   <Label htmlFor="name">First Name</Label>
@@ -111,7 +112,6 @@ class ProfileSection extends Component {
                   <Input type="text" id="name" placeholder="Username" required="required" defaultValue={this.state.username} onChange={this.handleUsernameChange}/>
                 </Col>
               </FormGroup>
-            </Form>
           </Col>
         </Row>
       </CardBody>
@@ -120,7 +120,9 @@ class ProfileSection extends Component {
           <i className="fa fa-dot-circle-o"></i>
           Update Profile</Button>
       </CardFooter>
-    </Card>)
+    </Card>
+    </Form>
+  )
   }
 }
 
