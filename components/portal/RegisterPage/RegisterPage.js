@@ -1,6 +1,14 @@
 import {Component} from 'react'
 //import Router from 'next/router'
-import {Container, Form, Row, Col, Card, CardBody, CardFooter, Button, Input, InputGroup, InputGroupAddon, InputGroupText} from 'reactstrap';
+import {
+  Container, Form, Row, Col,
+  Card, CardBody, CardFooter,
+  Button, Input, InputGroup,
+  InputGroupAddon, InputGroupText,
+  Modal, ModalBody, ModalFooter,
+  ModalHeader
+} from 'reactstrap';
+import { ToastContainer, toast } from 'react-toastify';
 
 class Page extends Component {
   constructor(props){
@@ -8,16 +16,19 @@ class Page extends Component {
     this.state = {
       firstName: '',
       lastName: '',
+      phone: '',
       password: '',
       confirmPassword: '',
       displayError: '',
       errorMessage: '',
       messageType: '',
+      showConfirmModal: false,
       valid: null
     }
 
     this.handleFieldChange = this.handleFieldChange.bind(this)
     this.handleConfirmPasswordChange = this.handleConfirmPasswordChange.bind(this)
+    this.toggleConfirm = this.toggleConfirm.bind(this)
   }
 
   handleFieldChange(field, value){
@@ -61,6 +72,11 @@ class Page extends Component {
     }
   };
 
+  toggleConfirm(){
+    //this.setState({deleteJobId: job._id || ''})
+    this.setState({showConfirmModal: !this.state.showConfirmModal})
+  }
+
   doRegister = (e) => {
     console.log('registering candidate');
     e.preventDefault()
@@ -70,7 +86,22 @@ class Page extends Component {
       this.props.register({
         firstName: this.state.firstName,
         lastName: this.state.lastName,
+        phone: this.state.phone,
         password: this.state.password
+      },()=>{
+        //function runs if update is sucessfull
+        const toastStyle = {
+          className: {
+            fontSize: '0.875rem',
+            fontWeight: '500',
+            lineHeight: '1.5',
+            background: "#4dbd74",
+            color: "white"
+          },progressClassName: {
+            background: "#3a9d5d"
+          }
+        }
+        toast("Your Profile Details have been updated", {...toastStyle});
       })
     }
   }
@@ -79,6 +110,7 @@ class Page extends Component {
     //console.log('this.props');
     return (
       <div className="app flex-row align-items-center">
+        <ToastContainer />
         <Container>
           <Row className="justify-content-center">
             <Col md="6">
@@ -106,6 +138,14 @@ class Page extends Component {
                     <InputGroup className="mb-3">
                       <InputGroupAddon addonType="prepend">
                         <InputGroupText>
+                          <i className="icon-phone"></i>
+                        </InputGroupText>
+                      </InputGroupAddon>
+                      <Input onChange={(e)=>this.handleFieldChange('phone', e.target.value)} type="text" placeholder="Phone no."/>
+                    </InputGroup>
+                    <InputGroup className="mb-3">
+                      <InputGroupAddon addonType="prepend">
+                        <InputGroupText>
                           <i className="icon-lock"></i>
                         </InputGroupText>
                       </InputGroupAddon>
@@ -122,7 +162,7 @@ class Page extends Component {
                         valid={this.state.valid}
                         type="password" placeholder="Repeat password"/>
                     </InputGroup>
-                    <Button type="submit" color="success" block>Create Account</Button>
+                    <Button onClick={this.toggleConfirm} color="success" block>Create Account</Button>
                   </Form>
                 </CardBody>
                 {/* <CardFooter className="p-4">
@@ -138,6 +178,19 @@ class Page extends Component {
               </Card>
             </Col>
           </Row>
+          <Modal isOpen={this.state.showConfirmModal} toggle={()=>this.toggleConfirm({})} className='modal-md modal-info' centered={true}>
+            <ModalBody className="text-center">
+              <p className='display-4 text-primary' style={{fontSize: '1.6rem'}}>Take a second to confirm your details</p>
+              <hr />
+              <div className='display-4' style={{fontSize: '1.5rem'}}><i className="icon-user text-primary"></i> {`${this.state.lastName} ${this.state.firstName}`}</div>
+              <div className='display-4' style={{fontSize: '1.5rem'}}><i className="icon-phone text-primary"></i> {this.state.phone}</div>
+            </ModalBody>
+            <ModalFooter>
+              {/* <DeleteButton details={{id: this.state.deleteJobId}} toggleConfirm={()=>this.toggleConfirm({})}/> */}
+              <Button color="primary" onClick={this.toggleConfirm}>Ok I'm Sure</Button>
+              <Button color="danger" onClick={this.toggleConfirm}>Cancel</Button>
+            </ModalFooter>
+          </Modal>
         </Container>
       </div>
     )
