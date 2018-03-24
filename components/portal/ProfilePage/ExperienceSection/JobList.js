@@ -71,7 +71,7 @@ class JobList extends Component {
       <DetailsModal isOpen={this.state.modalOpen} toggle={this.toggle} save={this.save} experience={this.state.selectedjob}/>
       <Modal isOpen={this.state.showConfirmModal} toggle={()=>this.toggleConfirm({})} className='modal-md modal-info' centered={true}>
         <ModalBody className="text-center">
-          <p className={'h5'}>Are you sure you want to delete this experience?</p>
+          <p className={'display-4'}>Are you sure you want to delete this experience?</p>
         </ModalBody>
         <ModalFooter>
           <DeleteButton details={{id: this.state.deleteJobId}} toggleConfirm={()=>this.toggleConfirm({})}/>
