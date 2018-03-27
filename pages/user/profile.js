@@ -56,12 +56,12 @@ class Page extends Component {
 const gqlWrapper = gql `
 mutation UpdateCandidate(
   $id: MongoID!, $email: String, $username: String, $bvn: String,
-  $nationality: String,
+  $nationality: String, $gender: EnumCandidateGender, $stateOfResidence: EnumCandidateStateOfResidence,
   $stateOfOrigin: String, $dateOfBirth: Date, $placeOfBirth: String
 ) {
   candidateUpdateById (record: {
     _id: $id, email: $email, username: $username, bvn: $bvn,
-    nationality :$nationality,
+    nationality: $nationality, gender: $gender, stateOfResidence :$stateOfResidence,
     stateOfOrigin :$stateOfOrigin, dateOfBirth :$dateOfBirth, placeOfBirth :$placeOfBirth
   }){
     recordId
@@ -82,6 +82,7 @@ mutation UpdateCandidate(
         postcode
         country
       }
+      stateOfResidence
       experience{
        _id
        companyName
@@ -147,7 +148,21 @@ export default withCandidatePortal(graphql(gqlWrapper, {
             background: '#f5302e'
           }
         }
-        toast("Something Went Wrong", {...toastStyle});
+        if (error.graphQLErrors.length==0)
+          toast("Something Went Wrong With your request", {...toastStyle});
+
+        error.graphQLErrors.forEach(error=>{
+          switch(error.message) {
+            case `E11000 duplicate key error collection: ktt-backend.candidates index: username_1 dup key: { : "${data.username}" }`:
+            toast("This Username is taken", {...toastStyle});
+            break;
+            case `E11000 duplicate key error collection: ktt-backend.candidates index: email_1 dup key: { : "${data.email}" }`:
+            toast("This Email is taken", {...toastStyle});
+            break;
+            default:
+            toast("Something Went Wrong", {...toastStyle});
+          }
+        })
       })
     }
   })

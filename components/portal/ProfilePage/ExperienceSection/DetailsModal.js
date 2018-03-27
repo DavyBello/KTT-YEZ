@@ -59,7 +59,8 @@ export default class DetailsModal extends Component{
     const {experience = {}} = nextProps;
     this.setState({
       ...experience,
-      id: experience._id || null
+      id: experience._id || null,
+      isWorkingHere: experience.isWorkingHere || false
     })
     this.setState({details : {...experience, id: experience._id || null}})
   }

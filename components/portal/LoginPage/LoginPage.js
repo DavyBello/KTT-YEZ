@@ -1,5 +1,5 @@
 import {Component} from 'react'
-//import Router from 'next/router'
+import Link from 'next/link'
 
 import {Container, Row, Col, CardGroup, Card, CardBody, Button, Input, InputGroup, InputGroupAddon, InputGroupText, Form } from 'reactstrap';
 
@@ -87,7 +87,9 @@ class Page extends Component {
                       <h2>Sign up</h2>
                       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
                         labore et dolore magna aliqua.</p>
-                      <Button color="primary" className="mt-3" active>Register Now!</Button>
+                      <Link href="/user/register">
+                        <Button color="primary" className="mt-3" active>Register Now!</Button>
+                      </Link>
                     </div>
                   </CardBody>
                 </Card>

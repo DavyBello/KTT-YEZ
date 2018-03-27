@@ -21,17 +21,17 @@ class ProfileSection extends Component {
     this.state = {
       email: props.user.email || '',
       username: props.user.username || '',
+      emailValid: null
     }
   }
 
   handleEmailChange = (event) => {
-    const newState = {
-      email: event.target.value
-    };
-    // if (this.state.displayError) {
-    //   newState.displayError = false
-    // }
-    this.setState(newState);
+    const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (EMAIL_REGEX.test(String(event.target.value).toLowerCase())){
+      this.setState({email: event.target.value, emailValid: true});
+    } else {
+      this.setState({emailValid: false});
+    }
   };
 
   handleUsernameChange = (event) => {
@@ -53,25 +53,40 @@ class ProfileSection extends Component {
       e.preventDefault()
       e.stopPropagation()
 
-      this.props.update({
-        id: this.props.user._id,
-        email: this.state.email,
-        username: this.state.username
-      },()=>{
-        //function runs if update is sucessfull
+      if (this.state.emailValid){
+        this.props.update({
+          id: this.props.user._id,
+          email: this.state.email,
+          username: this.state.username
+        },()=>{
+          //function runs if update is sucessfull
+          const toastStyle = {
+            className: {
+              fontSize: '0.875rem',
+              fontWeight: '500',
+              lineHeight: '1.5',
+              background: "#4dbd74",
+              color: "white"
+            },progressClassName: {
+              background: "#3a9d5d"
+            }
+          }
+          toast("Your Profile Details have been updated", {...toastStyle});
+        })
+      } else {
         const toastStyle = {
           className: {
             fontSize: '0.875rem',
             fontWeight: '500',
             lineHeight: '1.5',
-            background: "#4dbd74",
+            background: '#f86c6b',
             color: "white"
           },progressClassName: {
-            background: "#3a9d5d"
+            background: '#f5302e'
           }
         }
-        toast("Your Profile Details have been updated", {...toastStyle});
-      })
+        toast("Not succesful: Please Validate your inputs", {...toastStyle});
+      }
     }
 
     const user = this.props.user || {};
@@ -91,25 +106,25 @@ class ProfileSection extends Component {
               <FormGroup row>
                 <Col md="6">
                   <Label htmlFor="name">First Name</Label>
-                  <Input type="text" id="name" disabled="disabled" placeholder="First name" required="required" value={user.name.first}/>
+                  <Input type="text" id="name" disabled="disabled" placeholder="First name" required value={user.name.first}/>
                 </Col>
                 <Col md="6">
                   <Label htmlFor="name">Last Name</Label>
-                  <Input type="text" id="name" disabled="disabled" placeholder="Last name" required="required" value={user.name.last}/>
+                  <Input type="text" id="name" disabled="disabled" placeholder="Last name" required value={user.name.last}/>
                 </Col>
               </FormGroup>
               <FormGroup>
                 <Label htmlFor="name">Email</Label>
-                <Input type="text" id="name" placeholder="Email address" required="required" defaultValue={this.state.email} onChange={this.handleEmailChange}/>
+                <Input valid={this.state.emailValid} type="email" id="name" placeholder="Email address" required defaultValue={this.state.email} onChange={this.handleEmailChange}/>
               </FormGroup>
               <FormGroup row>
                 <Col md="6">
                   <Label htmlFor="name">Phone</Label>
-                  <Input type="text" id="name" disabled="disabled" placeholder="Phone number" required="required" value={user.phone}/>
+                  <Input type="text" id="name" disabled="disabled" placeholder="Phone number" required value={user.phone}/>
                 </Col>
                 <Col md="6">
                   <Label htmlFor="name">Username</Label>
-                  <Input type="text" id="name" placeholder="Username" required="required" defaultValue={this.state.username} onChange={this.handleUsernameChange}/>
+                  <Input type="text" id="name" placeholder="Username" required defaultValue={this.state.username} onChange={this.handleUsernameChange}/>
                 </Col>
               </FormGroup>
           </Col>

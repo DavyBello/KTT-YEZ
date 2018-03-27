@@ -104,6 +104,7 @@ export default function withLayout(Child, opts) {
             postcode
             country
           }
+          stateOfResidence
           experience{
             _id
             companyName

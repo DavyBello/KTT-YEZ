@@ -10,6 +10,8 @@ import {
 } from 'reactstrap';
 import { ToastContainer, toast } from 'react-toastify';
 
+const PHONE_REGEX = new RegExp("^[0][0-9]\\d{9}$");
+
 class Page extends Component {
   constructor(props){
     super(props)
@@ -23,49 +25,63 @@ class Page extends Component {
       errorMessage: '',
       messageType: '',
       showConfirmModal: false,
-      valid: null
+      passwordValid: null,
+      confirmPasswordValid: null,
+      phoneValid: null,
+      firstNameValid: null,
+      lastNameValid: null,
     }
 
     this.handleFieldChange = this.handleFieldChange.bind(this)
     this.handleConfirmPasswordChange = this.handleConfirmPasswordChange.bind(this)
     this.toggleConfirm = this.toggleConfirm.bind(this)
+    this.showConfirmModal = this.showConfirmModal.bind(this)
   }
 
   handleFieldChange(field, value){
+    if (field==='phone'){
+      if (PHONE_REGEX.test(value)){
+        this.setState({phoneValid: true});
+      } else {
+        this.setState({phoneValid: false});
+      }
+    }
+    if (field==='firstName' && this.state.firstNameValid===false){
+      this.setState({firstNameValid: null});
+    }
+    if (field==='lastName' && this.state.lastNameValid===false){
+      this.setState({lastNameValid: null});
+    }
     this.setState({[field]: value});
   }
 
   handleConfirmPasswordChange = (field, value) => {
-    //console.log(field + value);
     let password = this.state.password;
     let confirmPassword = this.state.confirmPassword;
     if (field==='password') {
+      (this.state.passwordValid===false) && this.setState({passwordValid: null});
       this.setState({password: value});
-      // if (confirmPassword.length < password.length)
-      //   this.setState({valid: false});
       password = value
     }
     if (field==='confirmPassword') {
       this.setState({confirmPassword: value});
       confirmPassword = value
     }
-    if (confirmPassword.length >= password.length) {
+    if (confirmPassword.length >= password.length && password.length > 0 && confirmPassword.length > 0) {
       if (confirmPassword==password){
-        // console.log('match');
         this.setState({
-          valid: true,
+          confirmPasswordValid: true,
           errorMessage: 'match',
         });
       } else {
-        // console.log('misMatch');
         this.setState({
-          valid: false,
+          confirmPasswordValid: false,
           errorMessage: 'not a match',
         });
       }
     } else {
       this.setState({
-        valid: (field==='password'&&confirmPassword)? false : null,
+        confirmPasswordValid: (field==='password'&&confirmPassword)? false : null,
         messageType: '',
         errorMessage: '',
       });
@@ -77,33 +93,65 @@ class Page extends Component {
     this.setState({showConfirmModal: !this.state.showConfirmModal})
   }
 
+  showConfirmModal(){
+    //this.setState({deleteJobId: job._id || ''})
+    if (this.state.confirmPasswordValid && this.state.phoneValid && this.state.firstName && this.state.lastName) {
+      this.setState({showConfirmModal: true})
+    } else {
+      if (!this.state.confirmPasswordValid) {
+        this.setState({confirmPasswordValid: false})
+      }
+      if (!this.state.password){
+        this.setState({passwordValid: false})
+      }
+      if (!this.state.phoneValid) {
+        this.setState({phoneValid: false})
+      }
+      if (!this.state.firstName) {
+        this.setState({firstNameValid: false})
+      }
+      if (!this.state.lastName) {
+        this.setState({lastNameValid: false})
+      }
+      const toastStyle = {
+        className: {
+          fontSize: '0.875rem',
+          fontWeight: '500',
+          lineHeight: '1.5',
+          background: '#f86c6b',
+          color: "white"
+        },progressClassName: {
+          background: '#f5302e'
+        }
+      }
+      toast("Your Inputs are not valid", {...toastStyle});
+    }
+  }
+
   doRegister = (e) => {
-    console.log('registering candidate');
     e.preventDefault()
     e.stopPropagation()
 
-    if (this.state.proceed) {
-      this.props.register({
-        firstName: this.state.firstName,
-        lastName: this.state.lastName,
-        phone: this.state.phone,
-        password: this.state.password
-      },()=>{
-        //function runs if update is sucessfull
-        const toastStyle = {
-          className: {
-            fontSize: '0.875rem',
-            fontWeight: '500',
-            lineHeight: '1.5',
-            background: "#4dbd74",
-            color: "white"
-          },progressClassName: {
-            background: "#3a9d5d"
-          }
+    this.props.signUp({
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      phone: this.state.phone,
+      password: this.state.password
+    },()=>{
+      //function runs if update is sucessfull
+      const toastStyle = {
+        className: {
+          fontSize: '0.875rem',
+          fontWeight: '500',
+          lineHeight: '1.5',
+          background: "#4dbd74",
+          color: "white"
+        },progressClassName: {
+          background: "#3a9d5d"
         }
-        toast("Your Profile Details have been updated", {...toastStyle});
-      })
-    }
+      }
+      toast("Yay! Hold on while we create your portal", {...toastStyle});
+    })
   }
 
   render(){
@@ -125,7 +173,7 @@ class Page extends Component {
                           <i className="icon-user"></i>
                         </InputGroupText>
                       </InputGroupAddon>
-                      <Input onChange={(e)=>this.handleFieldChange('firstName', e.target.value)} type="text" placeholder="First Name"/>
+                      <Input valid={this.state.firstNameValid} onChange={(e)=>this.handleFieldChange('firstName', e.target.value)} type="text" placeholder="First Name"/>
                     </InputGroup>
                     <InputGroup className="mb-3">
                       <InputGroupAddon addonType="prepend">
@@ -133,7 +181,7 @@ class Page extends Component {
                           <i className="icon-user"></i>
                         </InputGroupText>
                       </InputGroupAddon>
-                      <Input onChange={(e)=>this.handleFieldChange('lastName', e.target.value)} type="text" placeholder="Last Name"/>
+                      <Input valid={this.state.lastNameValid} onChange={(e)=>this.handleFieldChange('lastName', e.target.value)} type="text" placeholder="Last Name"/>
                     </InputGroup>
                     <InputGroup className="mb-3">
                       <InputGroupAddon addonType="prepend">
@@ -141,7 +189,9 @@ class Page extends Component {
                           <i className="icon-phone"></i>
                         </InputGroupText>
                       </InputGroupAddon>
-                      <Input onChange={(e)=>this.handleFieldChange('phone', e.target.value)} type="text" placeholder="Phone no."/>
+                      <Input onChange={(e)=>this.handleFieldChange('phone', e.target.value)} type="text" placeholder="Phone no."
+                        valid={this.state.phoneValid}
+                      />
                     </InputGroup>
                     <InputGroup className="mb-3">
                       <InputGroupAddon addonType="prepend">
@@ -149,7 +199,7 @@ class Page extends Component {
                           <i className="icon-lock"></i>
                         </InputGroupText>
                       </InputGroupAddon>
-                      <Input onChange={(e)=>this.handleConfirmPasswordChange('password', e.target.value)} type="password" placeholder="Password"/>
+                      <Input valid={this.state.passwordValid} onChange={(e)=>this.handleConfirmPasswordChange('password', e.target.value)} type="password" placeholder="Password"/>
                     </InputGroup>
                     <InputGroup className="mb-4">
                       <InputGroupAddon addonType="prepend">
@@ -159,10 +209,10 @@ class Page extends Component {
                       </InputGroupAddon>
                       <Input
                         onChange={(e)=>this.handleConfirmPasswordChange('confirmPassword', e.target.value)}
-                        valid={this.state.valid}
+                        valid={this.state.confirmPasswordValid}
                         type="password" placeholder="Repeat password"/>
                     </InputGroup>
-                    <Button onClick={this.toggleConfirm} color="success" block>Create Account</Button>
+                    <Button onClick={this.showConfirmModal} color="success" block>Create Account</Button>
                   </Form>
                 </CardBody>
                 {/* <CardFooter className="p-4">
@@ -182,12 +232,16 @@ class Page extends Component {
             <ModalBody className="text-center">
               <p className='display-4 text-primary' style={{fontSize: '1.6rem'}}>Take a second to confirm your details</p>
               <hr />
-              <div className='display-4' style={{fontSize: '1.5rem'}}><i className="icon-user text-primary"></i> {`${this.state.lastName} ${this.state.firstName}`}</div>
-              <div className='display-4' style={{fontSize: '1.5rem'}}><i className="icon-phone text-primary"></i> {this.state.phone}</div>
+              <div className='display-4' style={{fontSize: '1.5rem'}}>
+                <i className="icon-user text-primary"></i> {`${this.state.lastName} ${this.state.firstName}`}
+              </div>
+              <div className='display-4' style={{fontSize: '1.5rem'}}>
+                <i className="icon-phone text-primary"></i> {this.state.phone}
+              </div>
             </ModalBody>
             <ModalFooter>
               {/* <DeleteButton details={{id: this.state.deleteJobId}} toggleConfirm={()=>this.toggleConfirm({})}/> */}
-              <Button color="primary" onClick={this.toggleConfirm}>Ok I'm Sure</Button>
+              <Button color="primary" onClick={this.doRegister}>Ok I'm Sure</Button>
               <Button color="danger" onClick={this.toggleConfirm}>Cancel</Button>
             </ModalFooter>
           </Modal>
