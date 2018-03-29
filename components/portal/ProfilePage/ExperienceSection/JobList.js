@@ -1,6 +1,7 @@
 import { Component } from 'react'
 import {graphql} from 'react-apollo'
 import gql from 'graphql-tag'
+import moment from 'moment'
 
 import {
   Row,
@@ -63,15 +64,15 @@ class JobList extends Component {
           </ListGroupItemHeading>
           <div>
             <p style={{marginBottom: '0px'}}><i className="icon-briefcase"></i> {job.companyName}</p>
-            <p style={{marginBottom: '0px'}}>{job.duration || 'Jan, 2016 - Present  |  2 Years.'}</p>
+            <p style={{marginBottom: '0px'}}>{`${job.duration} | ${moment(job.startDate, "YYYYMMDD").fromNow(true)}` || 'Jan, 2016 - Present  |  2 Years.'}</p>
             <p >{job.address}</p>
           </div>
         </ListGroupItem>
       ))}
       <DetailsModal isOpen={this.state.modalOpen} toggle={this.toggle} save={this.save} experience={this.state.selectedjob}/>
-      <Modal isOpen={this.state.showConfirmModal} toggle={()=>this.toggleConfirm({})} className='modal-md modal-info' centered={true}>
+      <Modal isOpen={this.state.showConfirmModal} toggle={()=>this.toggleConfirm({})} className='modal-md modal-danger' centered={true}>
         <ModalBody className="text-center">
-          <p className={'display-4'}>Are you sure you want to delete this experience?</p>
+          <p className={'display-4 text-danger'} style={{fontSize: '1.9rem'}}>Are you sure you want to delete this experience?</p>
         </ModalBody>
         <ModalFooter>
           <DeleteButton details={{id: this.state.deleteJobId}} toggleConfirm={()=>this.toggleConfirm({})}/>
@@ -97,7 +98,9 @@ class JobList extends Component {
           fromMonth
           toYear
           toMonth
+          startDate
           address
+          state
           salary
           duration
           isWorkingHere

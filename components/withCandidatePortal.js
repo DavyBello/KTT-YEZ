@@ -9,7 +9,7 @@ import redirect from '../lib/auth/redirect'
 import checkLoggedIn from '../lib/auth/checkLoggedIn'
 
 import { Container } from 'reactstrap'
-import Breadcrumb from './portal/Breadcrumb/Breadcrumb'
+// import Breadcrumb from './portal/Breadcrumb/Breadcrumb'
 import Sidebar from './portal/adminUI/Sidebar/Sidebar'
 import Header from './portal/adminUI/Header/Header'
 
@@ -23,7 +23,7 @@ export default function withLayout(Child, opts) {
       }
 
       //Validate loggedin user
-      console.log('Validating User');
+      //console.log('Validating User');
       const { loggedInUser } = await checkLoggedIn(context, apolloClient)
       if (!loggedInUser.candidate) {
         // If not signed in, send them somewhere more useful
@@ -68,8 +68,8 @@ export default function withLayout(Child, opts) {
                 <Header client={this.props.client} />
                 <div className="app-body">
                   <Sidebar/>
-                  <main className="main">
-                    <Breadcrumb/>
+                  <main className="main" style={{paddingTop: '24px'}}>
+                    {/* <Breadcrumb/> */}
                     <Container fluid>
                       <Child {...this.props}/>
                     </Container>
@@ -97,13 +97,7 @@ export default function withLayout(Child, opts) {
           phone
           email
           username
-          address {
-            street1
-            suburb
-            state
-            postcode
-            country
-          }
+          address
           stateOfResidence
           experience{
             _id

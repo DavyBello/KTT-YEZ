@@ -122,11 +122,18 @@ export default function withLayout(Child, opts) {
                   background: '#f5302e'
                 }
               }
-              if (error.graphQLErrors[0].message==='phone already Exists'){
-                toast("This phone has already been used", {...toastStyle});
-              } else {
-                toast("Something Went Wrong", {...toastStyle});
-              }
+              if (error.graphQLErrors.length==0)
+                toast("Something Went Wrong With your request", {...toastStyle});
+
+              error.graphQLErrors.forEach(error=>{
+                switch(error.message) {
+                  case `phone already Exists`:
+                  toast("This phone has already been used", {...toastStyle});
+                  break;
+                  default:
+                  toast("Something Went Wrong", {...toastStyle});
+                }
+              })
             })
           }
         })

@@ -5,6 +5,7 @@ import cookie from 'cookie'
 import Link from 'next/link'
 import gql from 'graphql-tag'
 //import 'isomorphic-fetch'
+import { ToastContainer, toast } from 'react-toastify';
 
 import withData from '../lib/backendApi/withData'
 import redirect from '../lib/auth/redirect'
@@ -24,7 +25,7 @@ export default function withLayout(Child, opts) {
       //console.log(loggedInUser);
       if (loggedInUser.candidate) {
         // If signed in, send them somewhere more useful
-        console.log('You are signed in');
+        //console.log('You are signed in');
         //console.log(context);
         const target = await context.query.from || `/user`;
         redirect(context, target)
@@ -61,6 +62,9 @@ export default function withLayout(Child, opts) {
   mutation Login($phone: String, $password: String) {
     loginCandidate ( phone: $phone, password: $password ) {
       jwt
+      name{
+        last
+      }
     }
   }
   `
@@ -83,7 +87,7 @@ export default function withLayout(Child, opts) {
           ownProps: { client, url }
         }) => ({
           // `login` is the name of the prop passed to the component
-          login: ({phone, password}) => {
+          login: ({phone, password}, onComplete) => {
 
             loginWithEmail({
               variables: {
@@ -91,8 +95,7 @@ export default function withLayout(Child, opts) {
                 password: password
               }
             }).then(({ data }) => {
-              /*console.log('data');
-              console.log(data);*/
+              onComplete && onComplete(data.loginCandidate.name.last);
               // Store the token in cookie
               const {jwt} = data.loginCandidate
               document.cookie = cookie.serialize('token', jwt, {
@@ -111,6 +114,32 @@ export default function withLayout(Child, opts) {
               // Something went wrong, such as incorrect password, or no network
               // available, etc.
               console.error(error)
+              const toastStyle = {
+                className: {
+                  fontSize: '0.875rem',
+                  fontWeight: '500',
+                  lineHeight: '1.5',
+                  background: '#f86c6b',
+                  color: "white"
+                },progressClassName: {
+                  background: '#f5302e'
+                }
+              }
+              if (error.graphQLErrors.length==0)
+                toast("Something Went Wrong With your request", {...toastStyle});
+
+              error.graphQLErrors.forEach(error=>{
+                switch(error.message) {
+                  case `password incorrect`:
+                  toast("Incorrect Username/password", {...toastStyle});
+                  break;
+                  case `phone/candidate not found`:
+                  toast("Incorrect Username/password", {...toastStyle});
+                  break;
+                  default:
+                  toast("Something Went Wrong", {...toastStyle});
+                }
+              })
             })
           }
         })

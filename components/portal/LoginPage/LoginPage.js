@@ -2,6 +2,9 @@ import {Component} from 'react'
 import Link from 'next/link'
 
 import {Container, Row, Col, CardGroup, Card, CardBody, Button, Input, InputGroup, InputGroupAddon, InputGroupText, Form } from 'reactstrap';
+import { ToastContainer, toast } from 'react-toastify';
+
+const PHONE_REGEX = new RegExp("^[0][0-9]\\d{9}$");
 
 class Page extends Component {
   constructor(props){
@@ -10,41 +13,83 @@ class Page extends Component {
       phone: '',
       password: '',
       displayError: '',
-      errorMessage: ''
+      errorMessage: '',
+      passwordValid: null,
+      phoneValid: null
     }
+    this.handlePhoneChange = this.handlePhoneChange.bind(this);
+    this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    this.doLogin = this.doLogin.bind(this);
   }
 
   handlePhoneChange = (event) => {
-    const newState = {phone: event.target.value};
-    if (this.state.displayError) {
-      newState.displayError = false
+    if (PHONE_REGEX.test(event.target.value)){
+      this.setState({phoneValid: true});
+    } else {
+      this.setState({phoneValid: false});
     }
-    this.setState(newState);
+    this.setState({phone: event.target.value});
   };
 
   handlePasswordChange = (event) => {
-    const newState = {password: event.target.value};
-    if (this.state.displayError) {
-      newState.displayError = false
-    }
-    this.setState(newState);
+    if (this.state.passwordValid===false)
+      this.setState({passwordValid: null});
+    this.setState({password: event.target.value});
   };
 
-  render(){
-    //console.log('this.props');
-    const doLogin = (e) => {
-      console.log('logging in');
-      //console.log(this.state);
-      e.preventDefault()
-      e.stopPropagation()
+  doLogin = (e) => {
+    //console.log('logging in');
+    //console.log(this.state);
+    e.preventDefault()
+    e.stopPropagation()
 
+    if (this.state.password && this.state.phoneValid) {
       this.props.login({
         phone: this.state.phone,
         password: this.state.password //a
+      }, (lastName)=>{
+        //function runs if login is sucessfull
+        const toastStyle = {
+          className: {
+            fontSize: '0.875rem',
+            fontWeight: '500',
+            lineHeight: '1.5',
+            background: "#4dbd74",
+            color: "white"
+          },progressClassName: {
+            background: "#3a9d5d"
+          }
+        }
+        toast(`Welcome Back ${lastName}`, {...toastStyle});
       })
+    } else {
+      if (!this.state.phone || !this.state.phoneValid) {
+        this.setState({phoneValid: false})
+      }
+      if (!this.state.password) {
+        this.setState({passwordValid: false})
+      }
+      const toastStyle = {
+        className: {
+          fontSize: '0.875rem',
+          fontWeight: '500',
+          lineHeight: '1.5',
+          background: '#f86c6b',
+          color: "white"
+        },progressClassName: {
+          background: '#f5302e'
+        }
+      }
+      toast("Your Inputs are not valid", {...toastStyle});
     }
+
+  }
+
+  render(){
+    // const
     return (
       <div className="app flex-row align-items-center">
+        <ToastContainer />
         <Container>
           <Row className="justify-content-center">
             <Col md="8">
@@ -60,7 +105,7 @@ class Page extends Component {
                             <i className="icon-user"></i>
                           </InputGroupText>
                         </InputGroupAddon>
-                        <Input onChange={this.handlePhoneChange} type="text" placeholder="Phone Number"/>
+                        <Input valid={this.state.phoneValid} onChange={this.handlePhoneChange} type="text" placeholder="Phone Number"/>
                       </InputGroup>
                       <InputGroup className="mb-4">
                         <InputGroupAddon addonType="prepend">
@@ -68,11 +113,11 @@ class Page extends Component {
                             <i className="icon-lock"></i>
                           </InputGroupText>
                         </InputGroupAddon>
-                        <Input onChange={this.handlePasswordChange} type="password" placeholder="Password"/>
+                        <Input valid={this.state.passwordValid} onChange={this.handlePasswordChange} type="password" placeholder="Password"/>
                       </InputGroup>
                       <Row>
                         <Col xs="6">
-                          <Button type="submit" onClick={doLogin} color="primary" className="px-4">Login</Button>
+                          <Button type="submit" onClick={this.doLogin} color="primary" className="px-4">Login</Button>
                         </Col>
                         <Col xs="6" className="text-right">
                           <Button color="link" className="px-0">Forgot password?</Button>
@@ -87,7 +132,7 @@ class Page extends Component {
                       <h2>Sign up</h2>
                       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
                         labore et dolore magna aliqua.</p>
-                      <Link href="/user/register">
+                      <Link href="/user/signUp">
                         <Button color="primary" className="mt-3" active>Register Now!</Button>
                       </Link>
                     </div>

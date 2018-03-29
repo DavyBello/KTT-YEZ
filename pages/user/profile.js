@@ -55,12 +55,12 @@ class Page extends Component {
 //Add $address: String,
 const gqlWrapper = gql `
 mutation UpdateCandidate(
-  $id: MongoID!, $email: String, $username: String, $bvn: String,
+  $id: MongoID!, $email: String, $username: String, $bvn: String, $address: String,
   $nationality: String, $gender: EnumCandidateGender, $stateOfResidence: EnumCandidateStateOfResidence,
   $stateOfOrigin: String, $dateOfBirth: Date, $placeOfBirth: String
 ) {
   candidateUpdateById (record: {
-    _id: $id, email: $email, username: $username, bvn: $bvn,
+    _id: $id, email: $email, username: $username, bvn: $bvn, address: $address,
     nationality: $nationality, gender: $gender, stateOfResidence :$stateOfResidence,
     stateOfOrigin :$stateOfOrigin, dateOfBirth :$dateOfBirth, placeOfBirth :$placeOfBirth
   }){
@@ -75,13 +75,7 @@ mutation UpdateCandidate(
       phone
       email
       username
-      address {
-        street1
-        suburb
-        state
-        postcode
-        country
-      }
+      address
       stateOfResidence
       experience{
        _id

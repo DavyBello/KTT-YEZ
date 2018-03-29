@@ -25,15 +25,11 @@ import MaskedInput from 'react-text-mask'
 import SaveButton from './SaveButton'
 import UpdateButton from './UpdateButton'
 
+import {MONTHS, STATES, YEARS, convertState } from '../../../../lib/common'
+
 export default class DetailsModal extends Component{
   constructor(props) {
     super(props)
-    let year = new Date().getFullYear();
-    var years = [];
-    for (var i = 0; i < 65; i++) {
-      years.push(year);
-      year = year - 1;
-    }
     this.state = {
       id: '',
       role: '',
@@ -45,10 +41,7 @@ export default class DetailsModal extends Component{
       toYear: '',
       salary: '',
       isWorkingHere: false,
-      details: {},
-      months: ["January", "February", "March", "April", "May", "June",
-            "July", "August", "September", "October", "November", "December"],
-      years: years
+      details: {}
     }
     this.handleFieldChange = this.handleFieldChange.bind(this);
     this.toggleCheck = this.toggleCheck.bind(this);
@@ -60,7 +53,8 @@ export default class DetailsModal extends Component{
     this.setState({
       ...experience,
       id: experience._id || null,
-      isWorkingHere: experience.isWorkingHere || false
+      isWorkingHere: experience.isWorkingHere || false,
+      state: convertState(experience.state) || 'Bayelsa'
     })
     this.setState({details : {...experience, id: experience._id || null}})
   }
@@ -102,28 +96,36 @@ export default class DetailsModal extends Component{
               <Label htmlFor="name">Company</Label>
               <Input onChange={(e)=>this.handleFieldChange('companyName', e.target.value)} defaultValue={experience.companyName} type="text" id="name" placeholder="Eg: Google" required/>
             </FormGroup>
-            <FormGroup>
-              <Label htmlFor="name">Location</Label>
-              <Input onChange={(e)=>this.handleFieldChange('address', e.target.value)} defaultValue={experience.address} type="text" id="name" placeholder="Eg: Kubwa, Abuja" required/>
+            <FormGroup row>
+              <Col md="9">
+                <Label htmlFor="name">Address</Label>
+                <Input onChange={(e)=>this.handleFieldChange('address', e.target.value)} defaultValue={experience.address} type="text" id="name" placeholder="Eg: Kubwa, Abuja" required/>
+              </Col>
+              <Col md="3">
+                <Label htmlFor="name">State</Label>
+                <Input onChange={(e)=>this.handleFieldChange('stateOfResidence', e.target.value)} type="select" id="name" placeholder="Select State" required defaultValue={this.state.stateOfResidence}>
+                  {STATES.map((state, index)=><option key={index}>{state}</option>)}
+                </Input>
+              </Col>
             </FormGroup>
             <FormGroup row>
               <Col md="6">
                 <Label htmlFor="name">From</Label>
                 <Input onChange={(e)=>this.handleFieldChange('fromMonth', e.target.value)} type="select" id="name" style={{marginBottom: '10px'}} placeholder="Month"  required defaultValue={experience.fromMonth}>
-                  {this.state.months.map((month, i)=><option key={i}>{month}</option>)}
+                  {MONTHS.map((month, i)=><option key={i}>{month}</option>)}
                 </Input>
                 <Input onChange={(e)=>this.handleFieldChange('fromYear', e.target.value)} type="select" id="name" style={{marginBottom: '10px'}} placeholder="Year"  required defaultValue={experience.fromYear}>
-                  {this.state.years.map((year, i)=><option key={i}>{year}</option>)}
+                  {YEARS.map((year, i)=><option key={i}>{year}</option>)}
                 </Input>
               </Col>
               {(!this.state.isWorkingHere) && (
                 <Col md="6">
                   <Label htmlFor="name">To</Label>
                   <Input onChange={(e)=>this.handleFieldChange('toMonth', e.target.value)} type="select" id="name" style={{marginBottom: '10px'}} placeholder="Month"  required defaultValue={experience.toMonth}>
-                    {this.state.months.map((month, i)=><option key={i}>{month}</option>)}
+                    {MONTHS.map((month, i)=><option key={i}>{month}</option>)}
                   </Input>
                   <Input onChange={(e)=>this.handleFieldChange('toYear', e.target.value)} type="select" id="name" style={{marginBottom: '10px'}} placeholder="Year"  required defaultValue={experience.toYear}>
-                    {this.state.years.map((year, i)=><option key={i}>{year}</option>)}
+                    {YEARS.map((year, i)=><option key={i}>{year}</option>)}
                   </Input>
                 </Col>
               )}

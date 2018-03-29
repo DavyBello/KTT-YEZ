@@ -45,7 +45,7 @@ class DeleteButton extends Component {
   }
   render(){
     return(
-      <Button color="primary" onClick={this.doDelete}>Delete</Button>
+      <Button color="danger" onClick={this.doDelete}>Delete</Button>
     )
   }
 }

@@ -13,8 +13,8 @@ class SaveButton extends Component {
   }
 
   save = () => {
-    console.log(this.props.details)
-    console.log('this.props.details')
+    // console.log(this.props.details)
+    // console.log('this.props.details')
     this.props.update(this.props.details,()=>{
       //function runs if update is sucessfull
       const toastStyle = {
@@ -49,13 +49,13 @@ class SaveButton extends Component {
 const gqlWrapper = gql `
 mutation CreateExperience(
   $id: MongoID!, $companyName: String, $role: String, $address: String,
-  $salary: String, $isWorkingHere: Boolean,
+  $salary: String, $isWorkingHere: Boolean, $state: EnumJobExperienceState,
   $fromYear: String, $fromMonth: EnumJobExperienceFromMonth,
   $toYear: String, $toMonth: EnumJobExperienceToMonth,
 ) {
   updateJobExperience(record: {
     _id: $id, companyName: $companyName,
-    role: $role, address: $address,
+    role: $role, address: $address, state: $state,
     salary: $salary, isWorkingHere: $isWorkingHere,
     fromMonth: $fromMonth, fromYear: $fromYear
     toMonth: $toMonth, toYear: $toYear
@@ -69,7 +69,9 @@ mutation CreateExperience(
       fromMonth
       toYear
       toMonth
+      startDate
       address
+      state
       salary
       duration
       isWorkingHere

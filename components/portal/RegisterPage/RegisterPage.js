@@ -1,16 +1,19 @@
 import {Component} from 'react'
-//import Router from 'next/router'
+import Link from 'next/link'
 import {
   Container, Form, Row, Col,
   Card, CardBody, CardFooter,
   Button, Input, InputGroup,
   InputGroupAddon, InputGroupText,
   Modal, ModalBody, ModalFooter,
-  ModalHeader
+  ModalHeader, FormText
 } from 'reactstrap';
 import { ToastContainer, toast } from 'react-toastify';
 
 const PHONE_REGEX = new RegExp("^[0][0-9]\\d{9}$");
+// const PASSWORD_REGEX = new RegExp("^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$");
+const NOT_PASSWORD_REGEX = new RegExp("^(.{0,7}|[^0-9]*|[^a-z]*)$");
+const toCamelCase = (s) => s.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 
 class Page extends Component {
   constructor(props){
@@ -59,7 +62,13 @@ class Page extends Component {
     let password = this.state.password;
     let confirmPassword = this.state.confirmPassword;
     if (field==='password') {
-      (this.state.passwordValid===false) && this.setState({passwordValid: null});
+      if (!value) {
+        this.setState({passwordValid: null})
+      } else {
+        !NOT_PASSWORD_REGEX.test(value) ?
+          this.setState({passwordValid: true}) : this.setState({passwordValid: false})
+      }
+      //(this.state.passwordValid===false) && this.setState({passwordValid: null});
       this.setState({password: value});
       password = value
     }
@@ -95,7 +104,8 @@ class Page extends Component {
 
   showConfirmModal(){
     //this.setState({deleteJobId: job._id || ''})
-    if (this.state.confirmPasswordValid && this.state.phoneValid && this.state.firstName && this.state.lastName) {
+    if (this.state.passwordValid && this.state.confirmPasswordValid && this.state.phoneValid && this.state.firstName && this.state.lastName) {
+      this.setState({firstName: toCamelCase(this.state.firstName), lastName: toCamelCase(this.state.lastName)})
       this.setState({showConfirmModal: true})
     } else {
       if (!this.state.confirmPasswordValid) {
@@ -138,7 +148,7 @@ class Page extends Component {
       phone: this.state.phone,
       password: this.state.password
     },()=>{
-      //function runs if update is sucessfull
+      //function runs if register is sucessfull
       const toastStyle = {
         className: {
           fontSize: '0.875rem',
@@ -150,7 +160,7 @@ class Page extends Component {
           background: "#3a9d5d"
         }
       }
-      toast("Yay! Hold on while we create your portal", {...toastStyle});
+      toast("🎉 Yay! Hold on while we create your portal 🎊", {...toastStyle});
     })
   }
 
@@ -164,8 +174,8 @@ class Page extends Component {
             <Col md="6">
               <Card className="mx-4">
                 <CardBody className="p-4">
-                  <h1>Register</h1>
-                  <p className="text-muted">Create your account</p>
+                  <h1>Sign Up</h1>
+                  <p className="text-muted">Create an account as a <b>User</b></p>
                   <Form>
                     <InputGroup className="mb-3">
                       <InputGroupAddon addonType="prepend">
@@ -183,17 +193,18 @@ class Page extends Component {
                       </InputGroupAddon>
                       <Input valid={this.state.lastNameValid} onChange={(e)=>this.handleFieldChange('lastName', e.target.value)} type="text" placeholder="Last Name"/>
                     </InputGroup>
-                    <InputGroup className="mb-3">
+                    <InputGroup>
                       <InputGroupAddon addonType="prepend">
                         <InputGroupText>
                           <i className="icon-phone"></i>
                         </InputGroupText>
                       </InputGroupAddon>
-                      <Input onChange={(e)=>this.handleFieldChange('phone', e.target.value)} type="text" placeholder="Phone no."
+                      <Input onChange={(e)=>this.handleFieldChange('phone', e.target.value)} type="text" placeholder="E.g: 080XXXXXXXX"
                         valid={this.state.phoneValid}
                       />
                     </InputGroup>
-                    <InputGroup className="mb-3">
+                    <FormText className="mb-3 float-right" style={{fontSize: '10px'}} color="danger"><i>eleven(11) digit phone number</i></FormText>
+                    <InputGroup>
                       <InputGroupAddon addonType="prepend">
                         <InputGroupText>
                           <i className="icon-lock"></i>
@@ -201,6 +212,7 @@ class Page extends Component {
                       </InputGroupAddon>
                       <Input valid={this.state.passwordValid} onChange={(e)=>this.handleConfirmPasswordChange('password', e.target.value)} type="password" placeholder="Password"/>
                     </InputGroup>
+                    <FormText className="mb-3 float-right" style={{fontSize: '10px'}} color="danger"><i>minimum eight characters, at least one letter and one number</i></FormText>
                     <InputGroup className="mb-4">
                       <InputGroupAddon addonType="prepend">
                         <InputGroupText>
@@ -213,6 +225,9 @@ class Page extends Component {
                         type="password" placeholder="Repeat password"/>
                     </InputGroup>
                     <Button onClick={this.showConfirmModal} color="success" block>Create Account</Button>
+                    <Link href='/user/login'>
+                      <Button color="link" className="px-0">Already have an account? Login</Button>
+                    </Link>
                   </Form>
                 </CardBody>
                 {/* <CardFooter className="p-4">
@@ -232,12 +247,15 @@ class Page extends Component {
             <ModalBody className="text-center">
               <p className='display-4 text-primary' style={{fontSize: '1.6rem'}}>Take a second to confirm your details</p>
               <hr />
-              <div className='display-4' style={{fontSize: '1.5rem'}}>
-                <i className="icon-user text-primary"></i> {`${this.state.lastName} ${this.state.firstName}`}
+              <div className='display-4 mb-1' style={{fontSize: '1.9rem'}}>
+                <i className="icon-user text-primary"></i> <b>{`${this.state.lastName} ${this.state.firstName}`}</b>
               </div>
               <div className='display-4' style={{fontSize: '1.5rem'}}>
                 <i className="icon-phone text-primary"></i> {this.state.phone}
               </div>
+              <p className="text-danger" style={{
+                margin: '1rem 0px 0px'
+              }}>you cannot change these details once your portal has been created</p>
             </ModalBody>
             <ModalFooter>
               {/* <DeleteButton details={{id: this.state.deleteJobId}} toggleConfirm={()=>this.toggleConfirm({})}/> */}

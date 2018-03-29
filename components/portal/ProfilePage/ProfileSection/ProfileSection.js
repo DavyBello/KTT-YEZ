@@ -15,18 +15,20 @@ import {
 } from 'reactstrap'
 import { toast } from 'react-toastify';
 
+const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
 class ProfileSection extends Component {
   constructor(props) {
     super(props)
     this.state = {
       email: props.user.email || '',
       username: props.user.username || '',
-      emailValid: null
+      emailValid: EMAIL_REGEX.test(String(props.user.email).toLowerCase()),
+
     }
   }
 
   handleEmailChange = (event) => {
-    const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (EMAIL_REGEX.test(String(event.target.value).toLowerCase())){
       this.setState({email: event.target.value, emailValid: true});
     } else {
@@ -48,7 +50,7 @@ class ProfileSection extends Component {
     // console.log('this.propsopo');
     // console.log(this.props);
     const doUpdate = (e) => {
-      console.log('updating');
+      // console.log('updating');
       //console.log(this.state);
       e.preventDefault()
       e.stopPropagation()

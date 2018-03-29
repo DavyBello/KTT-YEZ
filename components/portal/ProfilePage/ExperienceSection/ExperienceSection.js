@@ -53,12 +53,12 @@ export default class extends Component {
     this.setState({modalOpen: !this.state.modalOpen})
   }
   save(){
-    console.log('saving');
+    //console.log('saving');
     setTimeout(()=>this.setState({modalOpen: !this.state.modalOpen}), 2000)
   }
 
   render(){
-    console.log(this.props.user.experience.length);
+    //console.log(this.props.user.experience.length);
     return (
       <Card>
         <CardBody >
