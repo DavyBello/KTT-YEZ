@@ -37,9 +37,9 @@ class Page extends Component {
           <Col md="8">
             <MoreDetails user={candidate} update={this.props.update}/>
             <ExperienceSection />
-            {/* <EducationSection />
+            <EducationSection />
             <CertificationsSection />
-            <RefereesSection /> */}
+            <RefereesSection />
           </Col>
         </Row>
       </div>
