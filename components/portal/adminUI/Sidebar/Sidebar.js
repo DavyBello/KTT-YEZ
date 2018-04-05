@@ -109,7 +109,7 @@ class Sidebar extends Component {
             </RsNavLink>
             :
             <Link href={url} prefetch>
-              <RsNavLink href={url} className={classes.link} activeClassName="active" onClick={this.hideMobile}>
+              <RsNavLink href={url} className={classes.link} /*activeClassName="active"*/ onClick={this.hideMobile}>
                 <i className={classes.icon}></i>{item.name}{badge(item.badge)}
               </RsNavLink>
             </Link>

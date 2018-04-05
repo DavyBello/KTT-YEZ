@@ -22,10 +22,10 @@ import EducationList from './EducationList'
 
 const education = [
   {
-    school: "Redeemer's University",
-    degree: 'Bachelor of Science - BSc(Hons)',
-    field: 'Computer Science',
-    duration: '2012 - 2016'
+    school: "Cisco",
+    degree: 'Cisco Certified Architect (CCAr)',
+    //field: 'Computer Science',
+    duration: '2016 - 2019'
   }
 ]
 

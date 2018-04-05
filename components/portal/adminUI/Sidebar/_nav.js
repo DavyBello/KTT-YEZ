@@ -14,11 +14,11 @@ export default {
       url: '/user/profile',
       icon: 'icon-user',
     },
-    {
+    /*{
       name: 'Verification',
       url: '/verified',
       icon: 'icon-docs',
-    },
+    },*/
     /*{
       name: 'Messages',
       url: '/dashboard',

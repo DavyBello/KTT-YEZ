@@ -3,6 +3,8 @@ import {graphql, withApollo, compose} from 'react-apollo'
 import gql from 'graphql-tag'
 import Head from 'next/head'
 import { Row, Col } from 'reactstrap'
+import { ToastContainer, toast } from 'react-toastify';
+
 
 import withCandidatePortal from '../../components/withCandidatePortal'
 import DetailsSection from '../../components/portal/ProfilePage/DetailsSection/DetailsSection'
@@ -36,12 +38,18 @@ class Page extends Component {
         <Row>
           <Col md="8">
             <MoreDetails user={candidate} update={this.props.update}/>
+<<<<<<< HEAD
             <ExperienceSection />
             <EducationSection />
+=======
+            <ExperienceSection user={candidate}/>
+            {/* <EducationSection />
+>>>>>>> 6075ec42a40c59048dabecc823639be020c0f1f3
             <CertificationsSection />
             <RefereesSection />
           </Col>
         </Row>
+        <ToastContainer />
       </div>
     )
   }
@@ -49,16 +57,16 @@ class Page extends Component {
 
 // export default Page
 // export default withCandidatePortal(Page)
-
+//Add $address: String,
 const gqlWrapper = gql `
 mutation UpdateCandidate(
-  $id: MongoID!, $email: String, $username: String, $bvn: String,
-  $address: String, $nationality: String,
+  $id: MongoID!, $email: String, $username: String, $bvn: String, $address: String,
+  $nationality: String, $gender: EnumCandidateGender, $stateOfResidence: EnumCandidateStateOfResidence,
   $stateOfOrigin: String, $dateOfBirth: Date, $placeOfBirth: String
 ) {
   candidateUpdateById (record: {
-    _id: $id, email: $email, username: $username, bvn: $bvn,
-    address :$address, nationality :$nationality,
+    _id: $id, email: $email, username: $username, bvn: $bvn, address: $address,
+    nationality: $nationality, gender: $gender, stateOfResidence :$stateOfResidence,
     stateOfOrigin :$stateOfOrigin, dateOfBirth :$dateOfBirth, placeOfBirth :$placeOfBirth
   }){
     recordId
@@ -73,6 +81,20 @@ mutation UpdateCandidate(
       email
       username
       address
+      stateOfResidence
+      experience{
+       _id
+       companyName
+       role
+       fromYear
+       fromMonth
+       toYear
+       toMonth
+       address
+       salary
+       duration
+       isWorkingHere
+      }
       bvn
       nationality
       gender
@@ -90,7 +112,7 @@ export default withCandidatePortal(graphql(gqlWrapper, {
   // Apollo's way of injecting new props which are passed to the component
   props: ({ownProps, updateCandidateFields}) => ({
     // `update` is the name of the prop passed to the component
-    update: (data) => {
+    update: (data, onComplete) => {
       const removeEmpty = (obj) => {
         Object.keys(obj).forEach(key => {
           if (obj[key] && typeof obj[key] === 'object') removeEmpty(obj[key]);
@@ -102,20 +124,6 @@ export default withCandidatePortal(graphql(gqlWrapper, {
         variables: {
           ...data
         },
-        /*update: (proxy, { data: { candidateUpdateById } }) => {
-          // Read the data from our cache for this query.
-          console.log(ownProps);
-          const data = proxy.readQuery({ query: ownProps.ViewerCandidateQuery });
-
-          // Add our todo from the mutation to the end.
-          console.log(data.viewerCandidate.candidate);
-          console.log('candidateUpdateById');
-          console.log(candidateUpdateById);
-          data.viewerCandidate.candidate = candidateUpdateById.record;
-
-          // Write our data back to the cache.
-          proxy.writeQuery({ query: ViewerCandidateQuery, data });
-        }*/
         // optimisticResponse: {
         //   __typename: 'Mutation',
         //   candidateUpdateById: {
@@ -124,6 +132,36 @@ export default withCandidatePortal(graphql(gqlWrapper, {
         //     votes: ownProps.votes + 1
         //   }
         // }
+      }).then(({data}) => {
+        onComplete && onComplete();
+      }).catch((error)=>{
+        console.log(error.graphQLErrors);
+        const toastStyle = {
+          className: {
+            fontSize: '0.875rem',
+            fontWeight: '500',
+            lineHeight: '1.5',
+            background: '#f86c6b',
+            color: "white"
+          },progressClassName: {
+            background: '#f5302e'
+          }
+        }
+        if (error.graphQLErrors.length==0)
+          toast("Something Went Wrong With your request", {...toastStyle});
+
+        error.graphQLErrors.forEach(error=>{
+          switch(error.message) {
+            case `E11000 duplicate key error collection: ktt-backend.candidates index: username_1 dup key: { : "${data.username}" }`:
+            toast("This Username is taken", {...toastStyle});
+            break;
+            case `E11000 duplicate key error collection: ktt-backend.candidates index: email_1 dup key: { : "${data.email}" }`:
+            toast("This Email is taken", {...toastStyle});
+            break;
+            default:
+            toast("Something Went Wrong", {...toastStyle});
+          }
+        })
       })
     }
   })

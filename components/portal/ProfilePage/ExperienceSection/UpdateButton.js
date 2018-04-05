@@ -30,6 +30,8 @@ class SaveButton extends Component {
       }
       toast("Your Work History has been updated", {...toastStyle});
     })
+    // console.log(this.props.details);
+    // console.log('this.props.details');
     this.props.close();
   }
 
@@ -38,7 +40,7 @@ class SaveButton extends Component {
   }
   render(){
     return(
-      <Button color="primary" onClick={this.save}>Save</Button>
+      <Button color="primary" onClick={this.save}>Update</Button>
     )
   }
 }
@@ -46,19 +48,18 @@ class SaveButton extends Component {
 
 const gqlWrapper = gql `
 mutation CreateExperience(
-  $companyName: String!, $role: String!, $address: String!,
-  $salary: String!, $isWorkingHere: Boolean!, $state: EnumJobExperienceState!,
-  $fromYear: String!, $fromMonth: EnumJobExperienceFromMonth!,
+  $id: MongoID!, $companyName: String, $role: String, $address: String,
+  $salary: String, $isWorkingHere: Boolean, $state: EnumJobExperienceState,
+  $fromYear: String, $fromMonth: EnumJobExperienceFromMonth,
   $toYear: String, $toMonth: EnumJobExperienceToMonth,
 ) {
-  # addJobExperience(record: {companyName: $companyName, role: $role, address: $address, salary: $salary, fromMonth: January, fromYear: $fromYear}) {
-  addJobExperience(record: {
-    companyName: $companyName,
+  updateJobExperience(record: {
+    _id: $id, companyName: $companyName,
     role: $role, address: $address, state: $state,
     salary: $salary, isWorkingHere: $isWorkingHere,
-    fromMonth: $fromMonth, fromYear: $fromYear,
+    fromMonth: $fromMonth, fromYear: $fromYear
     toMonth: $toMonth, toYear: $toYear
-  }) {
+    }) {
     recordId
     record{
       _id
@@ -80,9 +81,9 @@ mutation CreateExperience(
 `
 export default (graphql(gqlWrapper, {
   // Use an unambiguous name for use in the `props` section below
-  name: 'addJobExperience',
+  name: 'updateJobExperience',
   // Apollo's way of injecting new props which are passed to the component
-  props: ({ownProps, addJobExperience}) => ({
+  props: ({ownProps, updateJobExperience}) => ({
     // `update` is the name of the prop passed to the component
     update: (data, onComplete) => {
       const removeEmpty = (obj) => {
@@ -92,33 +93,26 @@ export default (graphql(gqlWrapper, {
         });
       };
       removeEmpty(data);
-
-      if(data.isWorkingHere){
-        delete data.toMonth;
-        delete data.toYear;
-      }
-
-      /*if (data.role) {
-
-      }*/
-      addJobExperience({
+      // console.log('data');
+      // console.log(data);
+      updateJobExperience({
         variables: {
           ...data
         },
-        update: (proxy, { data: { addJobExperience } }) => {
+        /*update: (proxy, { data: { addJobExperience } }) => {
           // Read the data from our cache for this query.
-          // console.log(addJobExperience);
+          console.log(addJobExperience);
           const data = proxy.readQuery({ query: ViewerCandidateExperienceQuery });
 
           // Add our todo from the mutation to the end.
-          //console.log(data.viewerCandidate.candidate);
-          // console.log('addJobExperience');
-          // console.log(addJobExperience);
+          console.log(data.viewerCandidate.candidate);
+          console.log('addJobExperience');
+          console.log(addJobExperience);
           data.viewerCandidate.candidate.experience.push(addJobExperience.record);
 
           // Write our data back to the cache.
           proxy.writeQuery({ query: ViewerCandidateExperienceQuery, data });
-        }
+        }*/
         // optimisticResponse: {
         //   __typename: 'Mutation',
         //   addJobExperience: {
@@ -130,7 +124,7 @@ export default (graphql(gqlWrapper, {
       }).then(({data}) => {
         onComplete && onComplete();
       }).catch((error)=>{
-        console.log(error);
+        console.log(error.graphQLErrors);
         const toastStyle = {
           className: {
             fontSize: '0.875rem',

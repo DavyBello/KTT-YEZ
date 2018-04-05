@@ -4,8 +4,9 @@ import { graphql, withApollo, compose } from 'react-apollo'
 import cookie from 'cookie'
 import Link from 'next/link'
 import gql from 'graphql-tag'
-//import 'isomorphic-fetch'
+//import 'isomorphic-unfetch'
 import { ToastContainer, toast } from 'react-toastify';
+
 
 import withData from '../lib/backendApi/withData'
 import redirect from '../lib/auth/redirect'
@@ -25,7 +26,7 @@ export default function withLayout(Child, opts) {
       //console.log(loggedInUser);
       if (loggedInUser.candidate) {
         // If signed in, send them somewhere more useful
-        //console.log('You are signed in');
+        console.log('You are signed in');
         //console.log(context);
         const target = await context.query.from || `/user`;
         redirect(context, target)
@@ -37,7 +38,6 @@ export default function withLayout(Child, opts) {
     }
 
     render() {
-      //console.log(opts);
       const opts = opts || {};
       return (
         <div>
@@ -59,12 +59,9 @@ export default function withLayout(Child, opts) {
   }
 
   const gqlWrapper = gql `
-  mutation Login($phone: String, $password: String) {
-    loginCandidate ( phone: $phone, password: $password ) {
+  mutation SignUpCandidate($firstName: String!, $lastName: String!, $phone: String!, $password: String!) {
+    signUpCandidate ( lastName: $lastName, firstName: $firstName, phone: $phone, password: $password ) {
       jwt
-      name{
-        last
-      }
     }
   }
   `
@@ -79,41 +76,41 @@ export default function withLayout(Child, opts) {
       gqlWrapper,
       {
         // Use an unambiguous name for use in the `props` section below
-        name: 'loginWithEmail',
+        name: 'signUpCandidate',
         // Apollo's way of injecting new props which are passed to the component
         props: ({
-          loginWithEmail,
+          signUpCandidate,
           // `client` is provided by the `withApollo` HOC
           ownProps: { client, url }
         }) => ({
-          // `login` is the name of the prop passed to the component
-          login: ({phone, password}, onComplete) => {
-
-            loginWithEmail({
+          // `signUp` is the name of the prop passed to the component
+          signUp: (data, onComplete) => {
+            const {firstName, lastName, phone, password} = data
+            signUpCandidate({
               variables: {
+                firstName: firstName,
+                lastName: lastName,
                 phone: phone,
                 password: password
               }
             }).then(({ data }) => {
-              onComplete && onComplete(data.loginCandidate.name.last);
+              onComplete && onComplete();
               // Store the token in cookie
-              const {jwt} = data.loginCandidate
+              const {jwt} = data.signUpCandidate
               document.cookie = cookie.serialize('token', jwt, {
                 maxAge: 3 * 24 * 60 * 60 // 3 days
               })
-
-              //console.log(ownProps);
               // Force a reload of all the current queries now that the user is
               // logged in
               client.resetStore().then(() => {
-                // Now redirect to the homepage / from page
+                // Now redirect to the homepage /user from page
                 const target = url.query.from || `/user`;
                 redirect({}, target)
               })
             }).catch((error) => {
               // Something went wrong, such as incorrect password, or no network
               // available, etc.
-              console.error(error)
+              // console.error(error.graphQLErrors)
               const toastStyle = {
                 className: {
                   fontSize: '0.875rem',
@@ -130,11 +127,8 @@ export default function withLayout(Child, opts) {
 
               error.graphQLErrors.forEach(error=>{
                 switch(error.message) {
-                  case `password incorrect`:
-                  toast("Incorrect Username/password", {...toastStyle});
-                  break;
-                  case `phone/candidate not found`:
-                  toast("Incorrect Username/password", {...toastStyle});
+                  case `phone already Exists`:
+                  toast("This phone has already been used", {...toastStyle});
                   break;
                   default:
                   toast("Something Went Wrong", {...toastStyle});

@@ -15,7 +15,7 @@ import {
       <ListGroupItem>
         <ListGroupItemHeading>{education.school} <Button className="btn-sm" outline color="primary float-right"><i className="icon-pencil"></i>&nbsp; Edit</Button></ListGroupItemHeading>
         <ListGroupItemText>
-          <p style={{marginBottom: '0px'}}><i className="icon-graduation"></i> {education.degree}, {education.field} </p>
+          <p style={{marginBottom: '0px'}}><i className="icon-docs"></i> {education.degree} </p>
           <p>{education.duration}</p>
         </ListGroupItemText>
       </ListGroupItem>

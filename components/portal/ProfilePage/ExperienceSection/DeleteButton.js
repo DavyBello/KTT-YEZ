@@ -2,19 +2,26 @@ import { Component } from 'react'
 import {graphql, withApollo, compose} from 'react-apollo'
 import gql from 'graphql-tag'
 import { toast } from 'react-toastify';
-import { Button } from 'reactstrap'
+import {
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter
+} from 'reactstrap'
 
 import { ViewerCandidateExperienceQuery } from './JobList'
 
-class SaveButton extends Component {
+class DeleteButton extends Component {
   constructor(props){
     super(props)
-    this.save = this.save.bind(this);
+    this.doDelete = this.doDelete.bind(this);
   }
 
-  save = () => {
+  doDelete = () => {
     // console.log(this.props.details)
     // console.log('this.props.details')
+
     this.props.update(this.props.details,()=>{
       //function runs if update is sucessfull
       const toastStyle = {
@@ -28,9 +35,9 @@ class SaveButton extends Component {
           background: "#3a9d5d"
         }
       }
-      toast("Your Work History has been updated", {...toastStyle});
+      toast("Your Work History was deleted", {...toastStyle});
     })
-    this.props.close();
+    this.props.toggleConfirm();
   }
 
   shouldComponentUpdate(){
@@ -38,27 +45,18 @@ class SaveButton extends Component {
   }
   render(){
     return(
-      <Button color="primary" onClick={this.save}>Save</Button>
+      <Button color="danger" onClick={this.doDelete}>Delete</Button>
     )
   }
 }
-//export default SaveButton
+//export default DeleteButton
+//<Button onClick={()=>this.toggle()}/*{this.doDelete}*/ className="btn-sm" outline color="danger"><i className="icon-trash"></i></Button>
 
 const gqlWrapper = gql `
 mutation CreateExperience(
-  $companyName: String!, $role: String!, $address: String!,
-  $salary: String!, $isWorkingHere: Boolean!, $state: EnumJobExperienceState!,
-  $fromYear: String!, $fromMonth: EnumJobExperienceFromMonth!,
-  $toYear: String, $toMonth: EnumJobExperienceToMonth,
+  $id: MongoID!
 ) {
-  # addJobExperience(record: {companyName: $companyName, role: $role, address: $address, salary: $salary, fromMonth: January, fromYear: $fromYear}) {
-  addJobExperience(record: {
-    companyName: $companyName,
-    role: $role, address: $address, state: $state,
-    salary: $salary, isWorkingHere: $isWorkingHere,
-    fromMonth: $fromMonth, fromYear: $fromYear,
-    toMonth: $toMonth, toYear: $toYear
-  }) {
+  deleteJobExperience(_id: $id){
     recordId
     record{
       _id
@@ -68,9 +66,7 @@ mutation CreateExperience(
       fromMonth
       toYear
       toMonth
-      startDate
       address
-      state
       salary
       duration
       isWorkingHere
@@ -80,41 +76,29 @@ mutation CreateExperience(
 `
 export default (graphql(gqlWrapper, {
   // Use an unambiguous name for use in the `props` section below
-  name: 'addJobExperience',
+  name: 'updateJobExperience',
   // Apollo's way of injecting new props which are passed to the component
-  props: ({ownProps, addJobExperience}) => ({
+  props: ({ownProps, updateJobExperience}) => ({
     // `update` is the name of the prop passed to the component
     update: (data, onComplete) => {
-      const removeEmpty = (obj) => {
-        Object.keys(obj).forEach(key => {
-          if (obj[key] && typeof obj[key] === 'object') removeEmpty(obj[key]);
-          else if (obj[key] == null) delete obj[key];
-        });
-      };
-      removeEmpty(data);
-
-      if(data.isWorkingHere){
-        delete data.toMonth;
-        delete data.toYear;
-      }
-
-      /*if (data.role) {
-
-      }*/
-      addJobExperience({
+      // console.log('data');
+      // console.log(data);
+      updateJobExperience({
         variables: {
-          ...data
+          id: data.id
         },
-        update: (proxy, { data: { addJobExperience } }) => {
+        update: (proxy, { data: { deleteJobExperience } }) => {
           // Read the data from our cache for this query.
-          // console.log(addJobExperience);
           const data = proxy.readQuery({ query: ViewerCandidateExperienceQuery });
 
           // Add our todo from the mutation to the end.
           //console.log(data.viewerCandidate.candidate);
-          // console.log('addJobExperience');
-          // console.log(addJobExperience);
-          data.viewerCandidate.candidate.experience.push(addJobExperience.record);
+          const index = data.viewerCandidate.candidate.experience.findIndex((experience)=>{
+            return (experience._id==deleteJobExperience.recordId)
+          });
+          if (index > -1) {
+            data.viewerCandidate.candidate.experience.splice(index, 1);
+          }
 
           // Write our data back to the cache.
           proxy.writeQuery({ query: ViewerCandidateExperienceQuery, data });
@@ -130,7 +114,7 @@ export default (graphql(gqlWrapper, {
       }).then(({data}) => {
         onComplete && onComplete();
       }).catch((error)=>{
-        console.log(error);
+        console.log(error.graphQLErrors);
         const toastStyle = {
           className: {
             fontSize: '0.875rem',
@@ -146,4 +130,4 @@ export default (graphql(gqlWrapper, {
       })
     }
   })
-})(SaveButton))
+})(DeleteButton))
