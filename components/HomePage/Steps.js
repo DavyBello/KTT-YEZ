@@ -12,7 +12,7 @@ const Steps = (props) => {
                 }}>
                 <h2 style={{
                     paddingTop : '50px',
-                    textAlign : 'left',
+                    textAlign : 'center',
                     fontSize : '50px'
                 }} >Our Steps</h2>
             <div className="row">
