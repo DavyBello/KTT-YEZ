@@ -7,7 +7,6 @@ import gql from 'graphql-tag'
 //import 'isomorphic-unfetch'
 import { ToastContainer, toast } from 'react-toastify';
 
-
 import withData from '../lib/backendApi/withData'
 import redirect from '../lib/auth/redirect'
 import checkLoggedIn from '../lib/auth/checkLoggedIn'
