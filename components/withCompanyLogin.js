@@ -7,11 +7,9 @@ import gql from 'graphql-tag'
 
 import { ToastContainer, toast } from 'react-toastify';
 
-
 import withData from '../lib/backendApi/withData'
 import redirect from '../lib/auth/redirect'
 import checkCompanyLoggedIn from '../lib/auth/checkCompanyLoggedIn'
-
 
 export default function withLayout(Child, opts) {
   class WrappedComponent extends React.Component {
@@ -22,7 +20,7 @@ export default function withLayout(Child, opts) {
         ChildProps = await Child.getInitialProps(context, apolloClient)
       }
 
-      const { loggedInUser } = await checkLoggedIn(context, apolloClient)
+      const { loggedInUser } = await checkCompanyLoggedIn(context, apolloClient)
       //console.log('loggedInUser---');
       //console.log(loggedInUser);
       if (loggedInUser.company) {
@@ -64,6 +62,7 @@ export default function withLayout(Child, opts) {
   mutation Login($email: String!, $password: String!) {
     loginCompany ( email: $email, password: $password ) {
       jwt
+      name
     }
   }
   `
@@ -86,7 +85,7 @@ export default function withLayout(Child, opts) {
           ownProps: { client, url }
         }) => ({
           // `login` is the name of the prop passed to the component
-          login: ({email, password}, onComplete) => {
+          login: ({email, password}, onComplete, onFail) => {
 
             loginWithEmail({
               variables: {
@@ -94,14 +93,13 @@ export default function withLayout(Child, opts) {
                 password: password
               }
             }).then(({ data }) => {
-              onComplete && onComplete(data.loginCompany.name.last);
+              onComplete && onComplete({name: data.loginCompany.name});
               // Store the token in cookie
               const {jwt} = data.loginCompany
               document.cookie = cookie.serialize('token', jwt, {
                 maxAge: 3 * 24 * 60 * 60 // 3 days
               })
 
-              //console.log(ownProps);
               // Force a reload of all the current queries now that the user is
               // logged in
               client.resetStore().then(() => {
@@ -112,33 +110,7 @@ export default function withLayout(Child, opts) {
             }).catch((error) => {
               // Something went wrong, such as incorrect password, or no network
               // available, etc.
-              console.error(error)
-              const toastStyle = {
-                className: {
-                  fontSize: '0.875rem',
-                  fontWeight: '500',
-                  lineHeight: '1.5',
-                  background: '#f86c6b',
-                  color: "white"
-                },progressClassName: {
-                  background: '#f5302e'
-                }
-              }
-              if (error.graphQLErrors.length==0)
-                toast("Something Went Wrong With your request", {...toastStyle});
-
-              error.graphQLErrors.forEach(error=>{
-                switch(error.message) {
-                  case `password incorrect`:
-                  toast("Incorrect Username/password", {...toastStyle});
-                  break;
-                  case `email/company not found`:
-                  toast("Incorrect Username/password", {...toastStyle});
-                  break;
-                  default:
-                  toast("Something Went Wrong", {...toastStyle});
-                }
-              })
+              onFail && onFail(error);
             })
           }
         })

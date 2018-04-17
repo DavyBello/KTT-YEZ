@@ -15,6 +15,7 @@ class Header extends Component {
 
   constructor(props) {
     super(props);
+    this.signout = this.signout.bind(this)
   }
 
   sidebarToggle(e) {
@@ -47,7 +48,7 @@ class Header extends Component {
     // logged in, so we don't accidentally leave any state around.
     this.props.client.cache.reset().then(() => {
       // Redirect to a more useful page when signed out
-      Router.replace('/media-portal-login')
+      Router.replace('/company/login')
     })
   }
 
