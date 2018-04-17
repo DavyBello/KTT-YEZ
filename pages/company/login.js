@@ -2,20 +2,20 @@ import {Component} from 'react'
 //import Router from 'next/router'
 import Head from 'next/head'
 
-import withCandidateLogin from '../../components/withCandidateLogin'
-//import withCandidateLogin from '../../components/withCandidateLogin'
-import Login from '../../components/portal/LoginPage/LoginPage'
+import withCompanyLogin from '../../components/withCompanyLogin'
+//import withCompanyLogin from '../../components/withCompanyLogin'
+import Login from '../../components/companyPortal/LoginPage/LoginPage'
 
 class LoginPage extends Component {
   render(){
-    console.log('loginpage');
-    console.log(this.props);
+    // console.log('loginpage');
+    // console.log(this.props);
     return (
       <div className="animated fadeIn">
         <Head>
           <title>KTT Youth Empowerment Zone | Login</title>
         </Head>
-        <Login />
+        {/* <Login /> */}
         <Login title={'login'} {...this.props}/>
       </div>
     )
@@ -23,4 +23,4 @@ class LoginPage extends Component {
 }
 
 // export default LoginPage
-export default withCandidateLogin(LoginPage)
+export default withCompanyLogin(LoginPage)
