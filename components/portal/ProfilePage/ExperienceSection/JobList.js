@@ -1,6 +1,5 @@
 import { Component } from 'react'
-import {graphql} from 'react-apollo'
-import gql from 'graphql-tag'
+import {Query} from 'react-apollo'
 import moment from 'moment'
 
 import {
@@ -18,10 +17,12 @@ import {
   ModalFooter
 } from 'reactstrap';
 
+import {VIEWER_CANDIDATE_EXPERIENCE_QUERY} from '../../../../lib/backendApi/queries'
+
 import DetailsModal from './DetailsModal'
 import DeleteButton from './DeleteButton'
 
-class JobList extends Component {
+export default class JobList extends Component {
   constructor(props){
     super(props)
     this.state = {
@@ -50,25 +51,40 @@ class JobList extends Component {
   }
 
  render(){
-   const {viewerCandidate = {}} = this.props.data || {viewerCandidate: []};
-   //console.log(viewerCandidate);
+   console.log('viewerCandidate');
    return(
-    <ListGroup>
-      {viewerCandidate.candidate.experience.map((job, index)=>(
-        <ListGroupItem key={index}>
-          <ListGroupItemHeading>{job.role}
-            <div className="float-right">
-              <Button onClick={()=>this.toggle(job)} className="btn-sm" outline color="primary"><i className="icon-pencil"></i>&nbsp; Edit</Button>
-              {' '}<Button onClick={()=>this.toggleConfirm(job)} className="btn-sm" outline color="danger"><i className="icon-trash"></i></Button>
-            </div>
-          </ListGroupItemHeading>
-          <div>
-            <p style={{marginBottom: '0px'}}><i className="icon-briefcase"></i> {job.companyName}</p>
-            <p style={{marginBottom: '0px'}}>{`${job.duration} | ${moment(job.startDate, "YYYYMMDD").fromNow(true)}` || 'Jan, 2016 - Present  |  2 Years.'}</p>
-            <p >{job.address}</p>
-          </div>
-        </ListGroupItem>
-      ))}
+    <div>
+      <Query query={VIEWER_CANDIDATE_EXPERIENCE_QUERY}>
+        {({loading, error, data}) => {
+          if (loading)
+            return "Loading...";
+          if (error)
+            return `Error! ${error.message}`;
+
+          const {viewerCandidate: {candidate}} = data;
+          // console.log(candidate);
+          // console.log('experience');
+          return(
+            <ListGroup>
+              {candidate.experience.map((job, index)=>(
+                <ListGroupItem key={index}>
+                  <ListGroupItemHeading>{job.role}
+                    <div className="float-right">
+                      <Button onClick={()=>this.toggle(job)} className="btn-sm" outline color="primary"><i className="icon-pencil"></i>&nbsp; Edit</Button>
+                      {' '}<Button onClick={()=>this.toggleConfirm(job)} className="btn-sm" outline color="danger"><i className="icon-trash"></i></Button>
+                    </div>
+                  </ListGroupItemHeading>
+                  <div>
+                    <p style={{marginBottom: '0px'}}><i className="icon-briefcase"></i> {job.companyName}</p>
+                    <p style={{marginBottom: '0px'}}>{`${job.duration} | ${moment(job.startDate, "YYYYMMDD").fromNow(true)}` || 'Jan, 2016 - Present  |  2 Years.'}</p>
+                    <p >{job.address}</p>
+                  </div>
+                </ListGroupItem>
+              ))}
+            </ListGroup>
+          )
+        }}
+      </Query>
       <DetailsModal isOpen={this.state.modalOpen} toggle={this.toggle} save={this.save} experience={this.state.selectedjob}/>
       <Modal isOpen={this.state.showConfirmModal} toggle={()=>this.toggleConfirm({})} className='modal-md modal-danger' centered={true}>
         <ModalBody className="text-center">
@@ -79,39 +95,7 @@ class JobList extends Component {
           <Button color="secondary" onClick={this.toggleConfirm}>No thanks</Button>
         </ModalFooter>
       </Modal>
-    </ListGroup>
+    </div>
    )
   }
 }
-
- export const ViewerCandidateExperienceQuery = gql`
-   query ViewerCandidateQuery{
-     viewerCandidate {
-       candidate {
-         _id
-         id
-         experience{
-          _id
-          companyName
-          role
-          fromYear
-          fromMonth
-          toYear
-          toMonth
-          startDate
-          address
-          state
-          salary
-          duration
-          isWorkingHere
-         }
-       }
-     }
-   }
- `
-
- export default graphql(ViewerCandidateExperienceQuery, {
-   props: ({ data }) => ({
-     data
-   })
- })(JobList)

@@ -3,12 +3,10 @@ import {Component} from 'react'
 import Head from 'next/head'
 
 import withCandidateLogin from '../../components/withCandidateLogin'
-//import withCandidateLogin from '../../components/withCandidateLogin'
 import Login from '../../components/portal/LoginPage/LoginPage'
 
 class LoginPage extends Component {
   render(){
-    //console.log(this.props);
     return (
       <div className="animated fadeIn">
         <Head>

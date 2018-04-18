@@ -1,8 +1,10 @@
 /**
 * FUNCTIONS
 */
+//Canverts string to Camel Case
 export const toCamelCase = (s) => s.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 
+//converts State name to graphql enum and vice versa
 export const convertState = (stateName) => {
   if (stateName === 'Akwa Ibom') {
     return 'AkwaIbom'
@@ -21,10 +23,60 @@ export const convertState = (stateName) => {
   }
 };
 
+//converts ISO date to yyyy-mm-dd format
+export const formatDate = (date) => {
+  if (!date) {
+    return null;
+  }
+  var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+
+  if (month.length < 2) month = '0' + month;
+  if (day.length < 2) day = '0' + day;
+
+  return [year, month, day].join('-');
+}
+
+//removes empty values from object
+export const removeEmpty = (obj) => {
+  Object.keys(obj).forEach(key => {
+    if (obj[key] && typeof obj[key] === 'object') removeEmpty(obj[key]);
+    else if (obj[key] == null) delete obj[key];
+  });
+};
+
 /* * REGEX */
 export const PHONE_REGEX = new RegExp("^[0][0-9]\\d{9}$");
 export const NOT_PASSWORD_REGEX = new RegExp("^(.{0,7}|[^0-9]*|[^a-z]*)$");
 export const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+//STYLES
+export const TOAST_STYLE={
+  success: {
+    className: {
+      fontSize: '0.875rem',
+      fontWeight: '500',
+      lineHeight: '1.5',
+      background: "#4dbd74",
+      color: "white"
+    },progressClassName: {
+      background: "#3a9d5d"
+    }
+  },
+  fail:{
+    className: {
+      fontSize: '0.875rem',
+      fontWeight: '500',
+      lineHeight: '1.5',
+      background: '#f86c6b',
+      color: "white"
+    },progressClassName: {
+      background: '#f5302e'
+    }
+  }
+}
 
 /**
 * CONSTANTS

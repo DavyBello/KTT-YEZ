@@ -1,10 +1,12 @@
 import {Component} from 'react'
-import {graphql, withApollo, compose} from 'react-apollo'
+// import {graphql, withApollo, compose} from 'react-apollo'
+import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
 import Head from 'next/head'
 import { Row, Col } from 'reactstrap'
 import { ToastContainer, toast } from 'react-toastify';
 
+import { PROFILE_VIEWER_CANDIDATE_QUERY } from '../../lib/backendApi/queries'
 
 import withCandidatePortal from '../../components/withCandidatePortal'
 import DetailsSection from '../../components/portal/ProfilePage/DetailsSection/DetailsSection'
@@ -17,33 +19,47 @@ import RefereesSection from '../../components/portal/ProfilePage/RefereesSection
 
 class Page extends Component {
   render(){
-  //  console.log('uaisodhpijspjdpithis.props');
-//    console.log(this.props);
-    //console.log('warstedyruftiygoulgkyfjhd');
-//    console.log(this.props.candidateUpdateById);
-    const { candidate } = this.props.data.viewerCandidate
+
+    // const { candidate } = this.props.data.viewerCandidate
     return (
       <div className="animated fadeIn">
         <Head>
           <title>KTT Youth Empowerment Zone | Profile</title>
         </Head>
-        <Row>
-          <Col md="8" xs="12">
-            <ProfileSection user={candidate} update={this.props.update}/>
-          </Col>
-          <Col md="4" xs="12">
-            <DetailsSection user={candidate}/>
-          </Col>
-        </Row>
-        <Row>
-          <Col md="8">
-            <MoreDetails user={candidate} update={this.props.update}/>
-            <ExperienceSection user={candidate}/>
-            {/* <EducationSection />
-            <CertificationsSection />
-            <RefereesSection /> */}
-          </Col>
-        </Row>
+        <Query query={PROFILE_VIEWER_CANDIDATE_QUERY}>
+          {({loading, error, data}) => {
+            if (loading)
+              return "Loading...";
+            if (error)
+              return `Error! ${error.message}`;
+
+            const {viewerCandidate: {candidate}} = data;
+            // const user = candidate;
+            // console.log('candidate');
+            // console.log(candidate);
+            return (
+              <div>
+                <Row>
+                  <Col md="8" xs="12">
+                    <ProfileSection user={candidate} update={this.props.update}/>
+                  </Col>
+                  <Col md="4" xs="12">
+                    <DetailsSection user={candidate}/>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md="8">
+                    <MoreDetails user={candidate} update={this.props.update}/>
+                    <ExperienceSection user={candidate}/>
+                    {/* <EducationSection />
+                      <CertificationsSection />
+                      <RefereesSection /> */}
+                    </Col>
+                  </Row>
+              </div>
+            )
+          }}
+        </Query>
         <ToastContainer />
       </div>
     )
@@ -51,9 +67,8 @@ class Page extends Component {
 }
 
 // export default Page
-// export default withCandidatePortal(Page)
-//Add $address: String,
-const gqlWrapper = gql `
+export default withCandidatePortal(Page)
+/*const gqlWrapper = gql `
 mutation UpdateCandidate(
   $id: MongoID!, $email: String, $username: String, $bvn: String, $address: String,
   $nationality: String, $gender: EnumCandidateGender, $stateOfResidence: EnumCandidateStateOfResidence,
@@ -160,4 +175,4 @@ export default withCandidatePortal(graphql(gqlWrapper, {
       })
     }
   })
-})(Page))
+})(Page))*/

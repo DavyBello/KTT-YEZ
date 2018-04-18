@@ -25,7 +25,7 @@ import MaskedInput from 'react-text-mask'
 import SaveButton from './SaveButton'
 import UpdateButton from './UpdateButton'
 
-import {MONTHS, STATES, YEARS, convertState } from '../../../../lib/common'
+import {MONTHS, STATES, YEARS, convertState } from '../../../../utils/common'
 
 export default class DetailsModal extends Component{
   constructor(props) {
@@ -35,10 +35,10 @@ export default class DetailsModal extends Component{
       role: '',
       companyName: '',
       address: '',
-      fromMonth: 'February',
-      fromYear:  '',
-      toMonth: '',
-      toYear: '',
+      fromMonth: 'January',
+      fromYear:  '2018',
+      toMonth: 'January',
+      toYear: '2018',
       salary: '',
       isWorkingHere: false,
       details: {}
@@ -54,9 +54,15 @@ export default class DetailsModal extends Component{
       ...experience,
       id: experience._id || null,
       isWorkingHere: experience.isWorkingHere || false,
-      state: convertState(experience.state) || 'Bayelsa'
+      state: convertState(experience.state) || 'Abia',
+      details: {
+        ...experience,
+        id: experience._id || null,
+        isWorkingHere: experience.isWorkingHere || false,
+        state: convertState(experience.state) || 'Abia',
+      }
     })
-    this.setState({details : {...experience, id: experience._id || null}})
+    // this.setState({details : {...experience, id: experience._id || null}})
   }
 
   handleFieldChange(field, value){

@@ -44,10 +44,10 @@ class Page extends Component {
     e.stopPropagation()
 
     if (this.state.password && this.state.phoneValid) {
-      this.props.login({
+      this.props.loginCandidate({variables: {
         phone: this.state.phone,
         password: this.state.password //a
-      }, (lastName)=>{
+      }}/*, (lastName)=>{
         //function runs if login is sucessfull
         const toastStyle = {
           className: {
@@ -61,7 +61,7 @@ class Page extends Component {
           }
         }
         toast(`Welcome Back ${lastName}`, {...toastStyle});
-      })
+      }*/)
     } else {
       if (!this.state.phone || !this.state.phoneValid) {
         this.setState({phoneValid: false})
@@ -87,6 +87,7 @@ class Page extends Component {
 
   render(){
     // const
+    // console.log(this.props);
     return (
       <div className="app flex-row align-items-center">
         <ToastContainer />

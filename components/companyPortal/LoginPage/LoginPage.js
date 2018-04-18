@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 import { Container, Row, Col, CardGroup, Card, CardBody, Button, Input, InputGroup, InputGroupAddon, InputGroupText, Form } from 'reactstrap';
 import { ToastContainer, toast } from 'react-toastify';
-import { EMAIL_REGEX } from '../../../lib/common'
+import { EMAIL_REGEX } from '../../../utils/common'
 
 class Page extends Component {
   constructor(props){
