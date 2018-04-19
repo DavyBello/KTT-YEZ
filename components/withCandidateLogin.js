@@ -1,20 +1,17 @@
 import React from 'react'
 import Head from 'next/head'
-import Link from 'next/link'
 import { Mutation, withApollo, compose } from 'react-apollo'
-import gql from 'graphql-tag'
 import cookie from 'cookie'
 
 import withData from '../lib/backendApi/withData'
 import redirect from '../lib/auth/redirect'
 import checkLoggedIn from '../lib/auth/checkLoggedIn'
-import { LOGIN_MUTATION } from '../lib/backendApi/mutations'
+import { LOGIN_CANDIDATE_MUTATION } from '../lib/backendApi/mutations'
 
-import {ToastContainer, toast} from 'react-toastify'
+import { ToastContainer, toast} from 'react-toastify'
 import { TOAST_STYLE } from '../utils/common'
 
 export default function withLayout(Child, opts) {
-
   class WrappedComponent extends React.Component {
     static async getInitialProps(context, apolloClient) {
       let ChildProps = {};
@@ -74,25 +71,24 @@ export default function withLayout(Child, opts) {
     render() {
       const opts = opts || {};
       return (
-        <Mutation mutation={LOGIN_MUTATION}
-          onCompleted={this.onCompleted}
-          onError={this.onError}>
-        {
-          (loginCandidate, {data, error}) => (<div>
-            <Head>
-              <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
-              <meta httpEquiv="X-UA-Compatible" content="IE=edge"/>
-              <meta charSet="utf-8"/> {/* <link rel="icon" href="wt_62309/images/favicon.ico" type="image/x-icon"/> */}
-              {/* <!-- Stylesheets--> */}
-              <link rel="stylesheet" href="/static/css/portal/style.css"/>
-              <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css"/>
-            </Head>
-            <div>
+        <div>
+          <Head>
+            <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta httpEquiv="X-UA-Compatible" content="IE=edge"/>
+            <meta charSet="utf-8"/> {/* <link rel="icon" href="wt_62309/images/favicon.ico" type="image/x-icon"/> */}
+            {/* <!-- Stylesheets--> */}
+            <link rel="stylesheet" href="/static/css/portal/style.css"/>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css"/>
+          </Head>
+          <Mutation mutation={LOGIN_CANDIDATE_MUTATION}
+            onCompleted={this.onCompleted}
+            onError={this.onError}>
+            {(loginCandidate, {data, error}) => (
               <Child {...this.props} loginCandidate={loginCandidate}/>
-            </div>
-          </div>)
-        }
-      </Mutation>
+            )}
+          </Mutation>
+          <ToastContainer />
+        </div>
     )}
   }
 

@@ -25,7 +25,7 @@ import MaskedInput from 'react-text-mask'
 import SaveButton from './SaveButton'
 import UpdateButton from './UpdateButton'
 
-import {MONTHS, STATES, YEARS, convertState } from '../../../../utils/common'
+import {MONTHS, STATES, YEARS, prettifyState } from '../../../../utils/common'
 
 export default class DetailsModal extends Component{
   constructor(props) {
@@ -41,6 +41,7 @@ export default class DetailsModal extends Component{
       toYear: '2018',
       salary: '',
       isWorkingHere: false,
+      state: 'Abia',
       details: {}
     }
     this.handleFieldChange = this.handleFieldChange.bind(this);
@@ -50,18 +51,20 @@ export default class DetailsModal extends Component{
 
   componentWillReceiveProps(nextProps){
     const {experience = {}} = nextProps;
-    this.setState({
-      ...experience,
-      id: experience._id || null,
-      isWorkingHere: experience.isWorkingHere || false,
-      state: convertState(experience.state) || 'Abia',
-      details: {
+    if (experience._id) {
+      this.setState({
         ...experience,
         id: experience._id || null,
         isWorkingHere: experience.isWorkingHere || false,
-        state: convertState(experience.state) || 'Abia',
-      }
-    })
+        state: prettifyState(experience.state) || 'Abia',
+        details: {
+          ...experience,
+          id: experience._id || null,
+          isWorkingHere: experience.isWorkingHere || false,
+          state: experience.state || 'Abia',
+        }
+      })
+    }
     // this.setState({details : {...experience, id: experience._id || null}})
   }
 
@@ -88,7 +91,7 @@ export default class DetailsModal extends Component{
   render(){
   //this.state.details.id = experience._id || null;
   const {experience = {}} = this.props
-  //console.log(this.state.details);
+  // console.log(this.state.details);
     return(
       <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} className='modal-lg modal-info'>
         <ModalHeader toggle={this.props.toggle}>Add Experience</ModalHeader>
@@ -103,13 +106,13 @@ export default class DetailsModal extends Component{
               <Input onChange={(e)=>this.handleFieldChange('companyName', e.target.value)} defaultValue={experience.companyName} type="text" id="name" placeholder="Eg: Google" required/>
             </FormGroup>
             <FormGroup row>
-              <Col md="9">
+              <Col md="9" xs="12">
                 <Label htmlFor="name">Address</Label>
                 <Input onChange={(e)=>this.handleFieldChange('address', e.target.value)} defaultValue={experience.address} type="text" id="name" placeholder="Eg: Kubwa, Abuja" required/>
               </Col>
-              <Col md="3">
+              <Col md="3" xs="12">
                 <Label htmlFor="name">State</Label>
-                <Input onChange={(e)=>this.handleFieldChange('stateOfResidence', e.target.value)} type="select" id="name" placeholder="Select State" required defaultValue={this.state.stateOfResidence}>
+                <Input onChange={(e)=>this.handleFieldChange('state', prettifyState(e.target.value))} type="select" id="name" placeholder="Select State" required defaultValue={this.state.state}>
                   {STATES.map((state, index)=><option key={index}>{state}</option>)}
                 </Input>
               </Col>

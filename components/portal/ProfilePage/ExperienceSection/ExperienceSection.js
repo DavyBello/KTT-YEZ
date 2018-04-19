@@ -1,4 +1,5 @@
-import {Component} from 'react'
+import { Component } from 'react'
+import { Query } from 'react-apollo'
 import {
   Card,
   CardBody,
@@ -21,11 +22,13 @@ import {
   ModalFooter
 } from 'reactstrap'
 
+import {VIEWER_CANDIDATE_EXPERIENCE_QUERY} from '../../../../lib/backendApi/queries'
+// import * as allMutations from '../../../../lib/backendApi/mutations'
+
 import DetailsModal from './DetailsModal'
 import JobList from './JobList'
 import SaveButton from './SaveButton'
 
-const isEmpty = false;
 
 const EmptySpace = props => (
   <p className="display-4" style={{padding: '10px 0px 10px'}}>
@@ -38,15 +41,9 @@ export default class extends Component {
     super(props)
     this.state = {
       modalOpen: false,
-      isEmpty: true
     }
     this.toggle = this.toggle.bind(this);
     this.save = this.save.bind(this);
-  }
-
-  componentWillMount(){
-    if (this.props.user.experience.length>0)
-     this.state.isEmpty=false
   }
 
   toggle(){
@@ -58,31 +55,44 @@ export default class extends Component {
   }
 
   render(){
-    // console.log(this.props.user.experience.length);
+    // console.log(allMutations);
     return (
       <Card>
-        <CardBody >
-          <CardTitle className="mb-0">
-            Work Experience {
-              (this.props.user.experience.length>0) && (
-              <Button className="float-right" size="sm" color="primary" onClick={this.toggle}>
-                <i className="icon-plus"></i> Add
-              </Button>)
-            }
-          </CardTitle>
-          <hr/> {
-            (!this.props.user.experience.length>0)
-            ? (<div className="text-center">
-              <EmptySpace/>
-              <Button size="lg" color="primary" onClick={this.toggle}>
-                <i className="icon-plus"></i> Add Work Experience
-              </Button>
-            </div>)
-            : (<div>
-              <JobList/>
-            </div>)
-          }
-        </CardBody>
+        <Query query={VIEWER_CANDIDATE_EXPERIENCE_QUERY}>
+          {({loading, error, data}) => {
+            if (loading)
+              return "Loading...";
+            if (error)
+              return `Error! ${error.message}`;
+
+            const {viewerCandidate: {candidate}} = data;
+            // console.log('experience');
+            return(
+              <CardBody >
+                <CardTitle className="mb-0">
+                    {
+                    (candidate.experience.length>0) && (
+                      <Button className="float-right" size="sm" color="primary" onClick={this.toggle}>
+                        <i className="icon-plus"></i> Add
+                      </Button>)
+                    }
+                    Work Experience
+                  </CardTitle>
+                  <hr/> {
+                    (!candidate.experience.length>0)
+                    ? (<div className="text-center">
+                      <EmptySpace/>
+                      <Button size="lg" color="primary" onClick={this.toggle}>
+                        <i className="icon-plus"></i> Add Work Experience
+                      </Button>
+                    </div>)
+                    : (<div>
+                      <JobList candidate={candidate}/>
+                    </div>)
+                  }
+                </CardBody>
+            )}}
+          </Query>
         <DetailsModal isOpen={this.state.modalOpen} toggle={this.toggle} save={this.save} isNew/>
       </Card>
     )

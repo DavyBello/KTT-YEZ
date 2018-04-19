@@ -110,11 +110,11 @@ class ProfileSection extends Component {
                   <Row>
                     <Col sm="12">
                       <FormGroup row>
-                        <Col md="6">
+                        <Col md="6" xs="12">
                           <Label htmlFor="name">First Name</Label>
                           <Input type="text" id="name" disabled="disabled" placeholder="First name" required value={user.name.first}/>
                         </Col>
-                        <Col md="6">
+                        <Col md="6" xs="12">
                           <Label htmlFor="name">Last Name</Label>
                           <Input type="text" id="name" disabled="disabled" placeholder="Last name" required value={user.name.last}/>
                         </Col>
@@ -124,11 +124,11 @@ class ProfileSection extends Component {
                         <Input valid={this.state.emailValid} type="email" id="name" placeholder="Email address" required defaultValue={this.state.email} onChange={this.handleEmailChange}/>
                       </FormGroup>
                       <FormGroup row>
-                        <Col md="6">
+                        <Col md="6" xs="12">
                           <Label htmlFor="name">Phone</Label>
                           <Input type="text" id="name" disabled="disabled" placeholder="Phone number" required value={user.phone}/>
                         </Col>
-                        <Col md="6">
+                        <Col md="6" x="12">
                           <Label htmlFor="name">Username</Label>
                           <Input type="text" id="name" placeholder="Username" required defaultValue={this.state.username} onChange={this.handleUsernameChange}/>
                         </Col>

@@ -12,6 +12,8 @@ import {Container} from 'reactstrap'
 import Sidebar from './portal/adminUI/Sidebar/Sidebar'
 import Header from './portal/adminUI/Header/Header'
 
+import { ToastContainer } from 'react-toastify'
+
 export default function withLayout(Child, opts) {
 
   class WrappedComponent extends React.Component {
@@ -39,6 +41,11 @@ export default function withLayout(Child, opts) {
     }
 
     render() {
+      if (!this.props.loggedInUser.candidate) {
+        return (
+          <div>Hollup</div>
+        )
+      }
       const opts = opts || {};
       return (
         <div>
@@ -58,12 +65,13 @@ export default function withLayout(Child, opts) {
                 paddingTop: '24px'
               }}>
               {/* <Breadcrumb/> */}
-              <Container fluid="fluid">
+              <Container fluid>
                 <Child />
               </Container>
             </main>
           </div>
         </div>
+        <ToastContainer />
       </div>
     )}
   }

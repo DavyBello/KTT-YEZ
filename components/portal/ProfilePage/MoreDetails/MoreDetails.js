@@ -16,7 +16,7 @@ import {
 } from 'reactstrap'
 import {toast} from 'react-toastify';
 
-import {MONTHS, STATES, YEARS, TOAST_STYLE, convertState, formatDate} from '../../../../utils/common'
+import {MONTHS, STATES, YEARS, TOAST_STYLE, prettifyState, enumifyState, formatDate} from '../../../../utils/common'
 import {UPDATE_CANDIDATE_MUTATION} from '../../../../lib/backendApi/mutations'
 
 class MoreDetails extends Component {
@@ -27,7 +27,7 @@ class MoreDetails extends Component {
       nationality: props.user.nationality || '',
       gender: props.user.gender || '',
       origin: props.user.stateOfOrigin || '',
-      stateOfResidence: convertState(props.user.stateOfResidence) || '',
+      stateOfResidence: prettifyState(props.user.stateOfResidence) || '',
       dob: formatDate(props.user.dateOfBirth),
       pob: props.user.placeOfBirth || ''
       //bvn: props.user.bvn || '',
@@ -54,7 +54,7 @@ class MoreDetails extends Component {
         placeOfBirth: this.state.pob,
         gender: this.state.gender || 'Male',
         stateOfResidence: this.state.stateOfResidence
-          ? convertState(this.state.stateOfResidence)
+          ? enumifyState(this.state.stateOfResidence)
           : 'Abia'
       }
     })
@@ -93,8 +93,8 @@ class MoreDetails extends Component {
                         ? null
                         : false} onChange={(e) => this.handleFieldChange('address', e.target.value)} type="text" id="name" placeholder="House address" required="required" defaultValue={this.state.address}/>
                   </FormGroup>
-                  <FormGroup row="row">
-                    <Col md="4">
+                  <FormGroup row>
+                    <Col md="4" xs="7">
                       <Label htmlFor="name">State of Residence</Label>
                       <Input onChange={(e) => this.handleFieldChange('stateOfResidence', e.target.value)} type="select" id="name" placeholder="Select State" required="required" defaultValue={this.state.stateOfResidence}>
                         {
@@ -106,7 +106,7 @@ class MoreDetails extends Component {
                         }
                       </Input>
                     </Col>
-                    <Col md="3">
+                    <Col md="3" xs="5">
                       <Label htmlFor="name">Gender</Label>
                       <Input onChange={(e) => this.handleFieldChange('gender', e.target.value)} type="select" id="name" placeholder="Select Gender" required="required" defaultValue={this.state.gender}>
                         <option>Male</option>
@@ -114,7 +114,7 @@ class MoreDetails extends Component {
                         <option>Other</option>
                       </Input>
                     </Col>
-                    <Col md="5">
+                    <Col md="5" xs="12">
                       <Label htmlFor="name">Nationality</Label>
                       <Input valid={(
                           this.state.nationality)
@@ -122,15 +122,15 @@ class MoreDetails extends Component {
                           : false} onChange={(e) => this.handleFieldChange('nationality', e.target.value)} type="text" id="name" placeholder="Nationality" required="required" defaultValue={this.state.nationality}/>
                     </Col>
                   </FormGroup>
-                  <FormGroup row="row">
-                    <Col md="6">
+                  <FormGroup row>
+                    <Col md="6" xs="12">
                       <Label htmlFor="name">Date of Birth</Label>
                       <Input valid={(
                           this.state.dob)
                           ? null
                           : false} onChange={(e) => this.handleFieldChange('dob', e.target.value)} type="date" id="name" placeholder="Date of Birth" required="required" defaultValue={this.state.dob}/>
                     </Col>
-                    <Col md="6">
+                    <Col md="6" xs="12">
                       <Label htmlFor="name">Place of Birth</Label>
                       <Input valid={(
                           this.state.pob)

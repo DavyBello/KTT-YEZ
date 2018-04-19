@@ -2,7 +2,7 @@ import {Component} from 'react'
 import Link from 'next/link'
 
 import { Container, Row, Col, CardGroup, Card, CardBody, Button, Input, InputGroup, InputGroupAddon, InputGroupText, Form } from 'reactstrap';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { EMAIL_REGEX } from '../../../utils/common'
 
 class Page extends Component {
@@ -125,7 +125,6 @@ class Page extends Component {
     // const
     return (
       <div className="app flex-row align-items-center">
-        <ToastContainer />
         <Container>
           <Row className="justify-content-center">
             <Col md="8">

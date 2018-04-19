@@ -8,12 +8,9 @@ import {
   Modal, ModalBody, ModalFooter,
   ModalHeader, FormText
 } from 'reactstrap';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
-const PHONE_REGEX = new RegExp("^[0][0-9]\\d{9}$");
-// const PASSWORD_REGEX = new RegExp("^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$");
-const NOT_PASSWORD_REGEX = new RegExp("^(.{0,7}|[^0-9]*|[^a-z]*)$");
-const toCamelCase = (s) => s.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+import { PHONE_REGEX, NOT_PASSWORD_REGEX, TOAST_STYLE, toCamelCase } from '../../../utils/common'
 
 class Page extends Component {
   constructor(props){
@@ -98,12 +95,10 @@ class Page extends Component {
   };
 
   toggleConfirm(){
-    //this.setState({deleteJobId: job._id || ''})
     this.setState({showConfirmModal: !this.state.showConfirmModal})
   }
 
   showConfirmModal(){
-    //this.setState({deleteJobId: job._id || ''})
     if (this.state.passwordValid && this.state.confirmPasswordValid && this.state.phoneValid && this.state.firstName && this.state.lastName) {
       this.setState({firstName: toCamelCase(this.state.firstName), lastName: toCamelCase(this.state.lastName)})
       this.setState({showConfirmModal: true})
@@ -123,18 +118,7 @@ class Page extends Component {
       if (!this.state.lastName) {
         this.setState({lastNameValid: false})
       }
-      const toastStyle = {
-        className: {
-          fontSize: '0.875rem',
-          fontWeight: '500',
-          lineHeight: '1.5',
-          background: '#f86c6b',
-          color: "white"
-        },progressClassName: {
-          background: '#f5302e'
-        }
-      }
-      toast("Your Inputs are not valid", {...toastStyle});
+      toast("Your Inputs are not valid", {...TOAST_STYLE.fail});
     }
   }
 
@@ -142,33 +126,17 @@ class Page extends Component {
     e.preventDefault()
     e.stopPropagation()
 
-    this.props.signUp({
+    this.props.signUpCandidate({variables: {
       firstName: this.state.firstName,
       lastName: this.state.lastName,
       phone: this.state.phone,
       password: this.state.password
-    },()=>{
-      //function runs if register is sucessfull
-      const toastStyle = {
-        className: {
-          fontSize: '0.875rem',
-          fontWeight: '500',
-          lineHeight: '1.5',
-          background: "#4dbd74",
-          color: "white"
-        },progressClassName: {
-          background: "#3a9d5d"
-        }
-      }
-      toast("🎉 Yay! Hold on while we create your portal 🎊", {...toastStyle});
-    })
+    }})
   }
 
   render(){
-    //console.log('this.props');
     return (
       <div className="app flex-row align-items-center">
-        <ToastContainer />
         <Container>
           <Row className="justify-content-center">
             <Col md="6">
@@ -258,7 +226,6 @@ class Page extends Component {
               }}>you cannot change these details once your portal has been created</p>
             </ModalBody>
             <ModalFooter>
-              {/* <DeleteButton details={{id: this.state.deleteJobId}} toggleConfirm={()=>this.toggleConfirm({})}/> */}
               <Button color="primary" onClick={this.doRegister}>Ok I'm Sure</Button>
               <Button color="danger" onClick={this.toggleConfirm}>Cancel</Button>
             </ModalFooter>

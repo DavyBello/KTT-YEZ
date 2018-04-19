@@ -3,7 +3,7 @@ import { Mutation } from 'react-apollo'
 import { toast } from 'react-toastify';
 import { Button } from 'reactstrap'
 
-import { TOAST_STYLE, removeEmpty } from '../../../../utils/common'
+import { TOAST_STYLE, removeEmpty, enumifyState } from '../../../../utils/common'
 import { VIEWER_CANDIDATE_EXPERIENCE_QUERY } from '../../../../lib/backendApi/queries'
 import { CREATE_EXPERIENCE_MUTATION } from '../../../../lib/backendApi/mutations'
 
@@ -20,6 +20,7 @@ export default class SaveButton extends Component {
   save = (e, runMutation) => {
     // console.log(this.props.details);
     let data = this.props.details
+    data.state = enumifyState(data.state);
 
     if (data.companyName && data.role && data.address && data.fromYear) {
 
@@ -30,25 +31,17 @@ export default class SaveButton extends Component {
         delete data.toYear;
       }
       runMutation({
-        variables: { ...data },
+        variables: data,
         update: (proxy, { data: { addJobExperience } }) => {
           // Read the data from our cache for this query.
           const data = proxy.readQuery({ query: VIEWER_CANDIDATE_EXPERIENCE_QUERY });
 
-          // Add our todo from the mutation to the end.
+          // Add the new experience to VIEWER_CANDIDATE_EXPERIENCE_QUERY
           data.viewerCandidate.candidate.experience.push(addJobExperience.record);
 
           // Write our data back to the cache.
           proxy.writeQuery({ query: VIEWER_CANDIDATE_EXPERIENCE_QUERY, data });
-        },
-        // optimisticResponse: {
-        //   __typename: 'Mutation',
-        //   addJobExperience: {
-        //     __typename: 'Post',
-        //     id: ownProps.id,
-        //     votes: ownProps.votes + 1
-        //   }
-        // }
+        }
       })
 
     } else {
@@ -65,14 +58,11 @@ export default class SaveButton extends Component {
       } else
         toast(message, {...TOAST_STYLE.fail});
     }
-
-
-    // console.log(data);
-
   }
 
   onCompleted = (data) => {
-    toast("Your Work History has been updated", {...TOAST_STYLE.success});
+    const {addJobExperience: {record: {companyName}}} = data
+    toast(`Your experience at ${companyName} has been added`, {...TOAST_STYLE.success});
     this.props.close();
   }
 
