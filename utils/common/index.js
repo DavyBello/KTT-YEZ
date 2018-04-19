@@ -4,20 +4,26 @@
 //Canverts string to Camel Case
 export const toCamelCase = (s) => s.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 
-//converts State name to graphql enum and vice versa
-export const convertState = (stateName) => {
+//converts graphql enum to State name
+export const prettifyState = (stateName) => {
+  if (stateName === 'AkwaIbom') {
+    return 'Akwa Ibom'
+  } else if (stateName === 'CrossRiver') {
+    return 'Cross River'
+  } else if (stateName === 'FCTAbuja') {
+    return 'FCT - Abuja'
+  } else {
+    return stateName
+  }
+};
+//converts State name to graphql enum
+export const enumifyState = (stateName) => {
   if (stateName === 'Akwa Ibom') {
     return 'AkwaIbom'
   } else if (stateName === 'Cross River') {
     return 'CrossRiver'
   } else if (stateName === 'FCT - Abuja') {
     return 'FCTAbuja'
-  } else if (stateName === 'AkwaIbom') {
-    return 'Akwa Ibom'
-  } else if (stateName === 'CrossRiver') {
-    return 'Cross River'
-  } else if (stateName === 'FCTAbuja') {
-    return 'FCT - Abuja'
   } else {
     return stateName
   }

@@ -4,7 +4,7 @@ import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
 import Head from 'next/head'
 import { Row, Col } from 'reactstrap'
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 import { PROFILE_VIEWER_CANDIDATE_QUERY } from '../../lib/backendApi/queries'
 
@@ -50,7 +50,7 @@ class Page extends Component {
                 <Row>
                   <Col md="8">
                     <MoreDetails user={candidate} update={this.props.update}/>
-                    <ExperienceSection user={candidate}/>
+                    <ExperienceSection />
                     {/* <EducationSection />
                       <CertificationsSection />
                       <RefereesSection /> */}
@@ -60,7 +60,6 @@ class Page extends Component {
             )
           }}
         </Query>
-        <ToastContainer />
       </div>
     )
   }
