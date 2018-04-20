@@ -5,30 +5,13 @@ import {
   CardBody,
   Button,
   CardTitle,
-  CardFooter,
-  Row,
-  Col,
-  Form,
-  FormGroup,
-  Label,
-  FormText,
-  Input,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter
 } from 'reactstrap'
 
 import {VIEWER_CANDIDATE_EXPERIENCE_QUERY} from '../../../../lib/backendApi/queries'
-// import * as allMutations from '../../../../lib/backendApi/mutations'
 
 import DetailsModal from './DetailsModal'
 import JobList from './JobList'
 import SaveButton from './SaveButton'
-
 
 const EmptySpace = props => (
   <p className="display-4" style={{padding: '10px 0px 10px'}}>
@@ -50,12 +33,10 @@ export default class extends Component {
     this.setState({modalOpen: !this.state.modalOpen})
   }
   save(){
-    //console.log('saving');
     setTimeout(()=>this.setState({modalOpen: !this.state.modalOpen}), 2000)
   }
 
   render(){
-    // console.log(allMutations);
     return (
       <Card>
         <Query query={VIEWER_CANDIDATE_EXPERIENCE_QUERY}>
@@ -66,7 +47,6 @@ export default class extends Component {
               return `Error! ${error.message}`;
 
             const {viewerCandidate: {candidate}} = data;
-            // console.log('experience');
             return(
               <CardBody >
                 <CardTitle className="mb-0">

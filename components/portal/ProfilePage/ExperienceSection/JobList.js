@@ -3,12 +3,6 @@ import {Query} from 'react-apollo'
 import moment from 'moment'
 
 import {
-  Row,
-  Col,
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
   ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText,
   Button,
   Modal,

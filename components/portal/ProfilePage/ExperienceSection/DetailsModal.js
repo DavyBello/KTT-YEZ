@@ -1,16 +1,10 @@
 import {Component} from 'react'
 import {
-  Card,
-  CardBody,
   Button,
-  CardTitle,
-  CardFooter,
-  Row,
   Col,
   Form,
   FormGroup,
   Label,
-  FormText,
   Input,
   InputGroup,
   InputGroupAddon,

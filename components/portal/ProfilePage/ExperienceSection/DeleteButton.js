@@ -1,13 +1,7 @@
 import { Component } from 'react'
 import { Mutation } from 'react-apollo'
 import { toast } from 'react-toastify';
-import {
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter
-} from 'reactstrap'
+import { Button } from 'reactstrap'
 
 import { TOAST_STYLE, removeEmpty, enumifyState } from '../../../../utils/common'
 import { VIEWER_CANDIDATE_EXPERIENCE_QUERY } from '../../../../lib/backendApi/queries'
