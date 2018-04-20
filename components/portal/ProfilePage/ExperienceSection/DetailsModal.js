@@ -19,7 +19,7 @@ import MaskedInput from 'react-text-mask'
 import SaveButton from './SaveButton'
 import UpdateButton from './UpdateButton'
 
-import {MONTHS, STATES, YEARS, prettifyState } from '../../../../utils/common'
+import {MONTHS, STATES, PAST_YEARS, prettifyState } from '../../../../utils/common'
 
 export default class DetailsModal extends Component{
   constructor(props) {
@@ -44,22 +44,25 @@ export default class DetailsModal extends Component{
   }
 
   componentWillReceiveProps(nextProps){
-    const {experience = {}} = nextProps;
-    if (experience._id) {
-      this.setState({
-        ...experience,
-        id: experience._id || null,
-        isWorkingHere: experience.isWorkingHere || false,
-        state: prettifyState(experience.state) || 'Abia',
-        details: {
+    const {education = {}, isNew} = nextProps;
+    if (isNew) {
+      this.setState({details: {}});
+    } else {
+      if (education._id) {
+        this.setState({
           ...experience,
           id: experience._id || null,
           isWorkingHere: experience.isWorkingHere || false,
-          state: experience.state || 'Abia',
-        }
-      })
+          state: prettifyState(experience.state) || 'Abia',
+          details: {
+            ...experience,
+            id: experience._id || null,
+            isWorkingHere: experience.isWorkingHere || false,
+            state: experience.state || 'Abia',
+          }
+        })
+      }
     }
-    // this.setState({details : {...experience, id: experience._id || null}})
   }
 
   handleFieldChange(field, value){
@@ -118,7 +121,7 @@ export default class DetailsModal extends Component{
                   {MONTHS.map((month, i)=><option key={i}>{month}</option>)}
                 </Input>
                 <Input onChange={(e)=>this.handleFieldChange('fromYear', e.target.value)} type="select" id="name" style={{marginBottom: '10px'}} placeholder="Year"  required defaultValue={experience.fromYear}>
-                  {YEARS.map((year, i)=><option key={i}>{year}</option>)}
+                  {PAST_YEARS.map((year, i)=><option key={i}>{year}</option>)}
                 </Input>
               </Col>
               {(!this.state.isWorkingHere) && (
@@ -128,7 +131,7 @@ export default class DetailsModal extends Component{
                     {MONTHS.map((month, i)=><option key={i}>{month}</option>)}
                   </Input>
                   <Input onChange={(e)=>this.handleFieldChange('toYear', e.target.value)} type="select" id="name" style={{marginBottom: '10px'}} placeholder="Year"  required defaultValue={experience.toYear}>
-                    {YEARS.map((year, i)=><option key={i}>{year}</option>)}
+                    {PAST_YEARS.map((year, i)=><option key={i}>{year}</option>)}
                   </Input>
                 </Col>
               )}

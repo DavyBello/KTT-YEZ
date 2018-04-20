@@ -34,7 +34,7 @@ export const formatDate = (date) => {
   if (!date) {
     return null;
   }
-  var d = new Date(date),
+  let d = new Date(date),
       month = '' + (d.getMonth() + 1),
       day = '' + d.getDate(),
       year = d.getFullYear();
@@ -87,11 +87,20 @@ export const TOAST_STYLE={
 /**
 * CONSTANTS
 */
-let year = new Date().getFullYear();
-var years = [];
-for (var i = 0; i < 65; i++) {
-  years.push(year);
+export const CURRENT_YEAR = new Date().getFullYear();
+let year = CURRENT_YEAR;
+let futYears = CURRENT_YEAR + 7;
+let pastYears = [];
+for (let i = 0; i < 65; i++) {
+  pastYears.push(year);
   year = year - 1;
+}
+export const PAST_YEARS = pastYears
+
+let years = [];
+for (let i = 0; i < 71; i++) {
+  years.push(futYears);
+  futYears = futYears - 1;
 }
 export const YEARS = years
 

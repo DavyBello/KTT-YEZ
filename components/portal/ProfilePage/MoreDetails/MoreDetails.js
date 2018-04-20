@@ -16,7 +16,7 @@ import {
 } from 'reactstrap'
 import {toast} from 'react-toastify';
 
-import {MONTHS, STATES, YEARS, TOAST_STYLE, prettifyState, enumifyState, formatDate} from '../../../../utils/common'
+import {MONTHS, STATES, PAST_YEARS, TOAST_STYLE, prettifyState, enumifyState, formatDate} from '../../../../utils/common'
 import {UPDATE_CANDIDATE_MUTATION} from '../../../../lib/backendApi/mutations'
 
 class MoreDetails extends Component {
