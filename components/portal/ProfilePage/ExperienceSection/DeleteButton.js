@@ -34,12 +34,7 @@ export default class DeleteButton extends Component {
         const data = proxy.readQuery({ query: VIEWER_CANDIDATE_EXPERIENCE_QUERY });
 
         // Remove the deleted experience from VIEWER_CANDIDATE_EXPERIENCE_QUERY
-        const index = data.viewerCandidate.candidate.experience.findIndex((experience)=>{
-          return (experience._id==deleteJobExperience.recordId)
-        });
-        if (index > -1) {
-          data.viewerCandidate.candidate.experience.splice(index, 1);
-        }
+        data.viewerCandidate.candidate.experience = data.viewerCandidate.candidate.experience.filter(e => e._id != deleteJobExperience.recordId);
 
         // Write our data back to the cache.
         proxy.writeQuery({ query: VIEWER_CANDIDATE_EXPERIENCE_QUERY, data });

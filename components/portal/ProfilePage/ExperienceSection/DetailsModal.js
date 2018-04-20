@@ -140,7 +140,7 @@ export default class DetailsModal extends Component{
               )}
             </FormGroup>
             <FormGroup check className="checkbox">
-              <Input className="form-check-input" type="checkbox" id="checkbox1" name="checkbox1" checked={this.state.isWorkingHere} onClick={this.toggleCheck}/>
+              <Input className="form-check-input" type="checkbox" id="checkbox1" name="checkbox1" defaultChecked={this.state.isWorkingHere} onClick={this.toggleCheck}/>
               <Label check className="form-check-label" htmlFor="checkbox1">Currently working here</Label>
             </FormGroup>
             <br />
