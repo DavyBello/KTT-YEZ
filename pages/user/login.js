@@ -1,5 +1,4 @@
 import {Component} from 'react'
-//import Router from 'next/router'
 import Head from 'next/head'
 
 import withCandidateLogin from '../../components/withCandidateLogin'
