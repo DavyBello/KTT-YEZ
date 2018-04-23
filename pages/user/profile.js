@@ -11,10 +11,11 @@ import { PROFILE_VIEWER_CANDIDATE_QUERY } from '../../lib/backendApi/queries'
 import withCandidatePortal from '../../components/withCandidatePortal'
 import DetailsSection from '../../components/portal/ProfilePage/DetailsSection/DetailsSection'
 import ExperienceSection from '../../components/portal/ProfilePage/ExperienceSection/ExperienceSection'
-import EducationSection from '../../components/portal/ProfilePage/EducationSection-/EducationSection'
+import EducationSection from '../../components/portal/ProfilePage/EducationSection/EducationSection'
 import ProfileSection from '../../components/portal/ProfilePage/ProfileSection/ProfileSection'
 import MoreDetails from '../../components/portal/ProfilePage/MoreDetails/MoreDetails'
 import CertificationsSection from '../../components/portal/ProfilePage/CertificationsSection/CertificationsSection'
+import CertificatesSection from '../../components/portal/ProfilePage/CertificatesSection/CertificatesSection'
 import RefereesSection from '../../components/portal/ProfilePage/RefereesSection/RefereesSection'
 
 class Page extends Component {
@@ -49,8 +50,9 @@ class Page extends Component {
                     <MoreDetails user={candidate} update={this.props.update}/>
                     <ExperienceSection />
                     <EducationSection />
-                      {/* <CertificationsSection />
-                      <RefereesSection /> */}
+                    <CertificationsSection />
+                    <CertificatesSection />
+                      {/* <RefereesSection /> */}
                     </Col>
                   </Row>
               </div>

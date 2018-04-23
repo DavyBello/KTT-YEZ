@@ -75,7 +75,8 @@ export default function withLayout(Child, opts) {
           <Head>
             <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
             <meta httpEquiv="X-UA-Compatible" content="IE=edge"/>
-            <meta charSet="utf-8"/> {/* <link rel="icon" href="wt_62309/images/favicon.ico" type="image/x-icon"/> */}
+            <meta charSet="utf-8"/> 
+            {/* <link rel="icon" href="wt_62309/images/favicon.ico" type="image/x-icon"/> */}
             {/* <!-- Stylesheets--> */}
             <link rel="stylesheet" href="/static/css/portal/style.css"/>
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css"/>

@@ -7,10 +7,10 @@ import {
   CardTitle,
 } from 'reactstrap'
 
-import {VIEWER_CANDIDATE_EDUCATION_QUERY} from '../../../../lib/backendApi/queries'
+import {VIEWER_CANDIDATE_CERTIFICATES_QUERY} from '../../../../lib/backendApi/queries'
 
 import DetailsModal from './DetailsModal'
-import EducationList from './EducationList'
+import CertificatesList from './CertificatesList'
 import SaveButton from './SaveButton'
 
 const EmptySpace = props => (
@@ -39,7 +39,7 @@ export default class extends Component {
   render(){
     return (
       <Card>
-        <Query query={VIEWER_CANDIDATE_EDUCATION_QUERY}>
+        <Query query={VIEWER_CANDIDATE_CERTIFICATES_QUERY}>
           {({loading, error, data}) => {
             if (loading)
               return "Loading...";
@@ -51,23 +51,23 @@ export default class extends Component {
               <CardBody >
                 <CardTitle className="mb-0">
                     {
-                    (candidate.education.length>0) && (
+                    (candidate.certificates.length>0) && (
                       <Button className="float-right" size="sm" color="primary" onClick={this.toggle}>
                         <i className="icon-plus"></i> Add
                       </Button>)
                     }
-                    Education
+                    Certificates
                   </CardTitle>
                   <hr/> {
-                    (!candidate.education.length>0)
+                    (!candidate.certificates.length>0)
                     ? (<div className="text-center">
                       <EmptySpace/>
                       <Button size="lg" color="primary" onClick={this.toggle}>
-                        <i className="icon-plus"></i> Add Education
+                        <i className="icon-plus"></i> Add Certificates
                       </Button>
                     </div>)
                     : (<div>
-                      <EducationList candidate={candidate}/>
+                      <CertificatesList candidate={candidate}/>
                     </div>)
                   }
                 </CardBody>
