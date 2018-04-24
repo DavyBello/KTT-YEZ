@@ -59,7 +59,7 @@ export default class EducationList extends Component {
             </ListGroupItemHeading>
             <div>
               <p style={{marginBottom: '0px'}}><i className="icon-organization"></i> {certificate.authority}</p>
-              {certificate.url && (<p style={{marginBottom: '0px'}}><a href={certificate.url}>{certificate.url}</a></p>)}
+              {certificate.url && (<p style={{marginBottom: '0px'}}><a href={`http://${certificate.url}`}>{certificate.url}</a></p>)}
               <p>{certificate.duration} {certificate.licenseNumber && `| ${certificate.licenseNumber}`}</p>
             </div>
           </ListGroupItem>

@@ -148,7 +148,15 @@ export default class DetailsModal extends Component{
             <br />
             <FormGroup>
               <Label htmlFor="name">Certification URL</Label>
-              <Input onChange={(e)=>this.handleFieldChange('url', e.target.value)} defaultValue={this.state.url} type="text" id="name" placeholder="Eg: Google" required/>
+              <InputGroup>
+                <InputGroupAddon addonType="prepend">
+                  <InputGroupText>
+                    <b>http://</b>
+                  </InputGroupText>
+                </InputGroupAddon>
+                {/* <Input onChange={(e)=>this.handleFieldChange('salary', e.target.value)} defaultValue={this.state.salary} type="text" id="name" placeholder="Eg: $30 billion for the account" required/> */}
+                <Input onChange={(e)=>this.handleFieldChange('url', e.target.value)} defaultValue={this.state.url} type="text" id="name" placeholder="Eg: Google" required/>
+              </InputGroup>
             </FormGroup>
         </ModalBody>
         <ModalFooter>
