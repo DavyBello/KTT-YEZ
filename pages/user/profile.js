@@ -14,9 +14,9 @@ import ExperienceSection from '../../components/portal/ProfilePage/ExperienceSec
 import EducationSection from '../../components/portal/ProfilePage/EducationSection/EducationSection'
 import ProfileSection from '../../components/portal/ProfilePage/ProfileSection/ProfileSection'
 import MoreDetails from '../../components/portal/ProfilePage/MoreDetails/MoreDetails'
-import CertificationsSection from '../../components/portal/ProfilePage/CertificationsSection/CertificationsSection'
 import CertificatesSection from '../../components/portal/ProfilePage/CertificatesSection/CertificatesSection'
 import RefereesSection from '../../components/portal/ProfilePage/RefereesSection/RefereesSection'
+import RefereesSectionn from '../../components/portal/ProfilePage/RefereesSectionn/RefereesSection'
 
 class Page extends Component {
   render(){
@@ -50,9 +50,9 @@ class Page extends Component {
                     <MoreDetails user={candidate} update={this.props.update}/>
                     <ExperienceSection />
                     <EducationSection />
-                    <CertificationsSection />
                     <CertificatesSection />
-                      {/* <RefereesSection /> */}
+                    <RefereesSection />
+                    <RefereesSectionn />
                     </Col>
                   </Row>
               </div>
