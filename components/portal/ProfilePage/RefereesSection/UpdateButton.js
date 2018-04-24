@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { Button } from 'reactstrap'
 
 import { TOAST_STYLE, removeEmpty, enumifyState } from '../../../../utils/common'
-import { UPDATE_CERTIFICATE_MUTATION } from '../../../../lib/backendApi/mutations'
+import { UPDATE_REFEREE_MUTATION } from '../../../../lib/backendApi/mutations'
 
 export default class SaveButton extends Component {
   constructor(props){
@@ -20,25 +20,27 @@ export default class SaveButton extends Component {
     // console.log(this.props.details);
     let data = this.props.details
 
-    if (data.authority && data.name && data.licenseNumber && data.fromYear) {
+    if (data.firstName && data.lastName && data.phone && data.email) {
 
       removeEmpty(data);
 
-      if(data.doesNotExpire){
-        delete data.toMonth;
-        delete data.toYear;
-      }
       runMutation({
         variables: data
       })
 
     } else {
       let message ='Invalid inputs';
-      if (!data.authority) {
-        message = 'Certificate authority field is empty';
+      if (!data.firstName) {
+        message = 'First name field is empty';
         toast(message, {...TOAST_STYLE.fail});
-      } else if (!data.name) {
-        message = 'Certificate name field is empty';
+      } else if (!data.lastName) {
+        message = 'Last name field is empty';
+        toast(message, {...TOAST_STYLE.fail});
+      } else if (!data.phone) {
+        message = 'Phone number field is empty';
+        toast(message, {...TOAST_STYLE.fail});
+      } else if (!data.email) {
+        message = 'Email field is empty';
         toast(message, {...TOAST_STYLE.fail});
       } else
         toast(message, {...TOAST_STYLE.fail});
@@ -46,8 +48,8 @@ export default class SaveButton extends Component {
   }
 
   onCompleted = (data) => {
-    const {updateCertificate: {record: {authority}}} = data
-    toast(`Your certificate from ${authority} has been updated`, {...TOAST_STYLE.success});
+    const {updateReferee: {record: {name: {last}}}} = data
+    toast(`${last} has been updated in your referee list`, {...TOAST_STYLE.success});
     this.props.close();
   }
 
@@ -58,9 +60,9 @@ export default class SaveButton extends Component {
 
   render(){
     return(
-      <Mutation mutation={UPDATE_CERTIFICATE_MUTATION} onCompleted={this.onCompleted} onError={this.onError}>
-        {(updateCertificate)=>(
-          <Button color="primary" onClick={e=>this.save(e, updateCertificate)}>Update</Button>
+      <Mutation mutation={UPDATE_REFEREE_MUTATION} onCompleted={this.onCompleted} onError={this.onError}>
+        {(updateReferee)=>(
+          <Button color="primary" onClick={e=>this.save(e, updateReferee)}>Update</Button>
         )}
       </Mutation>
     )

@@ -16,7 +16,6 @@ import ProfileSection from '../../components/portal/ProfilePage/ProfileSection/P
 import MoreDetails from '../../components/portal/ProfilePage/MoreDetails/MoreDetails'
 import CertificatesSection from '../../components/portal/ProfilePage/CertificatesSection/CertificatesSection'
 import RefereesSection from '../../components/portal/ProfilePage/RefereesSection/RefereesSection'
-import RefereesSectionn from '../../components/portal/ProfilePage/RefereesSectionn/RefereesSection'
 
 class Page extends Component {
   render(){
@@ -52,7 +51,6 @@ class Page extends Component {
                     <EducationSection />
                     <CertificatesSection />
                     <RefereesSection />
-                    <RefereesSectionn />
                     </Col>
                   </Row>
               </div>
