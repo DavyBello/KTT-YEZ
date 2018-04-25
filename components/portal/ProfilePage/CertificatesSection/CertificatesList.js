@@ -49,7 +49,7 @@ export default class EducationList extends Component {
     <div>
       <ListGroup>
         {this.props.candidate.certificates.map((certificate, index)=>(
-          <ListGroupItem key={index}>
+          <ListGroupItem key={index} className="animated fadeIn">
             <ListGroupItemHeading>
               <div className="float-right">
                 <Button onClick={()=>this.toggle(certificate)} className="btn-sm" outline color="primary"><i className="icon-pencil"></i>&nbsp; Edit</Button>
@@ -59,7 +59,7 @@ export default class EducationList extends Component {
             </ListGroupItemHeading>
             <div>
               <p style={{marginBottom: '0px'}}><i className="icon-organization"></i> {certificate.authority}</p>
-              {certificate.url && (<p style={{marginBottom: '0px'}}><a href={`http://${certificate.url}`}>{certificate.url}</a></p>)}
+              {certificate.url && (<p style={{marginBottom: '0px'}}><a target="_blank" href={`http://${certificate.url}`}>{certificate.url}</a></p>)}
               <p>{certificate.duration} {certificate.licenseNumber && `| ${certificate.licenseNumber}`}</p>
             </div>
           </ListGroupItem>

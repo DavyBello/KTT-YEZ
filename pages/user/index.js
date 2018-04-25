@@ -9,8 +9,6 @@ import TestSection from '../../components/portal/HomePage/TestSection/TestSectio
 
 class Page extends Component {
   render(){
-    // console.log(this.props);
-    // const { candidate } = this.props.data.viewerCandidate
     return (
       <div className="animated fadeIn">
         <Head>

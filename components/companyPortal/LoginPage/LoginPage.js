@@ -3,7 +3,8 @@ import Link from 'next/link'
 
 import { Container, Row, Col, CardGroup, Card, CardBody, Button, Input, InputGroup, InputGroupAddon, InputGroupText, Form } from 'reactstrap';
 import { toast } from 'react-toastify';
-import { EMAIL_REGEX } from '../../../utils/common'
+
+import { EMAIL_REGEX, TOAST_STYLE } from '../../../utils/common'
 
 class Page extends Component {
   constructor(props){
@@ -19,8 +20,6 @@ class Page extends Component {
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.doLogin = this.doLogin.bind(this);
-    this.onComplete = this.onComplete.bind(this);
-    this.onFail = this.onFail.bind(this);
   }
 
   handleEmailChange = (event) => {
@@ -45,10 +44,10 @@ class Page extends Component {
     e.stopPropagation()
 
     if (this.state.password && this.state.emailValid) {
-      this.props.login({
+      this.props.loginCompany({variables: {
         email: this.state.email,
-        password: this.state.password //a
-      }, this.onComplete, this.onFail)
+        password: this.state.password
+      }})
     } else {
       if (!this.state.email || !this.state.emailValid) {
         this.setState({emailValid: false})
@@ -56,73 +55,12 @@ class Page extends Component {
       if (!this.state.password) {
         this.setState({passwordValid: false})
       }
-      const toastStyle = {
-        className: {
-          fontSize: '0.875rem',
-          fontWeight: '500',
-          lineHeight: '1.5',
-          background: '#f86c6b',
-          color: "white"
-        },progressClassName: {
-          background: '#f5302e'
-        }
-      }
-      toast("Your Inputs are not valid", {...toastStyle});
-    }
-  }
-
-  onComplete({name}){
-    const toastStyle = {
-      className: {
-        fontSize: '0.875rem',
-        fontWeight: '500',
-        lineHeight: '1.5',
-        background: "#4dbd74",
-        color: "white"
-      },progressClassName: {
-        background: "#3a9d5d"
-      }
-    }
-    toast(`Welcome Back ${name}`, {...toastStyle});
-  }
-
-  onFail(error){
-    console.error(error)
-    const toastStyle = {
-      className: {
-        fontSize: '0.875rem',
-        fontWeight: '500',
-        lineHeight: '1.5',
-        background: '#f86c6b',
-        color: "white"
-      },progressClassName: {
-        background: '#f5302e'
-      }
-    }
-    if (error.graphQLErrors){
-      if (error.graphQLErrors.length==0)
-      toast("Something Went Wrong With your request", {...toastStyle});
-
-      error.graphQLErrors.forEach(error=>{
-        switch(error.message) {
-          case `password incorrect`:
-          toast("Incorrect Username/password", {...toastStyle});
-          break;
-          case `email/company not found`:
-          toast("Incorrect Username/password", {...toastStyle});
-          break;
-          default:
-          toast("Something Went Wrong", {...toastStyle});
-        }
-      })
-    } else {
-      toast("Something Went Wrong With your request", {...toastStyle});
+      toast("Your Inputs are not valid", {...TOAST_STYLE.fail});
     }
   }
 
   render(){
     // console.log(this.props);
-    // const
     return (
       <div className="app flex-row align-items-center">
         <Container>
@@ -167,7 +105,7 @@ class Page extends Component {
                       <h2>Are you new here?</h2>
                       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
                         labore et dolore magna aliqua.</p>
-                      <Link href="/user/signUp">
+                      <Link href="/company/signUp">
                         <Button color="primary" className="mt-3" active>Sign Up</Button>
                       </Link>
                     </div>

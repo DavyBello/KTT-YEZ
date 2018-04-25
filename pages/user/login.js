@@ -9,7 +9,7 @@ class LoginPage extends Component {
     return (
       <div className="animated fadeIn">
         <Head>
-          <title>KTT Youth Empowerment Zone | Login</title>
+          <title>KTT Youth Empowerment Zone | Candidate Login</title>
         </Head>
         {/* <Login /> */}
         <Login title={'login'} {...this.props}/>

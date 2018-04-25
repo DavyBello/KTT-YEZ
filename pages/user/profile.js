@@ -1,8 +1,6 @@
 import {Component} from 'react'
-// import {graphql, withApollo, compose} from 'react-apollo'
-import { Query } from 'react-apollo'
-import gql from 'graphql-tag'
 import Head from 'next/head'
+import { Query } from 'react-apollo'
 import { Row, Col } from 'reactstrap'
 import { toast } from 'react-toastify';
 

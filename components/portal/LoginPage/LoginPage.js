@@ -26,7 +26,7 @@ class Page extends Component {
     if (PHONE_REGEX.test(event.target.value)){
       this.setState({phoneValid: true});
     } else {
-      this.setState({phoneValid: false});
+      this.setState({phoneValid: null});
     }
     this.setState({phone: event.target.value});
   };
@@ -61,7 +61,6 @@ class Page extends Component {
   }
 
   render(){
-    // const
     // console.log(this.props);
     return (
       <div className="app flex-row align-items-center">

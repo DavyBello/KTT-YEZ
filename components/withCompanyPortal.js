@@ -1,7 +1,6 @@
 import React from 'react'
 import Head from 'next/head'
-import { withApollo, graphql, compose } from 'react-apollo'
-import gql from 'graphql-tag'
+import { withApollo, compose } from 'react-apollo'
 //import 'isomorphic-fetch'
 
 import withData from '../lib/backendApi/withData'
@@ -13,6 +12,8 @@ import { Container } from 'reactstrap'
 import Sidebar from './companyPortal/adminUI/Sidebar/Sidebar'
 import Header from './companyPortal/adminUI/Header/Header'
 
+import { ToastContainer } from 'react-toastify'
+
 export default function withLayout(Child, opts) {
   class WrappedComponent extends React.Component {
     static async getInitialProps(context, apolloClient) {
@@ -22,22 +23,15 @@ export default function withLayout(Child, opts) {
         ChildProps = await Child.getInitialProps(context, apolloClient)
       }
 
+      //Validate loggedin user
       const { loggedInUser } = await checkCompanyLoggedIn(context, apolloClient)
-      //console.log('loggedInUser---');
-      //console.log(loggedInUser);
       if (!loggedInUser.company) {
         // If not signed in, send them somewhere more useful
-        console.log('You must be signed in');
         let target = `/company/login`
         if (context.pathname!=='/company')
           target = `${target}?from=${context.pathname}`
         redirect(context, target)
       }
-
-      /*const baseUrl = context.req ? `${context.req.protocol}://${context.req.get('Host')}` : '';
-      //Loading articles from the411ng api
-      let res = await fetch(`${baseUrl}/fetch-breaking-articles`);
-      let results = await res.json();*/
 
       return {
         ...ChildProps,
@@ -46,13 +40,13 @@ export default function withLayout(Child, opts) {
     }
 
     render() {
+      if (!this.props.loggedInUser.company) {
+        return (
+          <div>Hollup</div>
+        )
+      }
       const opts = opts || {};
-      const { loading } = this.props.data
-      // console.log(vi);
-      //if (this.state.loading)
-      if (!loading && this.props.loggedInUser){
-        if(this.props.loggedInUser.company){
-          return (
+      return (
         <div>
           <Head>
             <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
@@ -76,38 +70,15 @@ export default function withLayout(Child, opts) {
               </main>
             </div>
           </div>
+          <ToastContainer />
         </div>
-      )
-        }
-      }
-      return (<div>Loading Page</div>)
-    }
+      )}
   }
-
-  const gqlWrapper = gql`
-    query ViewerCompanyQuery{
-      viewerCompany{
-        company{
-          _id
-          name
-          phone
-          email
-          website
-          address
-          stateOfResidence
-          description
-          cacRegNo
-          staffSize
-          isVerified
-        }
-      }
-    }
-  `
 
   return compose(
     // withData gives us server-side graphql queries before rendering
     withData,
     // withApollo exposes `this.props.client` used when logging out
     withApollo
-  )(graphql(gqlWrapper, {props: ({ data }) => ({data})})(WrappedComponent))
+  )(WrappedComponent)
 }

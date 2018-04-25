@@ -15,7 +15,6 @@ import Header from './portal/adminUI/Header/Header'
 import { ToastContainer } from 'react-toastify'
 
 export default function withLayout(Child, opts) {
-
   class WrappedComponent extends React.Component {
     static async getInitialProps(context, apolloClient) {
       let ChildProps = {};

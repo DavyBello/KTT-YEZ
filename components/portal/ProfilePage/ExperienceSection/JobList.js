@@ -49,7 +49,7 @@ export default class EducationList extends Component {
     <div>
       <ListGroup>
         {this.props.candidate.experience.map((job, index)=>(
-          <ListGroupItem key={index}>
+          <ListGroupItem key={index} className="animated fadeIn">
             <ListGroupItemHeading>
               <div className="float-right">
                 <Button onClick={()=>this.toggle(job)} className="btn-sm" outline color="primary"><i className="icon-pencil"></i>&nbsp; Edit</Button>
