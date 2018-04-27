@@ -37,7 +37,7 @@ export default props => (
 
           const {viewerCompany: {company}} = data;
           const user = company;
-          console.log(user);
+          // console.log(user);
           return (
             <CardBody>
               <Row>

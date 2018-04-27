@@ -54,6 +54,7 @@ class ProfileSection extends Component {
       staffSize: props.user.staffSize || 'a',
       stateOfResidence: stateOfResidence,
       industry: props.user.industry || '',
+      industries: props.user.industries || '',
     }
     this.doUpdate = this.doUpdate.bind(this);
     this.onCompleted = this.onCompleted.bind(this);
@@ -89,7 +90,8 @@ class ProfileSection extends Component {
         website: this.state.website || '',
         staffSize: this.state.staffSize || 'a',
         yearFounded: this.state.yearFounded,
-        industry: this.state.industry || '',
+        // industry: this.state.industry || '',
+        industries: this.state.industries || '',
       }})
     } else {
       toast("Please Validate your inputs", {...TOAST_STYLE.fail});
@@ -182,8 +184,8 @@ class ProfileSection extends Component {
                       </FormGroup>
 
                       <FormGroup row>
-                        <Col md="6" xs="12">
-                          <Label htmlFor="name">Industry</Label>
+                        <Col md="12" xs="12">
+                          <Label htmlFor="name">Industries</Label>
                           <Query query={PROFILE_INDUSTRY_MANY_QUERY}>
                             {({loading, error, data}) => {
                               if (loading)
@@ -193,19 +195,36 @@ class ProfileSection extends Component {
 
                               const { industryMany } = data;
                               const industryOptions = industryMany.map(industry=>({value: industry._id, label: industry.name}));
+                              const defaultValues = [];
+                              industryOptions.forEach(opt=>this.state.industries.find(ind=>ind==opt.value) && defaultValues.push(opt))
                               return (
                                 <Select
+                                  isMulti
                                   options={industryOptions}
-                                  onChange={(opt)=>this.setState({industry: opt.value})}
-                                  defaultValue={industryOptions.find(opt=>opt.value==this.state.industry)}
+                                  onChange={opts=>this.setState({industries: opts.map(opt=>opt.value)})}
+                                  defaultValue={defaultValues}
                                 />
                               )
                             }}
                           </Query>
                         </Col>
+                      </FormGroup>
+                      <FormGroup row>
+                        <Col md="6" xs="12">
+                          <Label htmlFor="name">Website URL</Label>
+                          <InputGroup>
+                            <InputGroupAddon addonType="prepend">
+                              <InputGroupText>
+                                <b>http://</b>
+                              </InputGroupText>
+                            </InputGroupAddon>
+                            <Input onChange={(e)=>this.handleFieldChange('website', e.target.value)} defaultValue={this.state.website} type="text" id="name" placeholder="Eg: google.com" required/>
+                          </InputGroup>
+                        </Col>
                         <Col md="6" xs="12">
                           <Label htmlFor="name">Staff Size</Label>
                           <Select
+                            menuPlacement = "auto"
                             options={staffOptions}
                             onChange={(opt)=>this.setState({staffSize: opt.value})}
                             defaultValue={staffOptions.find(opt=>opt.value==this.state.staffSize)}
@@ -213,15 +232,7 @@ class ProfileSection extends Component {
                         </Col>
                       </FormGroup>
                       <FormGroup>
-                        <Label htmlFor="name">Website URL</Label>
-                        <InputGroup>
-                          <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                              <b>http://</b>
-                            </InputGroupText>
-                          </InputGroupAddon>
-                          <Input onChange={(e)=>this.handleFieldChange('website', e.target.value)} defaultValue={this.state.website} type="text" id="name" placeholder="Eg: google.com" required/>
-                        </InputGroup>
+
                       </FormGroup>
                     </Col>
                   </Row>

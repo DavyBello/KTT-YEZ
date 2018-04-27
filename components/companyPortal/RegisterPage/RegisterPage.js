@@ -10,15 +10,15 @@ import {
 } from 'reactstrap';
 import { toast } from 'react-toastify';
 
-import { PHONE_REGEX, NOT_PASSWORD_REGEX, TOAST_STYLE, toCamelCase } from '../../../utils/common'
+import { EMAIL_REGEX, NOT_PASSWORD_REGEX, TOAST_STYLE, toCamelCase } from '../../../utils/common'
 
 class Page extends Component {
   constructor(props){
     super(props)
     this.state = {
-      firstName: '',
-      lastName: '',
-      phone: '',
+      name: '',
+      cacRegNo: '',
+      email: '',
       password: '',
       confirmPassword: '',
       displayError: '',
@@ -27,9 +27,9 @@ class Page extends Component {
       showConfirmModal: false,
       passwordValid: null,
       confirmPasswordValid: null,
-      phoneValid: null,
-      firstNameValid: null,
-      lastNameValid: null,
+      emailValid: null,
+      nameValid: null,
+      cacRegNoValid: null,
     }
 
     this.handleFieldChange = this.handleFieldChange.bind(this)
@@ -39,18 +39,18 @@ class Page extends Component {
   }
 
   handleFieldChange(field, value){
-    if (field==='phone'){
-      if (PHONE_REGEX.test(value)){
-        this.setState({phoneValid: true});
+    if (field==='email'){
+      if (EMAIL_REGEX.test(value)){
+        this.setState({emailValid: true});
       } else {
-        this.setState({phoneValid: false});
+        this.setState({emailValid: false});
       }
     }
-    if (field==='firstName' && this.state.firstNameValid===false){
-      this.setState({firstNameValid: null});
+    if (field==='name' && this.state.nameValid===false){
+      this.setState({nameValid: null});
     }
-    if (field==='lastName' && this.state.lastNameValid===false){
-      this.setState({lastNameValid: null});
+    if (field==='cacRegNo' && this.state.cacRegNoValid===false){
+      this.setState({cacRegNoValid: null});
     }
     this.setState({[field]: value});
   }
@@ -99,8 +99,8 @@ class Page extends Component {
   }
 
   showConfirmModal(){
-    if (this.state.passwordValid && this.state.confirmPasswordValid && this.state.phoneValid && this.state.firstName && this.state.lastName) {
-      this.setState({firstName: toCamelCase(this.state.firstName), lastName: toCamelCase(this.state.lastName)})
+    if (this.state.passwordValid && this.state.confirmPasswordValid && this.state.emailValid && this.state.name && this.state.cacRegNo) {
+      this.setState({name: toCamelCase(this.state.name), cacRegNo: toCamelCase(this.state.cacRegNo)})
       this.setState({showConfirmModal: true})
     } else {
       if (!this.state.confirmPasswordValid) {
@@ -109,14 +109,14 @@ class Page extends Component {
       if (!this.state.password){
         this.setState({passwordValid: false})
       }
-      if (!this.state.phoneValid) {
-        this.setState({phoneValid: false})
+      if (!this.state.emailValid) {
+        this.setState({emailValid: false})
       }
-      if (!this.state.firstName) {
-        this.setState({firstNameValid: false})
+      if (!this.state.name) {
+        this.setState({nameValid: false})
       }
-      if (!this.state.lastName) {
-        this.setState({lastNameValid: false})
+      if (!this.state.cacRegNo) {
+        this.setState({cacRegNoValid: false})
       }
       toast("Your Inputs are not valid", {...TOAST_STYLE.fail});
     }
@@ -126,10 +126,12 @@ class Page extends Component {
     e.preventDefault()
     e.stopPropagation()
 
-    this.props.signUpCandidate({variables: {
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      phone: this.state.phone,
+    console.log(this.state);
+
+    this.props.signUpCompany({variables: {
+      name: this.state.name,
+      cacRegNo: this.state.cacRegNo,
+      email: this.state.email,
       password: this.state.password
     }})
   }
@@ -151,8 +153,7 @@ class Page extends Component {
                           <i className="icon-briefcase"></i>
                         </InputGroupText>
                       </InputGroupAddon>
-                      {/* <Input valid={this.state.firstNameValid} onChange={(e)=>this.handleFieldChange('firstName', e.target.value)} type="text" placeholder="First Name"/> */}
-                      <Input valid={this.state.firstNameValid} onChange={(e)=>this.handleFieldChange('name', e.target.value)} type="text" id="name" placeholder="Name" required value={this.state.name}/>
+                      <Input valid={this.state.nameValid} onChange={(e)=>this.handleFieldChange('name', e.target.value)} type="text" placeholder="Name"/>
                     </InputGroup>
                     <InputGroup className="mb-3">
                       <InputGroupAddon addonType="prepend">
@@ -160,20 +161,19 @@ class Page extends Component {
                           <i className="icon-user"></i>
                         </InputGroupText>
                       </InputGroupAddon>
-                      <Input type="text" id="name" placeholder="CAC number" required value={this.state.cacRegNo}/>
-                      {/* <Input valid={this.state.lastNameValid} onChange={(e)=>this.handleFieldChange('lastName', e.target.value)} type="text" placeholder="Last Name"/> */}
+                      <Input valid={this.state.cacRegNoValid} onChange={(e)=>this.handleFieldChange('cacRegNo', e.target.value)} type="text" placeholder="CAC Reg No."/>
                     </InputGroup>
                     <InputGroup>
                       <InputGroupAddon addonType="prepend">
                         <InputGroupText>
-                          <i className="icon-phone"></i>
+                          <i className="icon-envelope"></i>
                         </InputGroupText>
                       </InputGroupAddon>
-                      <Input onChange={(e)=>this.handleFieldChange('phone', e.target.value)} type="text" placeholder="E.g: 080XXXXXXXX"
-                        valid={this.state.phoneValid}
+                      <Input onChange={(e)=>this.handleFieldChange('email', e.target.value)} type="text" placeholder="E.g: user@example.com"
+                        valid={this.state.emailValid}
                       />
                     </InputGroup>
-                    <FormText className="mb-3 float-right" style={{fontSize: '10px'}} color="danger"><i>eleven(11) digit phone number</i></FormText>
+                    <FormText className="mb-3 float-right" style={{fontSize: '10px'}} color="danger"><i>valid email address</i></FormText>
                     <InputGroup>
                       <InputGroupAddon addonType="prepend">
                         <InputGroupText>
@@ -195,7 +195,7 @@ class Page extends Component {
                         type="password" placeholder="Repeat password"/>
                     </InputGroup>
                     <Button onClick={this.showConfirmModal} color="success" block>Create Account</Button>
-                    <Link href='/user/login'>
+                    <Link href='/company/login'>
                       <Button color="link" className="px-0">Already have an account? Login</Button>
                     </Link>
                   </Form>
@@ -213,15 +213,18 @@ class Page extends Component {
               </Card>
             </Col>
           </Row>
-          <Modal isOpen={this.state.showConfirmModal} toggle={()=>this.toggleConfirm({})} className='modal-md modal-info' centered={true}>
+          <Modal isOpen={this.state.showConfirmModal} toggle={()=>this.toggleConfirm({})} className='modal-md modal-info' centered>
             <ModalBody className="text-center">
               <p className='display-4 text-primary' style={{fontSize: '1.6rem'}}>Take a second to confirm your details</p>
               <hr />
               <div className='display-4 mb-1' style={{fontSize: '1.9rem'}}>
-                <i className="icon-user text-primary"></i> <b>{`${this.state.lastName} ${this.state.firstName}`}</b>
+                <i className="icon-briefcase text-primary"></i> <b>{`${this.state.name}`}</b>
+              </div>
+              <div className='display-4 mb-1' style={{fontSize: '1.5rem'}}>
+                <span className="text-primary">CAC Reg No.:</span> {this.state.cacRegNo}
               </div>
               <div className='display-4' style={{fontSize: '1.5rem'}}>
-                <i className="icon-phone text-primary"></i> {this.state.phone}
+                <i className="icon-envelope text-primary"></i> {this.state.email}
               </div>
               <p className="text-danger" style={{
                 margin: '1rem 0px 0px'

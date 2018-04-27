@@ -1,15 +1,15 @@
 import React from 'react'
 import Head from 'next/head'
-import { graphql, withApollo, compose } from 'react-apollo'
+import { Mutation, withApollo, compose } from 'react-apollo'
 import cookie from 'cookie'
-import Link from 'next/link'
-import gql from 'graphql-tag'
-// import 'isomorphic-fetch'
-import { ToastContainer, toast } from 'react-toastify';
 
-import withData from '../lib/withData'
+import withData from '../lib/backendApi/withData'
 import redirect from '../lib/auth/redirect'
 import checkCompanyLoggedIn from '../lib/auth/checkCompanyLoggedIn'
+import { SIGNUP_COMPANY_MUTATION } from '../lib/backendApi/mutations'
+
+import { ToastContainer, toast} from 'react-toastify'
+import { TOAST_STYLE } from '../utils/common'
 
 export default function withLayout(Child, opts) {
   class WrappedComponent extends React.Component {
@@ -20,13 +20,10 @@ export default function withLayout(Child, opts) {
         ChildProps = await Child.getInitialProps(context, apolloClient)
       }
 
+      //Validate loggedin user
       const { loggedInUser } = await checkCompanyLoggedIn(context, apolloClient)
-      //console.log('loggedInUser---');
-      //console.log(loggedInUser);
       if (loggedInUser.company) {
         // If signed in, send them somewhere more useful
-        console.log('You are signed in');
-        //console.log(context);
         const target = await context.query.from || `/company`;
         redirect(context, target)
       }
@@ -34,6 +31,38 @@ export default function withLayout(Child, opts) {
       return {
         ...ChildProps,
       }
+    }
+
+    onCompleted = (data) => {
+      // Store the token in cookie
+      const {jwt, name} = data.signUpCompany
+      toast(`🎉 Hold on while we create your portal ${name}!`, {...TOAST_STYLE.success});
+      document.cookie = cookie.serialize('token', jwt, {
+        maxAge: 30 * 24 * 60 * 60 // 30 days
+      })
+      // Force a reload of all the current queries now that the user is
+      // logged in
+      this.props.client.resetStore().then(() => {
+        const target = this.props.url.query.from || `/company`;
+        redirect({}, target)
+      })
+    }
+
+    onError = (error) => {
+      // If you want to send error to external service?
+      // console.log(error)
+      if (error.graphQLErrors.length==0)
+        toast("Something Went Wrong With your request", {...TOAST_STYLE.fail});
+
+      error.graphQLErrors.forEach(error=>{
+        switch(error.message) {
+          case `email already Exists`:
+          toast("This email has already been used", {...TOAST_STYLE.fail});
+          break;
+          default:
+          toast("Something Went Wrong", {...TOAST_STYLE.fail});
+        }
+      })
     }
 
     render() {
@@ -49,93 +78,23 @@ export default function withLayout(Child, opts) {
             <link rel="stylesheet" href="/static/css/portal/style.css"/>
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css"/>
           </Head>
-          <div>
-            <Child {...this.props}/>
-          </div>
+          <Mutation mutation={SIGNUP_COMPANY_MUTATION}
+            onCompleted={this.onCompleted}
+            onError={this.onError}>
+            {(signUpCompany, {data, error}) => (
+              <Child {...this.props} signUpCompany={signUpCompany}/>
+            )}
+          </Mutation>
+          <ToastContainer />
         </div>
       )
     }
   }
 
-  const gqlWrapper = gql `
-  mutation SignUpCompany($firstName: String!, $lastName: String!, $phone: String!, $password: String!) {
-    signUpCompany ( lastName: $lastName, firstName: $firstName, phone: $phone, password: $password ) {
-      jwt
-    }
-  }
-  `
-
-  //return withData(WrappedComponent)
   return compose(
     // withData gives us server-side graphql queries before rendering
     withData,
     // withApollo exposes `this.props.client` used when logging out
     withApollo
-  )(graphql(
-      gqlWrapper,
-      {
-        // Use an unambiguous name for use in the `props` section below
-        name: 'signUpCompany',
-        // Apollo's way of injecting new props which are passed to the component
-        props: ({
-          signUpCompany,
-          // `client` is provided by the `withApollo` HOC
-          ownProps: { client, url }
-        }) => ({
-          // `signUp` is the name of the prop passed to the component
-          signUp: (data, onComplete) => {
-            const {firstName, lastName, phone, password} = data
-            signUpCompany({
-              variables: {
-                firstName: firstName,
-                lastName: lastName,
-                phone: phone,
-                password: password
-              }
-            }, onComplete, onFail).then(({ data }) => {
-              onComplete && onComplete();
-              // Store the token in cookie
-              const {jwt} = data.signUpCompany
-              document.cookie = cookie.serialize('token', jwt, {
-                maxAge: 3 * 24 * 60 * 60 // 3 days
-              })
-              // Force a reload of all the current queries now that the user is
-              // logged in
-              client.resetStore().then(() => {
-                // Now redirect to the homepage /user from page
-                const target = url.query.from || `/user`;
-                redirect({}, target)
-              })
-            }).catch((error) => {
-              // Something went wrong, such as incorrect password, or no network
-              // available, etc.
-              // console.error(error.graphQLErrors)
-              const toastStyle = {
-                className: {
-                  fontSize: '0.875rem',
-                  fontWeight: '500',
-                  lineHeight: '1.5',
-                  background: '#f86c6b',
-                  color: "white"
-                },progressClassName: {
-                  background: '#f5302e'
-                }
-              }
-              if (error.graphQLErrors.length==0)
-                toast("Something Went Wrong With your request", {...toastStyle});
-
-              error.graphQLErrors.forEach(error=>{
-                switch(error.message) {
-                  case `phone already Exists`:
-                  toast("This phone has already been used", {...toastStyle});
-                  break;
-                  default:
-                  toast("Something Went Wrong", {...toastStyle});
-                }
-              })
-            })
-          }
-        })
-      }
-    )(WrappedComponent))
+  )(WrappedComponent)
 }

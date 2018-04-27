@@ -2,7 +2,7 @@ import {Component} from 'react'
 //import Router from 'next/router'
 import Head from 'next/head'
 
-import withCandidateRegister from '../../components/withCandidateRegister'
+import withCompanyRegister from '../../components/withCompanyRegister'
 import Register from '../../components/companyPortal/RegisterPage/RegisterPage'
 
 class RegisterPage extends Component {
@@ -20,4 +20,4 @@ class RegisterPage extends Component {
 }
 
 // export default RegisterPage
-export default withCandidateRegister(RegisterPage)
+export default withCompanyRegister(RegisterPage)

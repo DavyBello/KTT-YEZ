@@ -6,6 +6,7 @@ import withCompanyPortal from '../../components/withCompanyPortal'
 import DetailsSection from '../../components/companyPortal/HomePage/DetailsSection/DetailsSection'
 import MessageSection from '../../components/companyPortal/HomePage/MessageSection/MessageSection'
 import JobsSection from '../../components/companyPortal/HomePage/JobsSection/JobsSection'
+import JobsSectionn from '../../components/companyPortal/HomePage/JobsSectionn/JobsSection'
 
 class Page extends Component {
   render(){
@@ -19,6 +20,7 @@ class Page extends Component {
         <DetailsSection />
         <MessageSection />
         <JobsSection />
+        <JobsSectionn />
       </div>
     )
   }
