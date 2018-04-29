@@ -47,7 +47,7 @@ class Header extends Component {
     // Force a reload of all the current queries now that the user is
     // logged in, so we don't accidentally leave any state around.
     //console.log();
-    console.log(this.props.client);
+    // console.log(this.props.client);
     this.props.client.cache.reset().then(() => {
       // Redirect to a more useful page when signed out
       Router.push('/user/login')

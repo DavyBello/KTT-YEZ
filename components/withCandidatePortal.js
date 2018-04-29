@@ -129,12 +129,4 @@ export default function withLayout(Child, opts) {
     // withApollo exposes `this.props.client` used when logging out
     withApollo
   )(graphql(gqlWrapper, {props: ({ data }) => ({data})})(WrappedComponent))
-
-  // return compose(
-  //   // withData gives us server-side graphql queries before rendering
-  //   withData,
-  //   // withApollo exposes `this.props.client` used when logging out
-  //   withApollo
-  // )(WrappedComponent)
-  //return withData(WrappedComponent)
 }

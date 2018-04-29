@@ -4,23 +4,31 @@ import { graphql, withApollo, compose } from 'react-apollo'
 import cookie from 'cookie'
 import Link from 'next/link'
 import gql from 'graphql-tag'
-//import { withApollo, graphql, compose } from 'react-apollo'
-/*import { graphql} from 'react-apollo'
-import gql from 'graphql-tag'
-import 'isomorphic-fetch'*/
 
-import withData from '../lib/withData'
+import { ToastContainer, toast } from 'react-toastify';
+
+import withData from '../lib/backendApi/withData'
 import redirect from '../lib/auth/redirect'
-
+import checkCompanyLoggedIn from '../lib/auth/checkCompanyLoggedIn'
 
 export default function withLayout(Child, opts) {
   class WrappedComponent extends React.Component {
     static async getInitialProps(context, apolloClient) {
-      //console.log(context);
       let ChildProps = {};
 
       if (Child.getInitialProps) {
         ChildProps = await Child.getInitialProps(context, apolloClient)
+      }
+
+      const { loggedInUser } = await checkCompanyLoggedIn(context, apolloClient)
+      //console.log('loggedInUser---');
+      //console.log(loggedInUser);
+      if (loggedInUser.company) {
+        // If signed in, send them somewhere more useful
+        //console.log('You are signed in');
+        //console.log(context);
+        const target = await context.query.from || `/company`;
+        redirect(context, target)
       }
 
       return {
@@ -51,9 +59,10 @@ export default function withLayout(Child, opts) {
   }
 
   const gqlWrapper = gql `
-  mutation Login($email: String, $password: String) {
-    login ( email: $email, password: $password ) {
+  mutation Login($email: String!, $password: String!) {
+    loginCompany ( email: $email, password: $password ) {
       jwt
+      name
     }
   }
   `
@@ -73,10 +82,10 @@ export default function withLayout(Child, opts) {
         props: ({
           loginWithEmail,
           // `client` is provided by the `withApollo` HOC
-          ownProps: { client }
+          ownProps: { client, url }
         }) => ({
           // `login` is the name of the prop passed to the component
-          login: ({email, password}) => {
+          login: ({email, password}, onComplete, onFail) => {
 
             loginWithEmail({
               variables: {
@@ -84,24 +93,24 @@ export default function withLayout(Child, opts) {
                 password: password
               }
             }).then(({ data }) => {
-              console.log('data');
+              onComplete && onComplete({name: data.loginCompany.name});
               // Store the token in cookie
-              const {jwt} = data.login
+              const {jwt} = data.loginCompany
               document.cookie = cookie.serialize('token', jwt, {
                 maxAge: 3 * 24 * 60 * 60 // 3 days
               })
 
-              //console.log(ownProps);
               // Force a reload of all the current queries now that the user is
               // logged in
               client.resetStore().then(() => {
-                // Now redirect to the homepage
-                redirect({}, '/media-portal')
+                // Now redirect to the homepage / from page
+                const target = url.query.from || `/company`;
+                redirect({}, target)
               })
             }).catch((error) => {
               // Something went wrong, such as incorrect password, or no network
               // available, etc.
-              console.error(error)
+              onFail && onFail(error);
             })
           }
         })
