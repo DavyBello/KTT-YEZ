@@ -1,4 +1,5 @@
 import { Component } from 'react'
+import Router from 'next/router'
 import { Mutation } from 'react-apollo'
 import { toast } from 'react-toastify';
 import { Button } from 'reactstrap'
@@ -23,16 +24,16 @@ export default class DeleteButton extends Component {
     // console.log(data);
     runMutation({
       variables: {id: data.id},
-      update: (proxy, { data: { deleteJob } }) => {
-        // Read the data from our cache for this query.
-        const data = proxy.readQuery({ query: HOME_COMPANY_JOBS_QUERY });
-
-        // Remove the deleted jobs from HOME_COMPANY_JOBS_QUERY
-        data.viewerCompany.company.jobs = data.viewerCompany.company.jobs.filter(e => e._id != deleteJob.recordId);
-
-        // Write our data back to the cache.
-        proxy.writeQuery({ query: HOME_COMPANY_JOBS_QUERY, data });
-      }
+      // update: (proxy, { data: { deleteJob } }) => {
+      //   // Read the data from our cache for this query.
+      //   const data = proxy.readQuery({ query: HOME_COMPANY_JOBS_QUERY });
+      //
+      //   // Remove the deleted jobs from HOME_COMPANY_JOBS_QUERY
+      //   data.viewerCompany.company.jobs = data.viewerCompany.company.jobs.filter(e => e._id != deleteJob.recordId);
+      //
+      //   // Write our data back to the cache.
+      //   proxy.writeQuery({ query: HOME_COMPANY_JOBS_QUERY, data });
+      // }
     })
     this.props.toggleConfirm();
   }
@@ -40,7 +41,8 @@ export default class DeleteButton extends Component {
   onCompleted = (data) => {
     const {deleteJob: {record: {role}}} = data
     toast(`Your ${role} job has been deleted`, {...TOAST_STYLE.success});
-    this.props.toggleConfirm();
+    // this.props.toggleConfirm();
+    Router.push(`/company`);
   }
 
   onError = (error) => {

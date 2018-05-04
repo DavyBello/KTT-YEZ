@@ -7,12 +7,7 @@ import { toast } from 'react-toastify';
 import { PROFILE_VIEWER_COMPANY_QUERY } from '../../../lib/backendApi/queries'
 
 import withCompanyPortal from '../../../components/withCompanyPortal'
-import JobsSection from '../../../components/companyPortal/JobsPage/JobsSection/JobsSection'
-// import ExperienceSection from '../../../components/companyPortal/ProfilePage/ExperienceSection/ExperienceSection'
-// import EducationSection from '../../../components/companyPortal/ProfilePage/EducationSection/EducationSection'
-// import MoreDetails from '../../../components/companyPortal/ProfilePage/MoreDetails/MoreDetails'
-// import CertificatesSection from '../../../components/companyPortal/ProfilePage/CertificatesSection/CertificatesSection'
-// import RefereesSection from '../../../components/companyPortal/ProfilePage/RefereesSection/RefereesSection'
+import JobDetails from '../../../components/companyPortal/JobsPage/JobDetails/JobDetails'
 
 class Page extends Component {
   render(){
@@ -31,7 +26,7 @@ class Page extends Component {
             const {viewerCompany: {company}} = data;
             return (
               <div>
-                <JobsSection isNew company={company}/>
+                <JobDetails isNew company={company}/>
                 {/* <Row>
                   <Col md="8" xs="12">
                     <ProfileSection user={company} update={this.props.update}/>
