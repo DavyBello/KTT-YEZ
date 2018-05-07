@@ -15,16 +15,6 @@ app.prepare().then(() => {
     return app.render(req, res, '/')
   })
 
-  server.get('/fetch-breaking-articles', async (req, res) => {
-    // console.log('fetching breaking');
-    try {
-      const articles = await the411.getBreakingArticles();
-      res.json(articles);
-    } catch (e) {
-      res.json(e);
-    }
-  })
-
   server.get('/company/job/create', (req, res) => {
     return app.render(req, res, '/company/job/create');
   })
@@ -36,6 +26,16 @@ app.prepare().then(() => {
   })
 
   server.use('/services', serviceRouter)
+
+  server.get('/fetch-breaking-articles', async (req, res) => {
+    // console.log('fetching breaking');
+    try {
+      const articles = await the411.getBreakingArticles();
+      res.json(articles);
+    } catch (e) {
+      res.json(e);
+    }
+  })
 
   server.get('/fetch-articles', async (req, res) => {
     // console.log('fetching articles list');
