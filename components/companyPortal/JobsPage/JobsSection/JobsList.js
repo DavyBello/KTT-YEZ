@@ -42,7 +42,7 @@ export default class EducationList extends Component {
    return(
     <div>
       <ListGroup>
-        {this.props.company.jobs.map((job, index)=>(
+        {this.props.company.jobsPagination.items.map((job, index)=>(
           <ListGroupItem key={index} className="animated fadeIn">
             <ListGroupItemHeading>
               <div className="float-right">
