@@ -1,15 +1,21 @@
 import { Component } from 'react'
 import Router from 'next/router'
 import { Query } from 'react-apollo'
-import JwPagination from 'jw-react-pagination';
+import Pagination from "react-js-pagination"
+
 import {
   Card,
   CardBody,
   Button,
   CardTitle,
+  InputGroup,
+  InputGroupAddon,
+  Input,
+  Row,
+  Col
 } from 'reactstrap'
 
-import {HOME_COMPANY_JOBS_QUERY} from '../../../../lib/backendApi/queries'
+import {COMPANY_JOBS_PAGINATION_QUERY} from '../../../../lib/backendApi/queries'
 
 import JobsList from './JobsList'
 
@@ -23,23 +29,26 @@ export default class extends Component {
   constructor(props){
     super(props);
     var exampleItems = [...Array(150).keys()].map(i => ({ id: (i+1), name: 'Item ' + (i+1) }));
-    this.onChangePage = this.onChangePage.bind(this);
+    this.handlePageChange = this.handlePageChange.bind(this);
     this.state = {
+      currentPage: 1,
+      perPage: 5,
       modalOpen: false,
       exampleItems,
       pageOfItems: []
     }
   }
 
-  onChangePage(pageOfItems) {
-    // update local state with new page of items
-    this.setState({ pageOfItems });
+  handlePageChange(pageNumber) {
+    // console.log(`active page is ${pageNumber}`);
+    this.setState({currentPage: pageNumber});
   }
 
   render(){
     return (
       <Card>
-        <Query query={HOME_COMPANY_JOBS_QUERY}>
+        <Query query={COMPANY_JOBS_PAGINATION_QUERY}
+          variables={{ page: this.state.currentPage, perPage: this.state.perPage }}>
           {({loading, error, data}) => {
             if (loading)
               return "Loading...";
@@ -47,20 +56,45 @@ export default class extends Component {
               return `Error! ${error.message}`;
 
             const {viewerCompany: {company}, currentTime} = data;
+            const { jobsPagination } = company;
             return(
               <CardBody >
                 <CardTitle className="mb-0">
                     {
-                    (company.jobs.length>0) && (
-                      <Button className="float-right" size="sm" color="primary"
-                        onClick={()=>Router.push('/company/job/create')}>
-                        <i className="icon-plus"></i> Add
-                      </Button>)
+                    (jobsPagination.items.length>0) && (
+                      <div className="float-right">
+                        <Button  size="sm" color="primary"
+                          onClick={()=>Router.push('/company/job/create')}>
+                          <i className="icon-plus"></i> Add
+                        </Button>
+                      </div>
+                      )
                     }
                     Jobs Posted
                   </CardTitle>
-                  <hr/> {
-                    (!company.jobs.length>0)
+                  <hr/>
+                  <Row>
+                    <Col md="8">
+                      showing
+                      <b>
+                        {` ${!jobsPagination.pageInfo.hasPreviousPage ? 1 : (1+(jobsPagination.pageInfo.currentPage-1)*jobsPagination.pageInfo.perPage)}
+                        -
+                        ${!jobsPagination.pageInfo.hasNextPage ? jobsPagination.pageInfo.itemCount : (jobsPagination.pageInfo.perPage+(jobsPagination.pageInfo.currentPage-1)*jobsPagination.pageInfo.perPage)} `}</b>
+                      of
+                      <b> {jobsPagination.pageInfo.itemCount}</b> Jobs
+                    </Col>
+                    <Col md="4">
+                      <InputGroup>
+                        <Input type="text" id="searchBar" placeholder="Search.."/>
+                        <InputGroupAddon addonType="prepend">
+                          <Button type="button" color="primary"><i className="icon-magnifier"></i></Button>
+                        </InputGroupAddon>
+                      </InputGroup>
+                    </Col>
+                  </Row>
+                  <br />
+                  {
+                    (!jobsPagination.items.length>0)
                     ? (<div className="text-center">
                       <EmptySpace/>
                       <Button size="lg" color="primary" onClick={()=>Router.push('/company/job/create')}>
@@ -71,9 +105,15 @@ export default class extends Component {
                       <JobsList company={company} currentTime={currentTime}/>
                     </div>)
                   }
-                  <div className="float-center" style={{textAlign: 'center'}}>
+                  <div className="float-center" style={{textAlign: 'center', width: 'fit-content', margin: 'auto'}}>
                     <br/>
-                    <JwPagination items={this.state.exampleItems} onChangePage={this.onChangePage} />
+                    <Pagination
+                      activePage={this.state.currentPage}
+                      itemsCountPerPage={jobsPagination.pageInfo.perPage}
+                      totalItemsCount={jobsPagination.pageInfo.itemCount}
+                      pageRangeDisplayed={5}
+                      onChange={this.handlePageChange}
+                     />
                   </div>
                 </CardBody>
             )}}
