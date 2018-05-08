@@ -11,6 +11,8 @@ import JobsSection from '../../components/companyPortal/HomePage/JobsSectionn/Jo
 class Page extends Component {
   render(){
     //console.log(this.props);
+    const { loggedInUser: {company = {}}} = this.props;
+    // console.log(this.props);
     return (
       <div className="animated fadeIn">
         <Head>
@@ -18,7 +20,7 @@ class Page extends Component {
         </Head>
         {/* <Login title={'login'} {...this.props}/> */}
         <DetailsSection />
-        <MessageSection />
+        <MessageSection company={company}/>
         {/* <JobsSection /> */}
         <JobsSection />
       </div>
