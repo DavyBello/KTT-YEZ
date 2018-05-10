@@ -50,6 +50,7 @@
     "react-rte": "^0.16.1",
     "react-select": "^2.0.0-beta.2",
     "react-sticky": "^6.0.1",
+    "react-table": "^6.8.2",
     "react-tap-event-plugin": "^3.0.2",
     "react-text-marquee": "^1.0.1",
     "react-text-mask": "^5.2.0",

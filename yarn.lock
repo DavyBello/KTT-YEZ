@@ -7505,6 +7505,12 @@ react-sticky@^6.0.1:
     prop-types "^15.5.8"
     raf "^3.3.0"
 
+react-table@^6.8.2:
+  version "6.8.2"
+  resolved "https://registry.yarnpkg.com/react-table/-/react-table-6.8.2.tgz#3a5aefabc85953300d16786fa307c30610db9adc"
+  dependencies:
+    classnames "^2.2.5"
+
 react-tap-event-plugin@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/react-tap-event-plugin/-/react-tap-event-plugin-3.0.2.tgz#280371677b881c31376e0027a0b86d2c6de039ee"
