@@ -24,6 +24,9 @@ app.prepare().then(() => {
   server.get('/company/job/:id/edit', (req, res) => {
     return app.render(req, res, '/company/job/edit', { id: req.params.id });
   })
+  server.get('/manager/candidate/:id', (req, res) => {
+    return app.render(req, res, '/manager/candidate', { id: req.params.id });
+  })
 
   server.use('/services', serviceRouter)
 
