@@ -18,7 +18,6 @@ class Page extends Component {
         <Head>
           <title>KTT Youth Empowerment Zone | Home</title>
         </Head>
-        {/* <Login title={'login'} {...this.props}/> */}
         <DetailsSection />
         <MessageSection company={company}/>
         {/* <JobsSection /> */}
