@@ -11,6 +11,7 @@ import NoCandidate from '../../components/common/Error/NoCandidate/NoCandidate'
 import withCenterManagerPortal from '../../components/withCenterManagerPortal'
 import Widgets from '../../components/centerManagerPortal/CandidatePage/Widgets/Widgets'
 import DetailsSection from '../../components/centerManagerPortal/CandidatePage/ProfilePage/DetailsSection/DetailsSection'
+import DocumentsSection from '../../components/centerManagerPortal/CandidatePage/DocumentsSection/DocumentsSection'
 import ExperienceSection from '../../components/centerManagerPortal/CandidatePage/ProfilePage/ExperienceSection/ExperienceSection'
 import EducationSection from '../../components/centerManagerPortal/CandidatePage/ProfilePage/EducationSection/EducationSection'
 import CertificatesSection from '../../components/centerManagerPortal/CandidatePage/ProfilePage/CertificatesSection/CertificatesSection'
@@ -52,6 +53,7 @@ class Page extends Component {
               <div>
                 <Widgets />
                 <DetailsSection user={managerCandidateById} currentTime={currentTime}/>
+                <DocumentsSection id={this.props.query.id}/>
                 <ExperienceSection id={this.props.query.id} currentTime={currentTime}/>
                 <EducationSection id={this.props.query.id} />
                 <CertificatesSection id={this.props.query.id}/>
