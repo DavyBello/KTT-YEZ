@@ -1,9 +1,15 @@
 import { Component } from 'react'
+import dynamic from 'next/dynamic'
 import {Query} from 'react-apollo'
 import moment from 'moment'
 
 import {
   ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText,
+  Row,
+  Col,
+  Card,
+  CardHeader,
+  CardBody,
   Button,
   Modal,
   ModalHeader,
@@ -11,6 +17,10 @@ import {
   ModalFooter,
   UncontrolledTooltip
 } from 'reactstrap';
+import Img from 'react-image'
+import Dropzone from 'react-dropzone'
+// import Lightbox from 'react-image-lightbox'
+const Lightbox = dynamic(import('react-image-lightbox'),{ loading: () => ` ` })
 
 import { prettifyState } from '../../../../utils/common'
 
@@ -24,11 +34,25 @@ export default class EducationList extends Component {
       modalOpen: false,
       isEmpty: true,
       selecteddoc: {},
-      deleteJobId: ''
+      deleteJobId: '',
+      images: props.candidate.documents.map((doc)=>({
+        imgUrl: doc.fileURL,
+        title: doc.fileTitle
+      })),
+      photoIndex: 0,
+      isOpen: false,
+      files: []
     }
     this.toggle = this.toggle.bind(this);
     this.toggleConfirm = this.toggleConfirm.bind(this);
     this.save = this.save.bind(this);
+  }
+
+  onDrop(files) {
+    // console.log(files);
+    this.setState({
+      files
+    });
   }
   toggle(doc){
     // console.log(doc);
@@ -45,31 +69,74 @@ export default class EducationList extends Component {
   }
 
  render(){
+   const { photoIndex, isOpen, images, files } = this.state;
    return(
     <div>
-      <ListGroup>
+      <Row>
+        <Col xs="12" sm="12" md="12">
+          <Card className="border-teal">
+            {/* <CardHeader>
+              <b>Upload Document</b>
+            </CardHeader> */}
+            <CardBody>
+              <Dropzone onDrop={this.onDrop.bind(this)}
+                style={{
+                  borderStyle: 'inherit',
+                  borderRadius: '5px'
+                }}
+                accept="image/*"
+                multiple={false}>
+                <div className="text-center">
+                    <p className="display-3"><i className="icon-cloud-upload"></i></p>
+                    <p className="display-4" style={{fontSize: '2rem'}}>Drop a file here or click to upload</p>
+                    {/* {files.map(file=><img src={file.preview}/>)} */}
+                </div>
+              </Dropzone>
+            </CardBody>
+          </Card>
+        </Col>
         {this.props.candidate.documents.map((doc, index)=>(
-          <ListGroupItem key={index} className="animated fadeIn">
-            <ListGroupItemHeading>
-              {/* <div className="float-right">
-                <Button onClick={()=>this.toggle(doc)} className="btn-sm" outline color="primary"><i className="icon-pencil"></i>&nbsp; View</Button>
-              </div>
-              <a href="#!" id={`UncontrolledTooltipExample${index}`}>
-                <i className={doc.isVerified ? 'text-success icon-check' : 'text-danger icon-close'}></i>
-              </a>
-              <UncontrolledTooltip placement="top" target={`UncontrolledTooltipExample${index}`}>
-               {doc.isVerified ? 'has been verified' : 'has not been verified'}
-             </UncontrolledTooltip> */}
-              {` ${doc.fileTitle}- ${doc.fileURL}`}
-            </ListGroupItemHeading>
-            <ListGroupItemText>
-              {/* <p style={{marginBottom: '0px'}}><i className="icon-envelope"></i> {doc.email} </p>
-              <p><i className="icon-phone"></i> {doc.phone}</p> */}
-            </ListGroupItemText>
-          </ListGroupItem>
-        ))}
-      </ListGroup>
-      {/* <DetailsModal isOpen={this.state.modalOpen} toggle={this.toggle} save={this.save} doc={this.state.selecteddoc}/> */}
+          <Col xs="12" sm="4" md="3">
+            <Card className="border-teal">
+              <CardHeader>
+                <b>{doc.fileTitle}</b>
+                <div className="float-right">
+                  <Button onClick={()=>this.toggleConfirm(doc)} className="btn-sm" outline color="danger"><i className="icon-close"></i></Button>
+                </div>
+              </CardHeader>
+              <CardBody>
+                <div style={{height: '160px', margin: 'auto'}}
+                  onClick={() => this.setState({ isOpen: true, photoIndex: index })}>
+                  <Img src={doc.fileURL} />
+                </div>
+              </CardBody>
+            </Card>
+          </Col>
+          )
+        )}
+        {isOpen && (
+          <Lightbox
+            mainSrc={images[photoIndex].imgUrl}
+            nextSrc={images[(photoIndex + 1) % images.length].imgUrl}
+            prevSrc={images[(photoIndex + images.length - 1) % images.length].imgUrl}
+            onCloseRequest={() => this.setState({ isOpen: false })}
+            onMovePrevRequest={() =>
+              this.setState({
+                photoIndex: (photoIndex + images.length - 1) % images.length,
+              })
+            }
+            onMoveNextRequest={() =>
+              this.setState({
+                photoIndex: (photoIndex + 1) % images.length,
+              })
+            }
+            imageTitle={images[photoIndex].title}
+            // discourageDownloads
+            />
+          )}
+
+        {/* <DetailsModal isOpen={this.state.modalOpen} toggle={this.toggle} save={this.save} doc={this.state.selecteddoc}/> */}
+      </Row>
     </div>
    )
   }

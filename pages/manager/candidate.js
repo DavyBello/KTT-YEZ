@@ -31,6 +31,7 @@ class Page extends Component {
       <div className="animated fadeIn">
         <Head>
           <title>KTT Youth Empowerment Zone | Manager</title>
+          <link rel="stylesheet" href="/static/css/react-image-lightbox/style.css"/>
         </Head>
         <Query query={MANAGER_CANDIDATE_BY_ID_QUERY} variables={{ id: this.props.query.id}}>
           {({loading, error, data}) => {

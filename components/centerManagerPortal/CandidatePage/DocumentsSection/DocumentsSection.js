@@ -9,7 +9,7 @@ import {
 
 import {MANAGER_CANDIDATE_BY_ID_DOCUMENTS_QUERY} from '../../../../lib/backendApi/queries'
 
-import DocumentsList1 from './DocumentsList1'
+import DocumentsList from './DocumentsList'
 
 const EmptySpace = props => (
   <p className="display-4" style={{padding: '10px 0px 10px'}}>
@@ -62,12 +62,6 @@ export default class extends Component {
             return(
               <CardBody >
                 <CardTitle className="mb-0">
-                  {
-                  (candidate.documents.length>0) && (
-                    <Button className="float-right" size="sm" color="primary" onClick={this.toggle}>
-                      <i className="icon-plus"></i> Add
-                    </Button>)
-                  }
                   Documents
                 </CardTitle>
                 <hr/> {
@@ -76,7 +70,7 @@ export default class extends Component {
                     <EmptySpace/>
                   </div>)
                   : (<div>
-                    <DocumentsList1 candidate={candidate}/>
+                    <DocumentsList candidate={candidate}/>
                   </div>)
                 }
               </CardBody>
