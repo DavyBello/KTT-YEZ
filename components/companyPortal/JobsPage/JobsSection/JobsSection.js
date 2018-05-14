@@ -28,14 +28,11 @@ const EmptySpace = props => (
 export default class extends Component {
   constructor(props){
     super(props);
-    var exampleItems = [...Array(150).keys()].map(i => ({ id: (i+1), name: 'Item ' + (i+1) }));
     this.handlePageChange = this.handlePageChange.bind(this);
     this.state = {
       currentPage: 1,
       perPage: 5,
       modalOpen: false,
-      exampleItems,
-      pageOfItems: []
     }
   }
 
@@ -105,7 +102,7 @@ export default class extends Component {
                       <JobsList company={company} currentTime={currentTime}/>
                     </div>)
                   }
-                  <div className="float-center" style={{textAlign: 'center', width: 'fit-content', margin: 'auto'}}>
+                  <div style={{textAlign: 'center', width: 'fit-content', margin: 'auto'}}>
                     <br/>
                     <Pagination
                       activePage={this.state.currentPage}
