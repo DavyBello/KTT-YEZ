@@ -4,6 +4,7 @@ import {Query} from 'react-apollo'
 
 import {HOME_VIEWER_MANAGER_QUERY} from '../../../../lib/backendApi/queries'
 import { prettifyState } from '../../../../utils/common'
+import Loading from '../../../common/LoadingIcon/LoadingIcon'
 
 const styles = {
   image: {
@@ -32,13 +33,15 @@ export default props => (
       <Query query={HOME_VIEWER_MANAGER_QUERY}>
         {({loading, error, data}) => {
           if (loading)
-            return "Loading...";
+            return <Loading />;
+            // return "Loading...";
           if (error)
             return `Error! ${error.message}`;
 
           const {viewerCenterManager: {centerManager}} = data;
           // const centerManager = centerManager;
           // console.log(centerManager);
+          
           return (
             <CardBody>
               <Row>

@@ -8,6 +8,7 @@ import {
 } from 'reactstrap'
 
 import {MANAGER_CANDIDATE_BY_ID_EXPERIENCE_QUERY} from '../../../../../lib/backendApi/queries'
+import Loading from '../../../../common/LoadingIcon/LoadingIcon'
 
 import JobList from './JobList'
 
@@ -42,7 +43,7 @@ export default class extends Component {
         <Query query={MANAGER_CANDIDATE_BY_ID_EXPERIENCE_QUERY} variables={{ id: this.props.id}}>
           {({loading, error, data}) => {
             if (loading)
-              return "Loading...";
+              return <Loading />
             if (error)
               return `Error! ${error.message}`;
 
