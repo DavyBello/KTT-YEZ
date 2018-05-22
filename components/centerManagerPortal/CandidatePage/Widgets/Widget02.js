@@ -12,6 +12,7 @@ const propTypes = {
   variant: PropTypes.string,
   footer: PropTypes.bool,
   link: PropTypes.string,
+  hlink: PropTypes.string,
   children: PropTypes.node,
   className: PropTypes.string,
   cssModule: PropTypes.object
@@ -23,12 +24,13 @@ const defaultProps = {
   icon: "fa fa-cogs",
   color: 'primary',
   variant: "0",
-  link: "#"
+  link: "#",
+  // hlink: "#"
 };
 
 class Widget02 extends Component {
   render() {
-    const {className, cssModule, header, mainText, icon, color, footer, link, children, variant, ...attributes} = this.props;
+    const {className, cssModule, header, mainText, icon, color, footer, link, hlink, children, variant, ...attributes } = this.props;
 
     // demo purposes only
     const padding = (variant === '0' ? {card: "p-3", icon: "p-3", lead: "mt-2"} : ( variant === "1" ? {
@@ -42,8 +44,26 @@ class Widget02 extends Component {
 
     const blockIcon = function (icon) {
       const classes = classNames(icon, 'bg-' + card.color, padding.icon, "font-2xl mr-3 float-left");
-      return (<i className={ classes }></i>);
+      return (
+        <div>
+          <i className={ classes }></i>
+          <style jsx>{`
+            i {
+              color: white;
+            }
+          `}</style>
+        </div>
+      );
     };
+
+    const getHoverColor = (color) => {
+      let hoverColor = 'rgba(32, 168, 216, 0.25)';
+      color=='info' && (hoverColor = 'rgba(99, 194, 222, 0.25)');
+      color=='primary' && (hoverColor = 'rgba(32, 168, 216, 0.25)');
+      color=='danger' && (hoverColor = 'rgba(248, 108, 107, 0.25)');
+      color=='teal' && (hoverColor = 'rgba(32, 201, 151, 0.25)');
+      return hoverColor;
+    }
 
     const cardFooter = function () {
       if (footer) {
@@ -58,12 +78,30 @@ class Widget02 extends Component {
 
     return (
       <Card>
-        <CardBody className={ card.classes } {...attributes}>
-          { blockIcon(card.icon) }
-          <div className={ lead.classes }>{ header }</div>
-          <div className="text-muted text-uppercase font-weight-bold font-xs">{ mainText }</div>
-        </CardBody>
-        { cardFooter() }
+        {hlink ? (
+          <a href={hlink}>
+            <CardBody className={ card.classes } {...attributes}>
+              { blockIcon(card.icon) }
+              <div className={ lead.classes }>{ header }</div>
+              <div className="text-muted text-uppercase font-weight-bold font-xs">{ mainText }</div>
+            </CardBody>
+            { cardFooter() }
+          </a>
+        ) : (
+          <div>
+            <CardBody className={ card.classes } {...attributes}>
+              { blockIcon(card.icon) }
+              <div className={ lead.classes }>{ header }</div>
+              <div className="text-muted text-uppercase font-weight-bold font-xs">{ mainText }</div>
+            </CardBody>
+            { cardFooter() }
+          </div>
+        )}
+        <style jsx>{`
+          a:hover {
+            box-shadow: 0 0 0 0.2rem ${getHoverColor(color)};
+          }
+        `}</style>
       </Card>
     )
   }
