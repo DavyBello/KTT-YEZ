@@ -2,8 +2,12 @@ import { Component } from 'react'
 import dynamic from 'next/dynamic'
 import { Query } from 'react-apollo'
 import moment from 'moment'
+import { Mutation } from 'react-apollo'
+import { toast } from 'react-toastify'
 
+import { TOAST_STYLE, removeEmpty } from '../../../../utils/common'
 import { MANAGER_CANDIDATE_BY_ID_DOCUMENTS_QUERY } from '../../../../lib/backendApi/queries'
+import { MANAGER_CANDIDATE_BY_ID_DOCUMENT_DELETE_MUTATION } from '../../../../lib/backendApi/mutations'
 
 import {
   ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText,
@@ -25,6 +29,8 @@ import Dropzone from 'react-dropzone'
 // import Lightbox from 'react-image-lightbox'
 const Lightbox = dynamic(import('react-image-lightbox'), { loading: () => `` })
 
+import Loading from '../../../common/LoadingIcon/LoadingIcon'
+
 import UploadModal from './UploadModal'
 
 const EmptySpace = props => (
@@ -34,11 +40,13 @@ const EmptySpace = props => (
 )
 
 let images = [];
+let pages = [];
 export default class DocumentsList extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      // showConfirmModal: false,
+      showConfirmModal: false,
+      deleteItemId: '',
       modalOpen: false,
       photoIndex: 0,
       isOpen: false,
@@ -46,11 +54,15 @@ export default class DocumentsList extends Component {
       //Pagination variables
       currentPage: 1,
       perPage: 4,
+      // pages: [1]
     }
     this.toggle = this.toggle.bind(this);
     this.save = this.save.bind(this);
     // this.toggleConfirm = this.toggleConfirm.bind(this);
+    this.doDelete = this.doDelete.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
+    this.onCompleted = this.onCompleted.bind(this);
+    this.closeConfirm = this.closeConfirm.bind(this);
   }
 
   handlePageChange(pageNumber) {
@@ -58,21 +70,63 @@ export default class DocumentsList extends Component {
   }
 
   onDrop(files) {
-    console.log(files);
+    // console.log(files);
     this.setState({
       files,
       modalOpen: true
     });
   }
+
+  toggleConfirm(item){
+    this.setState({deleteItemId: item._id || ''})
+    this.setState({showConfirmModal: !this.state.showConfirmModal})
+  }
+
+  closeConfirm(){
+    this.setState({showConfirmModal: false})
+  }
+
   toggle() {
     //destroy the object URL when closing preview modal
     (this.state.modalOpen) && (window.URL.revokeObjectURL(this.state.files[0].preview));
     this.setState({ modalOpen: !this.state.modalOpen })
   }
-  // toggleConfirm(doc){
-  //   this.setState({deleteJobId: doc._id || ''})
-  //   this.setState({showConfirmModal: !this.state.showConfirmModal})
-  // }
+
+  doDelete = (e, runMutation) => {
+    e.preventDefault()
+    e.stopPropagation()
+    const { deleteItemId } = this.state;
+
+    // console.log(deleteItemId);
+    // console.log(this.props.id,);
+
+    if (deleteItemId) {
+      runMutation({ variables: {
+        id: deleteItemId,
+        managedId: this.props.id,
+        managedModelType: 'Candidate'
+      }})
+    }
+  }
+
+  onCompleted = (data, pageInfo) => {
+    // console.log(data);
+    const {deleteCandidateDocument: {record: {fileTitle}}} = data
+    toast(`${fileTitle} has been deleted`, {...TOAST_STYLE.success});
+    this.closeConfirm();
+    if (pageInfo.currentPage > 1 && pageInfo.itemCount == (1+(pageInfo.currentPage-1)*pageInfo.perPage)){
+      console.log('switchPage');
+      //remove page from pages array
+      this.setState({currentPage: pageInfo.currentPage - 1})
+    }
+    //TODO reload current page
+  }
+
+  onError = (error) => {
+    console.log(error);
+    toast("Something Went wrong while deleting document", {...TOAST_STYLE.fail});
+  }
+
   save() {
     //console.log('saving');
     setTimeout(() => this.setState({ modalOpen: !this.state.modalOpen }), 2000)
@@ -80,6 +134,7 @@ export default class DocumentsList extends Component {
 
   render() {
     const { photoIndex, isOpen, files, currentPage, perPage } = this.state;
+    // console.log(currentPage);
     return (
       <div>
         <Row>
@@ -101,8 +156,17 @@ export default class DocumentsList extends Component {
               </CardBody>
             </Card>
           </Col>
+          <UploadModal
+            candidateId={this.props.id}
+            currentPage= {currentPage}
+            perPage= {perPage}
+            pages={pages}
+            isOpen={this.state.modalOpen}
+            toggle={this.toggle}
+            save={this.save}
+            file={this.state.files[0]} />
         </Row>
-        <UploadModal isOpen={this.state.modalOpen} toggle={this.toggle} save={this.save} file={this.state.files[0]} />
+
         <Query query={MANAGER_CANDIDATE_BY_ID_DOCUMENTS_QUERY}
           variables={{
             id: this.props.id,
@@ -111,7 +175,7 @@ export default class DocumentsList extends Component {
           }}>
           {({ loading, error, data }) => {
             if (loading)
-              return "Loading..."
+              return <Loading />
 
             if (error)
               return `Error! ${error.message}`
@@ -123,11 +187,13 @@ export default class DocumentsList extends Component {
               imgUrl: doc.fileURL,
               title: doc.fileTitle
             }));
+            // console.log(images);
+            !pages.includes(documentsPagination.pageInfo.currentPage) && (pages.push(documentsPagination.pageInfo.currentPage))
             return (
               <div>
                 <Row>
                   {documentsPagination.items.map((doc, index) => (
-                    <Col xs="12" sm="4" md="3">
+                    <Col key={index} xs="12" sm="4" md="3">
                       <Card className="border-teal">
                         <CardHeader>
                           <b>{doc.fileTitle}</b>
@@ -146,7 +212,7 @@ export default class DocumentsList extends Component {
                   )
                   )}
                 </Row>
-                {(documentsPagination.pageInfo.itemCount > this.props.showPerPage) && (
+                {(documentsPagination.pageInfo.itemCount > this.state.perPage) && (
                   <div style={{ textAlign: 'center', width: 'fit-content', margin: 'auto' }}>
                     <Pagination
                       activePage={currentPage}
@@ -157,6 +223,30 @@ export default class DocumentsList extends Component {
                     />
                   </div>
                 )}
+                <Modal isOpen={this.state.showConfirmModal} toggle={()=>this.closeConfirm()} className='modal-md modal-danger' centered>
+                  <ModalBody className="text-center">
+                    <p className={'display-4 text-danger'} style={{fontSize: '1.9rem'}}>Are you sure you want to delete this document?</p>
+                  </ModalBody>
+                  <ModalFooter>
+                    <Mutation mutation={MANAGER_CANDIDATE_BY_ID_DOCUMENT_DELETE_MUTATION}
+                      onCompleted={data=>this.onCompleted(data, documentsPagination.pageInfo)}
+                      onError={this.onError}
+                      refetchQueries={()=> pages.map(page=>({
+                        query: MANAGER_CANDIDATE_BY_ID_DOCUMENTS_QUERY,
+                        variables: {
+                          page: page,
+                          id: this.props.id,
+                          perPage: perPage
+                        }
+                      }))}
+                      >
+                      {(deleteCandidateDocument)=>(
+                        <Button color="danger" onClick={e=>this.doDelete(e, deleteCandidateDocument)}>Confirm</Button>
+                      )}
+                    </Mutation>
+                    <Button color="secondary" onClick={()=>this.closeConfirm()}>No thanks</Button>
+                  </ModalFooter>
+                </Modal>
               </div>
             )
           }}
