@@ -15,7 +15,7 @@ export default class extends Component {
 
   render(){
     return (
-      <Card>
+      <Card >
         <CardBody >
           <CardTitle className="mb-0">Documents</CardTitle>
           <hr />
