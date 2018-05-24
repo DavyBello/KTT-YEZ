@@ -65,7 +65,7 @@ export default function withLayout(Child, opts) {
               <Sidebar/>
               <main className="main" style={{paddingTop: '24px'}}>
                 {/* <Breadcrumb/> */}
-                <p className="display-4 text-center" style={{fontSize: '2rem'}}>
+                <p className="display-4 text-center fade-in" style={{fontSize: '2rem'}}>
                   KTT YEZ Job Center Manager Portal
                 </p>
                 <Container fluid>

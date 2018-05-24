@@ -12,7 +12,7 @@ const propTypes = {
   variant: PropTypes.string,
   footer: PropTypes.bool,
   link: PropTypes.string,
-  hlink: PropTypes.string,
+  scrollToRef: PropTypes.string,
   children: PropTypes.node,
   className: PropTypes.string,
   cssModule: PropTypes.object
@@ -25,12 +25,12 @@ const defaultProps = {
   color: 'primary',
   variant: "0",
   link: "#",
-  // hlink: "#"
+  // scrollToRef: "#"
 };
 
 class Widget02 extends Component {
   render() {
-    const {className, cssModule, header, mainText, icon, color, footer, link, hlink, children, variant, ...attributes } = this.props;
+    const {className, cssModule, header, mainText, icon, color, footer, link, scrollToRef, children, variant, ...attributes } = this.props;
 
     // demo purposes only
     const padding = (variant === '0' ? {card: "p-3", icon: "p-3", lead: "mt-2"} : ( variant === "1" ? {
@@ -78,8 +78,8 @@ class Widget02 extends Component {
 
     return (
       <Card>
-        {hlink ? (
-          <a href={hlink}>
+        {scrollToRef ? (
+          <a onClick={()=>this.props.scrollTo(scrollToRef)}>
             <CardBody className={ card.classes } {...attributes}>
               { blockIcon(card.icon) }
               <div className={ lead.classes }>{ header }</div>

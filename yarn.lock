@@ -7589,11 +7589,11 @@ react-scripts@1.0.11:
   optionalDependencies:
     fsevents "1.1.2"
 
-react-scroll-to-component@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/react-scroll-to-component/-/react-scroll-to-component-1.0.2.tgz#f260dc936c62a53e772786d7832fe0884e195354"
+react-scroll-to-component-ssr@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-scroll-to-component-ssr/-/react-scroll-to-component-ssr-1.0.0.tgz#831cd2074780d3bba1e2ca5d2391bc304b1a8870"
   dependencies:
-    scroll-to "0.0.2"
+    ssr-scroll-to "0.0.2"
 
 react-select@^2.0.0-beta.2:
   version "2.0.0-beta.2"
@@ -8185,13 +8185,6 @@ schema-utils@^0.3.0:
   dependencies:
     ajv "^5.0.0"
 
-scroll-to@0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/scroll-to/-/scroll-to-0.0.2.tgz#936d398a9133660a2492145c2c0081dfcb0728f3"
-  dependencies:
-    component-raf "1.2.0"
-    component-tween "1.2.0"
-
 section-iterator@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/section-iterator/-/section-iterator-2.0.0.tgz#bf444d7afeeb94ad43c39ad2fb26151627ccba2a"
@@ -8614,6 +8607,13 @@ sshpk@^1.7.0:
     ecc-jsbn "~0.1.1"
     jsbn "~0.1.0"
     tweetnacl "~0.14.0"
+
+ssr-scroll-to@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/ssr-scroll-to/-/ssr-scroll-to-0.0.2.tgz#05ced13f67362e5f47e523ba0ca2b9ecefda02cc"
+  dependencies:
+    component-raf "1.2.0"
+    component-tween "1.2.0"
 
 ssri@^5.2.4:
   version "5.3.0"

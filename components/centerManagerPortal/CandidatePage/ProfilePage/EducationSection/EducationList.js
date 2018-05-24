@@ -1,6 +1,6 @@
 import { Component } from 'react'
 import {Query} from 'react-apollo'
-import moment from 'moment'
+// import moment from 'moment'
 
 import {
   ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText,

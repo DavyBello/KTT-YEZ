@@ -25,6 +25,7 @@ import { TOAST_STYLE, removeEmpty } from '../../../../utils/common'
 import { MANAGER_CANDIDATE_BY_ID_DOCUMENTS_QUERY } from '../../../../lib/backendApi/queries'
 import { MANAGER_CANDIDATE_BY_ID_DOCUMENT_UPLOAD_MUTATION } from '../../../../lib/backendApi/mutations'
 
+// TODO use React Ladda for upload button
 export default class DetailsModal extends Component{
   constructor(props) {
     super(props)
