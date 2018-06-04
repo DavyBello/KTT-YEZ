@@ -2,7 +2,7 @@ export default {
   items: [
     {
       name: 'Dashboard',
-      url: '/dashboard',
+      url: '/company',
       icon: 'icon-speedometer',
       /*badge: {
         variant: 'info',
@@ -11,12 +11,12 @@ export default {
     },
     {
       name: 'Profile',
-      url: '/profile',
+      url: '/company/profile',
       icon: 'icon-briefcase',
     },
     {
       name: 'Verification',
-      url: '/verified',
+      url: '/company/verification',
       icon: 'icon-docs',
     },
     /*{
@@ -30,7 +30,7 @@ export default {
     },*/
     {
       name: 'Jobs',
-      url: '/dashboard',
+      url: '/company/jobs',
       icon: 'icon-feed',
       badge: {
         variant: 'info',

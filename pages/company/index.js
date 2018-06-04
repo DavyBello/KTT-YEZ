@@ -5,19 +5,22 @@ import Head from 'next/head'
 import withCompanyPortal from '../../components/withCompanyPortal'
 import DetailsSection from '../../components/companyPortal/HomePage/DetailsSection/DetailsSection'
 import MessageSection from '../../components/companyPortal/HomePage/MessageSection/MessageSection'
-import JobsSection from '../../components/companyPortal/HomePage/JobsSection/JobsSection'
+// import JobsSection from '../../components/companyPortal/HomePage/JobsSection/JobsSection'
+import JobsSection from '../../components/companyPortal/HomePage/JobsSectionn/JobsSection'
 
 class Page extends Component {
   render(){
     //console.log(this.props);
+    const { loggedInUser: {company = {}}} = this.props;
+    // console.log(this.props);
     return (
       <div className="animated fadeIn">
         <Head>
           <title>KTT Youth Empowerment Zone | Home</title>
         </Head>
-        {/* <Login title={'login'} {...this.props}/> */}
         <DetailsSection />
-        <MessageSection />
+        <MessageSection company={company}/>
+        {/* <JobsSection /> */}
         <JobsSection />
       </div>
     )

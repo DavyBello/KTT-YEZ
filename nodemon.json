@@ -6,6 +6,7 @@
    "containers",
    "pages",
    "node_modules/**/node_modules",
-   "lib"   
+   "lib",
+   "utils"
  ]
 }

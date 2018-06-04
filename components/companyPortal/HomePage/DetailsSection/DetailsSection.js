@@ -1,4 +1,8 @@
 import {Card, CardBody, CardTitle, CardGroup, Row, Col} from 'reactstrap'
+import {Query} from 'react-apollo'
+
+import {HOME_VIEWER_COMPANY_QUERY} from '../../../../lib/backendApi/queries'
+import { prettifyState } from '../../../../utils/common'
 
 const styles = {
   image: {
@@ -24,19 +28,33 @@ const styles = {
 export default props => (
   <CardGroup className="mb-4">
     <Card className="border-dark text-center">
-      <CardBody>
-        <Row>
-          <Col sm="12">
-            <img style={styles.image} className="img-logo" alt="bellooladipupo41@gmail.com" src={'https://media.licdn.com/mpr/mpr/shrink_200_200/AAMAAgQIAAkAAQAAAAAAAA8iAAAAJDRiNTM1YzIwLWU0YjQtNDE2MC1iYWRkLWYzOWQwMjRiODdiZQ.bin'}/>
-            <CardTitle className="mb-0">Altitude Technology</CardTitle>
-            <div className="small text-muted">Software • Wuse, Abuja </div>
-          </Col>
-        </Row>
-        <hr/>
-        <div className="text-muted"><i className="icon-phone"></i> 08188555611 </div>
-        <div className="text-muted"><i className="icon-envelope"></i> bellooladipupo41@gmail.com </div>
-        <div className="text-muted"><i className="icon-globe"></i> <a href="http://www.altitude-tech.com">altitude-tech.com</a> </div>
-      </CardBody>
+      <Query query={HOME_VIEWER_COMPANY_QUERY}>
+        {({loading, error, data}) => {
+          if (loading)
+            return "Loading...";
+          if (error)
+            return `Error! ${error.message}`;
+
+          const {viewerCompany: {company}} = data;
+          const user = company;
+          // console.log(user);
+          return (
+            <CardBody>
+              <Row>
+                <Col sm="12">
+                  <img style={styles.image} src={'/static/images/5.jpg'} className="img-avatar" alt="bellooladipupo41@gmail.com"/>
+                  <CardTitle className="mb-0">{user ? user.name : `Company Name`}</CardTitle>
+                  <div className="small text-muted">{user.address}, {prettifyState(user.stateOfResidence)}</div>
+                </Col>
+              </Row>
+              <hr/>
+              {user.phone && (<div className="text-muted"><i className="icon-phone"></i> {user.phone}</div>)}
+              {user.email && (<div className="text-muted"><i className="icon-envelope"></i> {user.email}</div>)}
+              {user.website && (<div className="text-muted"><i className="icon-globe"></i> <a target="_blank" href={`http://${user.website}`}>{user.website}</a></div>)}
+            </CardBody>
+          )
+        }}
+      </Query>
     </Card>
     <Card className="text-white bg-dark text-center">
       <CardBody style={styles.steps}>

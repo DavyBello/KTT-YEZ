@@ -11,7 +11,7 @@ class RegisterPage extends Component {
     return (
       <div className="animated fadeIn">
         <Head>
-          <title>KTT Youth Empowerment Zone | Register</title>
+          <title>KTT YEZ | Candidate Sign Up</title>
         </Head>
         <Register title={'register'} {...this.props}/>
       </div>
