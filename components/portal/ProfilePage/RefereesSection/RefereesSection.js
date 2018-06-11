@@ -1,39 +1,21 @@
-import {Component} from 'react'
+import { Component } from 'react'
+import { Query } from 'react-apollo'
 import {
   Card,
   CardBody,
   Button,
   CardTitle,
-  CardFooter,
-  Row,
-  Col,
-  Form,
-  FormGroup,
-  Label,
-  FormText,
-  Input,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter
 } from 'reactstrap'
 
+import {VIEWER_CANDIDATE_REFEREES_QUERY} from '../../../../lib/backendApi/queries'
+
+import DetailsModal from './DetailsModal'
 import RefereesList from './RefereesList'
-
-const education = [
-  {
-    school: "Mr. Sunday Adetona",
-    degree: 'sundayadetona@gmail.com',
-    field: '08188555611',
-    duration: ''
-  }
-]
-
-const isEmpty = false;
+import SaveButton from './SaveButton'
 
 const EmptySpace = props => (
   <p className="display-4" style={{padding: '10px 0px 10px'}}>
-    <i className="icon-ghost"></i> This Space is empty
+    <i className="icon-ghost"></i> This space is lonely
   </p>
 )
 
@@ -41,78 +23,57 @@ export default class extends Component {
   constructor(props){
     super(props)
     this.state = {
-      modalOpen: false
+      modalOpen: false,
     }
-
     this.toggle = this.toggle.bind(this);
+    this.save = this.save.bind(this);
   }
 
   toggle(){
-      this.setState({modalOpen: !this.state.modalOpen})
+    this.setState({modalOpen: !this.state.modalOpen})
+  }
+  save(){
+    setTimeout(()=>this.setState({modalOpen: !this.state.modalOpen}), 2000)
   }
 
   render(){
     return (
       <Card>
-        <CardBody >
-          <CardTitle className="mb-0">
-            Referees {
-              (!isEmpty) && (
-              <Button className="float-right" size="sm" color="primary" onClick={this.toggle}>
-                <i className="icon-plus"></i> Add
-              </Button>)
-            }
-          </CardTitle>
-          <hr/> {
-            (isEmpty)
-            ? (<div className="text-center">
-              <EmptySpace/>
-              <Button size="lg" color="primary" onClick={this.toggle}>
-                <i className="icon-plus"></i> Add Education
-              </Button>
-            </div>)
-            : (<div>
-              <RefereesList education={education}/>
-            </div>)
-          }
-        </CardBody>
-        <Modal isOpen={this.state.modalOpen} toggle={this.toggle} className='modal-lg modal-info'>
-          <ModalHeader toggle={this.toggle}>Add Education</ModalHeader>
-          <ModalBody>
-            <Form action="" method="post" encType="multipart/form-data" className="form-horizontal">
-              <FormGroup>
-                <Label htmlFor="name">School</Label>
-                <Input type="text" id="name" required/>
-              </FormGroup>
-              <FormGroup>
-                <Label htmlFor="name">Degree</Label>
-                <Input type="text" id="name" required/>
-              </FormGroup>
-              <FormGroup>
-                <Label htmlFor="name">Field of study</Label>
-                <Input type="text" id="name" required/>
-              </FormGroup>
-              <FormGroup>
-                <Label htmlFor="name">Grade</Label>
-                <Input type="text" id="name" required/>
-              </FormGroup>
-              <FormGroup row>
-                <Col md="6">
-                  <Label htmlFor="name">From Year</Label>
-                  <Input type="text" id="name" required/>
-                </Col>
-                <Col md="6">
-                  <Label htmlFor="name">To Year (or expected)</Label>
-                  <Input type="text" id="name" required/>
-                </Col>
-              </FormGroup>
-            </Form>
-          </ModalBody>
-          <ModalFooter>
-            <Button color="primary" onClick={this.toggle}>Save</Button>{' '}
-            <Button color="secondary" onClick={this.toggle}>Cancel</Button>
-          </ModalFooter>
-        </Modal>
+        <Query query={VIEWER_CANDIDATE_REFEREES_QUERY}>
+          {({loading, error, data}) => {
+            if (loading)
+              return "Loading...";
+            if (error)
+              return `Error! ${error.message}`;
+
+            const {viewerCandidate: {candidate}} = data;
+            return(
+              <CardBody >
+                <CardTitle className="mb-0">
+                    {
+                    (candidate.referees.length>0) && (
+                      <Button className="float-right" size="sm" color="primary" onClick={this.toggle}>
+                        <i className="icon-plus"></i> Add
+                      </Button>)
+                    }
+                    Referees
+                  </CardTitle>
+                  <hr/> {
+                    (!candidate.referees.length>0)
+                    ? (<div className="text-center">
+                      <EmptySpace/>
+                      <Button size="lg" color="primary" onClick={this.toggle}>
+                        <i className="icon-plus"></i> Add Referees
+                      </Button>
+                    </div>)
+                    : (<div>
+                      <RefereesList candidate={candidate}/>
+                    </div>)
+                  }
+                </CardBody>
+            )}}
+          </Query>
+        <DetailsModal isOpen={this.state.modalOpen} toggle={this.toggle} save={this.save} isNew/>
       </Card>
     )
   }

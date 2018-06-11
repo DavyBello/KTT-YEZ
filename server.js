@@ -15,8 +15,23 @@ app.prepare().then(() => {
     return app.render(req, res, '/')
   })
 
+  server.get('/company/job/create', (req, res) => {
+    return app.render(req, res, '/company/job/create');
+  })
+  server.get('/company/job/:id', (req, res) => {
+    return app.render(req, res, '/company/job', { id: req.params.id });
+  })
+  server.get('/company/job/:id/edit', (req, res) => {
+    return app.render(req, res, '/company/job/edit', { id: req.params.id });
+  })
+  server.get('/manager/candidate/:id', (req, res) => {
+    return app.render(req, res, '/manager/candidate', { id: req.params.id });
+  })
+
+  server.use('/services', serviceRouter)
+
   server.get('/fetch-breaking-articles', async (req, res) => {
-    console.log('fetching breaking');
+    // console.log('fetching breaking');
     try {
       const articles = await the411.getBreakingArticles();
       res.json(articles);
@@ -25,10 +40,8 @@ app.prepare().then(() => {
     }
   })
 
-  server.use('/services', serviceRouter)
-
   server.get('/fetch-articles', async (req, res) => {
-    console.log('fetching articles list');
+    // console.log('fetching articles list');
     try {
       const articles = await the411.getArticles();
       res.json(articles);

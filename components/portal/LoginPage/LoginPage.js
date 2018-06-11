@@ -2,9 +2,9 @@ import {Component} from 'react'
 import Link from 'next/link'
 
 import {Container, Row, Col, CardGroup, Card, CardBody, Button, Input, InputGroup, InputGroupAddon, InputGroupText, Form } from 'reactstrap';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
-const PHONE_REGEX = new RegExp("^[0][0-9]\\d{9}$");
+import { PHONE_REGEX, TOAST_STYLE } from '../../../utils/common'
 
 class Page extends Component {
   constructor(props){
@@ -26,7 +26,7 @@ class Page extends Component {
     if (PHONE_REGEX.test(event.target.value)){
       this.setState({phoneValid: true});
     } else {
-      this.setState({phoneValid: false});
+      this.setState({phoneValid: null});
     }
     this.setState({phone: event.target.value});
   };
@@ -44,24 +44,10 @@ class Page extends Component {
     e.stopPropagation()
 
     if (this.state.password && this.state.phoneValid) {
-      this.props.login({
+      this.props.loginCandidate({variables: {
         phone: this.state.phone,
-        password: this.state.password //a
-      }, (lastName)=>{
-        //function runs if login is sucessfull
-        const toastStyle = {
-          className: {
-            fontSize: '0.875rem',
-            fontWeight: '500',
-            lineHeight: '1.5',
-            background: "#4dbd74",
-            color: "white"
-          },progressClassName: {
-            background: "#3a9d5d"
-          }
-        }
-        toast(`Welcome Back ${lastName}`, {...toastStyle});
-      })
+        password: this.state.password
+      }})
     } else {
       if (!this.state.phone || !this.state.phoneValid) {
         this.setState({phoneValid: false})
@@ -69,27 +55,15 @@ class Page extends Component {
       if (!this.state.password) {
         this.setState({passwordValid: false})
       }
-      const toastStyle = {
-        className: {
-          fontSize: '0.875rem',
-          fontWeight: '500',
-          lineHeight: '1.5',
-          background: '#f86c6b',
-          color: "white"
-        },progressClassName: {
-          background: '#f5302e'
-        }
-      }
-      toast("Your Inputs are not valid", {...toastStyle});
+      toast("Your Inputs are not valid", {...TOAST_STYLE.fail});
     }
 
   }
 
   render(){
-    // const
+    // console.log(this.props);
     return (
       <div className="app flex-row align-items-center">
-        <ToastContainer />
         <Container>
           <Row className="justify-content-center">
             <Col md="8">
