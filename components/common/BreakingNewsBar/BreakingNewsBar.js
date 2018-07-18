@@ -1,6 +1,6 @@
 import {graphql} from 'react-apollo'
 import gql from 'graphql-tag'
-import { Grid, Row, Col} from 'react-bootstrap'
+import { Container, Row, Col } from 'reactstrap'
 //import Marquee from 'react-text-marquee'
 
 const BreakingNewsBar = (props) => {
@@ -19,7 +19,7 @@ const BreakingNewsBar = (props) => {
   allItems = allItems.slice(0, 10);
 
   return (
-    <Grid style={{
+    <Container style={{
       width: '100%',
       maxWidth: '100%',
       margin: '0',
@@ -62,7 +62,7 @@ const BreakingNewsBar = (props) => {
             </marquee>
         </Col>
       </Row>
-    </Grid>
+    </Container>
   )
 }
 //export default BreakingNewsBar

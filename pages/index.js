@@ -1,6 +1,8 @@
 import {Component} from 'react'
-import withLayout from '../components/withLayout'
+import withLayout from '../hocs/withLayout'
 import Whatwedo from '../components/HomePage/Whatwedo'
+import BlogSection from '../components/HomePage/BlogSection'
+import SectorsSection from '../components/HomePage/SectorsSection'
 import Steps from '../components/HomePage/Steps'
 import YouthOpinion from '../components/HomePage/YouthOpinion'
 import Slider from '../components/common/Header/Slider'
@@ -20,10 +22,10 @@ class HomePage extends Component{
           <div className="row" style={{marginBottom : '0px', paddingBottom : '0px'}}>
             <div className="col-md-8">
               <Whatwedo />
+              {/* <ChoiceContent />
               <ChoiceContent />
               <ChoiceContent />
-              <ChoiceContent />
-              <ChoiceContent />
+              <ChoiceContent /> */}
             </div>
             <div className="col-md-4">
               <Services />
@@ -31,14 +33,16 @@ class HomePage extends Component{
           </div>
         </div>
 
-        <Steps />
-        <YouthOpinion />
-        <Sector />
-        <ParallaxContent />
+        <BlogSection />
+        <SectorsSection />
+        {/* <Steps /> */}
+        {/* <YouthOpinion /> */}
+        {/* <Sector /> */}
+        {/* <ParallaxContent /> */}
         <ChoiceContent />
       </div>
     )
   }
 }
 
-export default withLayout(HomePage, {activePage: 'home'})
+export default withLayout(HomePage, {activePage: '/'})

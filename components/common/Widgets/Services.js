@@ -15,8 +15,28 @@ class Services extends Component {
 
   render() {
     return (
-          <section className="about-area section-padding">
-            <div className="container" style={{paddingTop : '50px'}}>
+          <section className="section-padding">
+            {/* <!-- single sidebar --> */}
+            <aside class="sidebar-widget">
+                <div class="widget-title recent-widget">
+                    <h2>RECENT JOBS</h2>
+                </div>
+                {[...Array(6).keys()].map(item=>(
+                  <a href="#">
+                    <div class="post">
+                      <div class="post-img">
+                        <img src="/static/img/recent/01.jpg" alt=""/>
+                      </div>
+                      <div class="post-info">
+                        <h3>white leg shrimp</h3>
+                        <p>Lorem ipsum dolor sit amet consectetur.</p>
+                        <p>October 18, 2018</p>
+                      </div>
+                    </div>
+                  </a>
+                ))}
+            </aside>
+            {/* <div className="container" style={{paddingTop : '50px'}}>
                 <h2 className="title" style={{paddingBottom : '10px'}}>Our Services</h2>
                 <div class="list-group">
                     <a href="#" class="list-group-item list-group-item-action flex-column align-items-start list-group-item-primary">
@@ -115,7 +135,7 @@ class Services extends Component {
                         <small class="text-muted">Donec id elit non mi porta.</small>
                     </a>
                 </div>
-            </div>
+            </div> */}            
         </section>
     );
   }

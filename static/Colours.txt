@@ -1,0 +1,5 @@
+Green		#004314
+light green	#9da60b
+Yellow		#f8e600
+Light blue	#018491
+Dark blue	#09486a    

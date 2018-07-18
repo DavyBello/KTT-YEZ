@@ -3,10 +3,13 @@
    ".git",
    ".next",
    "components",
+   "hocs",
+   "contexts",
    "containers",
    "pages",
    "node_modules/**/node_modules",
    "lib",
-   "utils"
+   "utils",
+   "static"
  ]
 }
