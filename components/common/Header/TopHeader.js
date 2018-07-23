@@ -23,6 +23,7 @@ export default class TopHeader extends Component{
                         </Col>
                     </Row> */}
                     <div className="top-header-info header-right">
+                      <a href="#">Contact us</a><span className="seprator">|</span>
                       <a href="#">Create Account</a><span className="seprator">|</span>
                       <a href="#">Login</a>
                     </div>

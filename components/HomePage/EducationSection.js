@@ -1,17 +1,17 @@
 
 
-const Whatwedo = (props) => {
+export default (props) => {
     return (
-    <section className="home-blog section-padding" style={{paddingBottom : '80px'}}>
+    <section className="home-education section-padding" style={{paddingBottom : '80px'}}>
         <div className="container">
-          <div className="title text-center">
-            <h2>{props.title || "LATEST BLOG"}</h2>
+          <div className="title text-center text-white">
+            <h2>{props.title || "Job centers"}</h2>
+            <p> Find out what people are saying about universities and schools in your area.</p>
             <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sequi tempora veritatis nemo aut ea iusto eos est expedita, quas ab adipisci consectetur tempora jet.</p>
           </div>
 
-            <div className="row">
+            {/* <div className="row">
               <div class="col-md-4 col-sm-6">
-                  {/* <!-- Single news --> */}
                   <article class="news-info">
                       <div class="news-img">
                           <img src="/static/images/blog/b1.jpg" alt=""/>
@@ -34,7 +34,6 @@ const Whatwedo = (props) => {
                   </article>
               </div>
               <div class="col-md-4 col-sm-6">
-                  {/* <!-- Single news --> */}
                   <article class="news-info">
                       <div class="news-img">
                           <img src="/static/images/blog/b2.jpg" alt=""/>
@@ -57,7 +56,6 @@ const Whatwedo = (props) => {
                   </article>
               </div>
               <div class="col-md-4 col-sm-6">
-                  {/* <!-- Single news --> */}
                   <article class="news-info">
                       <div class="news-img">
                           <img src="/static/images/blog/b3.jpg" alt=""/>
@@ -79,15 +77,14 @@ const Whatwedo = (props) => {
                       </div>
                   </article>
               </div>
-            </div>
+            </div> */}
 
         </div>
         <style jxs>{`
-          .home-blog {
-            background: url(/static/images/d2s-texture-pixels.jpg) repeat center center !important;
-          }          
+          .home-education {
+            background-color: #018491;
+          }
         `}</style>
     </section>
     )
   }
-  export default Whatwedo

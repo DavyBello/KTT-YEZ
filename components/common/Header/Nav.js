@@ -12,7 +12,7 @@ export default class Home extends Component {
             <div className="col-md-2">
               <div className="kttyez-logo">
                 {/* <a href="#"><img src="/static/img/yezlogo.png" alt=""/></a> */}
-                <a href="#"><img src="/static/images/logo/YEZ-logo.png" alt=""/></a>
+                <a href="#"><img src="/static/images/logo/yez-logo.svg" alt=""/></a>
               </div>
               <div className="responsive-menu-wrap"></div>
             </div>
@@ -31,7 +31,7 @@ export default class Home extends Component {
                   </li>
                   <li>
                     <Link href="#">
-                      <a>Job Seeker<i className="fa fa-caret-down" aria-hidden="true"></i>
+                      <a>Health<i className="fa fa-caret-down" aria-hidden="true"></i>
                       </a>
                     </Link>
                     <ul className="drop-menu">
@@ -47,14 +47,14 @@ export default class Home extends Component {
                     </ul>
                   </li>
                   <li>
-                    <a href="#">Employers<i className="fa fa-caret-down" aria-hidden="true"></i>
+                    <a href="#">Education<i className="fa fa-caret-down" aria-hidden="true"></i>
                     </a>
                     <ul className="drop-menu">
                       <li>
-                        <a href="/employer">Employer Option</a>
+                        <a href="/employer">High Schools</a>
                       </li>
                       <li>
-                        <a href="#">Employer Option</a>
+                        <a href="#">Universities</a>
                       </li>
                       <li>
                         <a href="#">Employer Option</a>
@@ -62,28 +62,44 @@ export default class Home extends Component {
                     </ul>
                   </li>
                   <li>
-                    <a href="#">Job Centers<i className="fa fa-caret-down" aria-hidden="true"></i>
+                    <a href="#">Jobs<i className="fa fa-caret-down" aria-hidden="true"></i>
                     </a>
                     <ul className="drop-menu">
                       <li>
-                        <a href="#">Job Center Option</a>
+                        <a href="#">Job Seekers</a>
                       </li>
                       <li>
-                        <a href="#">Job Center Option</a>
+                        <a href="#">Employers</a>
                       </li>
                       <li>
-                        <a href="#">Job Center Option</a>
+                        <a href="#">Job Centers</a>
+                      </li>
+                      <li>
+                        <a href="#">Career Advice</a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <a href="#">entrepreneurs<i className="fa fa-caret-down" aria-hidden="true"></i>
+                    </a>
+                    <ul className="drop-menu">
+                      <li>
+                        <a href="#">Job Seekers</a>
+                      </li>
+                      <li>
+                        <a href="#">Employers</a>
+                      </li>
+                      <li>
+                        <a href="#">Job Centers</a>
+                      </li>
+                      <li>
+                        <a href="#">Career Advice</a>
                       </li>
                     </ul>
                   </li>
                   <li>
                     <Link href="#">
                       <a>News</a>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/contact">
-                      <a >contact us</a>
                     </Link>
                   </li>
                 </ul>
@@ -99,7 +115,7 @@ export default class Home extends Component {
       <style jsx>{`
         .kttyez-logo {
           padding: 8px 0;
-          width: 200px;
+          width: 170px;
         }
         .menu-area {
             background-color: #fff;
